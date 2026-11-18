@@ -493,6 +493,12 @@ body:not(.tb-ex-on) .sg-sfab,body:not(.tb-ex-on) .sg-adj-fab{display:none!import
 .tb-hours label{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:#7B4FD6}
 .tb-hours select{font-family:inherit;font-size:13.5px;font-weight:700;color:#3E2A6B;background:#F3EEFF;border:1.5px solid #E4D9FF;border-radius:999px;padding:5px 10px;cursor:pointer}
 .tb-hv{font-weight:600;color:#3E2A6B}
+.tb-bkrow{margin-top:14px;padding-top:12px;border-top:1.5px dashed #E4D9FF}
+.tb-bkrow.solo{border:0;margin:0 0 14px;padding:10px 14px;background:#FFFFFF;border-radius:18px;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:13.5px;box-shadow:inset 0 0 0 1px #E4D9FF}
+.tb-safe{font-size:13px;color:#3E2A6B;margin-bottom:8px;line-height:1.45}
+.sg-wrap label.tb-cta{cursor:pointer}
+.tb-bkmsg{font-size:13px;margin-top:6px;font-weight:600}
+.tb-bkmsg.ok{color:#1F6B3A}.tb-bkmsg.err{color:#B0407F}
 .tb-rhero{text-align:center;padding:34px 16px 26px;border-radius:30px;background:radial-gradient(circle at 20% 20%,rgba(255,255,255,.35),transparent 40%),linear-gradient(130deg,#4A1FA0,#7B4FD6 50%,#E58CC6);box-shadow:0 16px 36px rgba(123,79,214,.35);margin:0 0 14px}
 .sg-wrap .tb-rk{font-size:12px;letter-spacing:4px;text-transform:uppercase;font-weight:600;color:rgba(255,255,255,.85)!important}
 .sg-wrap .tb-rhero h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(30px,7vw,48px);font-weight:700;color:#FFFFFF!important;margin:6px 0;line-height:1.1}
@@ -927,8 +933,9 @@ p.tb-trn{font-size:13.5px!important;padding:8px 12px;border-radius:14px;margin:0
         list.map(function(p){ var c=IT[p.city], f=byKey[c.country], on=active==='custom'&&plan&&p.id===plan.id;
           return '<div class="tb-prow'+(on?' on':'')+'"><div class="tb-pi"><b>'+f[1]+' '+esc(c.name)+(on?' <span class="tb-now">Open now</span>':'')+'</b><small>'+fmtY(p.from)+' to '+fmtY(p.to)+' &middot; '+p.days.length+' day'+(p.days.length>1?'s':'')+' &middot; '+pplOf(p)+(p.budget?' &middot; '+CURS[p.cur]+Number(p.budget).toLocaleString()+' pp':'')+'</small></div>'+
             '<div class="tb-btns"><button type="button" class="tb-cta" data-tb-open="'+p.id+'">&#9992;&#65039; Go to my trip</button><button type="button" class="tb-cta ghost" data-plan-edit="'+p.id+'">&#9998; Edit</button><button type="button" class="tb-cta ghost" data-tb-del="'+p.id+'">Delete</button></div></div>';
-        }).join('')+'</div><div class="tb-btns" style="margin-top:12px"><button type="button" class="tb-cta ghost" data-plan-city="'+(plan?plan.city:'singapore')+'">&#10133; Add another plan</button></div></div>';
+        }).join('')+'</div><div class="tb-btns" style="margin-top:12px"><button type="button" class="tb-cta ghost" data-plan-city="'+(plan?plan.city:'singapore')+'">&#10133; Add another plan</button></div>'+backupHtml()+'</div>';
     }
+    if(!plans.length) h+='<div class="tb-bkrow solo"><span>Have a backup from another phone or browser?</span><label class="tb-cta ghost tb-load">&#11014;&#65039; Load a backup<input type="file" accept=".json,application/json" hidden></label><div class="tb-bkmsg" aria-live="polite"></div></div>';
     h+='<div class="tb-card"><h2>&#127759; Where do you want to go?</h2><div class="tb-s">Tap a city to plan your trip, or a country to read its guide.</div><div class="tb-cgrid">'+
       D.map(function(d){ var cs=cityList().filter(function(x){ return x[1].country===d[0]; });
         return '<div class="tb-c"><button type="button" class="tb-cn" data-dest-go="'+d[0]+'"><span>'+d[1]+'</span>'+d[2]+'</button><div class="tb-chips">'+cs.map(function(x){ return '<button type="button" data-plan-city="'+x[0]+'">'+esc(x[1].name)+'</button>'; }).join('')+'</div></div>';
@@ -936,6 +943,8 @@ p.tb-trn{font-size:13.5px!important;padding:8px 12px;border-radius:14px;margin:0
     h+='<div class="tb-card"><h2>&#128064; See an example plan</h2><div class="tb-s">Sarah\'s 5-day Singapore trip, with budget, reviews and a trip recap.</div><div class="tb-btns">'+
       (active==='example'?'<button type="button" class="tb-cta" data-tb-example="open">&#128197; Go to Day 1</button><button type="button" class="tb-cta ghost" data-tb-example="off">Hide example plan</button>':'<button type="button" class="tb-cta" data-tb-example="open">&#128064; Open example plan</button>')+'</div></div>';
     hb.innerHTML=h;
+    var dl=hb.querySelector('[data-backup]'); if(dl) dl.onclick=function(e){ e.preventDefault(); e.stopPropagation(); downloadBackup(); };
+    var ld=hb.querySelector('.tb-load input'); if(ld) ld.addEventListener('change',function(){ if(this.files&&this.files[0]) loadBackup(this.files[0]); this.value=''; });
   }
   function renderCountryExtras(){
     holder.querySelectorAll('.sg-dest[data-dest]').forEach(function(s){
@@ -1025,7 +1034,7 @@ p.tb-trn{font-size:13.5px!important;padding:8px 12px;border-radius:14px;margin:0
         custom={name:on,country:oc}; cityKey='custom-'+on.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'-'+Date.now().toString(36); registerCustom({city:cityKey,custom:custom}); }
       var np={city:cityKey,custom:custom||undefined,from:fEl.value,to:tEl.value,mode:m?m.getAttribute('data-m'):'transit',cur:curEl.value,budget:parseFloat(planPage.querySelector('.tb-budget').value)||0,goals:planPage.querySelector('.tb-goals').value.trim(),people:+pn.textContent||1,days:buildDays(cityKey,n,fEl.value),created:Date.now()};
       if(ed&&plans.indexOf(ed)>-1){ np.id=ed.id; np.created=ed.created||np.created; if(ed.costs){ np.costs=ed.costs; if(ed.cur!==np.cur){ np.costs.food=null; np.costs.transport=null; np.costs.activities=null; } } plans[plans.indexOf(ed)]=np; } else { np.id='p'+Date.now(); plans.push(np); }
-      plan=np; editing=null; savePlans(); active='custom'; ls('tbActive','custom');
+      plan=np; editing=null; savePlans(); active='custom'; ls('tbActive','custom'); askPersist();
       renderAll(); go('myday',1);
       if(plan.goals&&window.claude&&window.claude.use){ var bx=dayPage.querySelector('.tb-ai'); if(bx){ bx.classList.add('open'); bx.querySelector('textarea').value='Build my dream trip around these goals: '+plan.goals; customise(); } }
     };
@@ -1478,6 +1487,38 @@ p.tb-trn{font-size:13.5px!important;padding:8px 12px;border-radius:14px;margin:0
       },'image/png');
     }).catch(function(){ btn.disabled=false; btn.innerHTML='&#128248; Make my Instagram story'; out.innerHTML='<p class="tb-msg">Could not make the picture. Please try again.</p>'; });
   }
+  // ---- keeping plans safe: permanent storage + backup file ----
+  var persisted=null;
+  function askPersist(){ try{ if(!(navigator.storage&&navigator.storage.persist)) return; navigator.storage.persisted().then(function(p){ if(p){ persisted=true; return true; } return navigator.storage.persist(); }).then(function(ok){ persisted=!!ok; var st=hb.querySelector('.tb-safe'); if(st) st.outerHTML=safeHtml(); }).catch(function(){}); }catch(e){} }
+  function safeHtml(){ var ios=/iPhone|iPad|iPod/.test(navigator.userAgent)&&!(window.navigator.standalone||window.matchMedia&&matchMedia('(display-mode: standalone)').matches);
+    return '<div class="tb-safe">'+(persisted?'&#128274; Your plans are kept safe on this device.':'&#128190; Your plans are saved on this device.')+(ios?' On iPhone, tap Share &rarr; Add to Home Screen so Safari keeps them, or download a backup.':' Download a backup to keep them on another device too.')+'</div>'; }
+  function backupHtml(){ return '<div class="tb-bkrow">'+safeHtml()+'<div class="tb-btns"><button type="button" class="tb-cta ghost" data-backup="1">&#11015;&#65039; Download my plans</button><label class="tb-cta ghost tb-load">&#11014;&#65039; Load a backup<input type="file" accept=".json,application/json" hidden></label></div><div class="tb-bkmsg" aria-live="polite"></div></div>'; }
+  function bkMsg(t,ok){ var m=hb.querySelector('.tb-bkmsg'); if(m){ m.className='tb-bkmsg '+(ok?'ok':'err'); m.textContent=t; } }
+  function photoIdsOf(p){ var ids=[]; Object.keys(p.reviews||{}).forEach(function(k){ (p.reviews[k].ph||[]).forEach(function(id){ ids.push(id); }); }); (p.memories||[]).forEach(function(m){ ids.push(m.id); }); return ids; }
+  function downloadBackup(){
+    var ids=[]; plans.forEach(function(p){ ids=ids.concat(photoIdsOf(p)); }); var photos={};
+    Promise.all(ids.map(function(id){ return pGet(id).then(function(src){ if(src) photos[id]=src; }).catch(function(){}); })).then(function(){
+      var data={app:'travelbestie.site',version:1,exported:new Date().toISOString(),plans:plans,photos:photos};
+      var blob=new Blob([JSON.stringify(data)],{type:'application/json'}), url=URL.createObjectURL(blob), a=document.createElement('a');
+      a.href=url; a.download='travelbestie-plans-'+isoOf(new Date())+'.json'; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); },2000);
+      bkMsg('Backup saved: '+plans.length+' plan'+(plans.length===1?'':'s')+(Object.keys(photos).length?' and '+Object.keys(photos).length+' photo'+(Object.keys(photos).length===1?'':'s'):'')+'. Keep the file somewhere safe.',true);
+    });
+  }
+  function loadBackup(file){
+    var fr=new FileReader();
+    fr.onload=function(){ var data; try{ data=JSON.parse(fr.result); }catch(e){ return bkMsg('That file is not a travelbestie.site backup.',false); }
+      if(!data||data.app!=='travelbestie.site'||!Array.isArray(data.plans)) return bkMsg('That file is not a travelbestie.site backup.',false);
+      var added=0, updated=0;
+      data.plans.forEach(function(p){ if(!p||!p.id||!p.days||!p.days.length) return; registerCustom(p); if(!IT[p.city]) return; var ix=plans.findIndex(function(x){ return x.id===p.id; }); if(ix>-1){ plans[ix]=p; updated++; } else { plans.push(p); added++; } });
+      var ph=data.photos||{}; Promise.all(Object.keys(ph).map(function(id){ return pPut(id,ph[id]).catch(function(){}); })).then(function(){
+        if(!plan&&plans.length) plan=plans[plans.length-1]; if(plans.length&&active==='none'){ active='custom'; ls('tbActive','custom'); }
+        savePlans(); askPersist(); renderAll();
+        bkMsg(added||updated?'Loaded: '+added+' new plan'+(added===1?'':'s')+(updated?', '+updated+' updated':'')+'.':'No plans found in that backup.',!!(added||updated));
+      });
+    };
+    fr.onerror=function(){ bkMsg('Could not read that file.',false); };
+    fr.readAsText(file);
+  }
   function renderAll(){ renderTabs(); renderHome(); renderCountryExtras(); }
 
   // ---- navigation ----
@@ -1573,6 +1614,7 @@ p.tb-trn{font-size:13.5px!important;padding:8px 12px;border-radius:14px;margin:0
   window.addEventListener('hashchange',fromHash);
   window.addEventListener('sgpage',function(){ markTabs(); }); // the example plan changes pages without a hashchange
 
+  if(plans.length) askPersist();
   window.sgDest=function(){ return (cur==='home'||cur==='plan'||cur==='myday')?'singapore':cur; };
   renderAll();
   if(/^#(dest-|plan|myday-|myoverview|myresults)/.test(H0)){ try{ history.replaceState(null,'',H0); }catch(e){} fromHash(); }
