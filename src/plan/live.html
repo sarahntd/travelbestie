@@ -1,0 +1,47 @@
+<script>
+/* Travel Bestie live features (Firebase): shared trip plans that update for everyone, and traveller reviews.
+   Paste the web config from Firebase console > Project settings > Your apps > Web app.
+   These values are public by design; access is controlled by firebase/firestore.rules. */
+window.TB_FIREBASE = null; /* e.g. {apiKey:"...",authDomain:"...",projectId:"...",storageBucket:"...",messagingSenderId:"...",appId:"..."} */
+/* Feedback form: the Google Apps Script web app URL (ends with /exec). See scripts/feedback-apps-script.gs */
+window.TB_FEEDBACK_URL = null;
+
+(function(){
+  var V='10.14.1', BASE='https://www.gstatic.com/firebasejs/'+V+'/';
+  var loading=null, db=null, auth=null, uid=null;
+  function script(src){ return new Promise(function(res,rej){ var s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=rej; document.head.appendChild(s); }); }
+  function ready(){
+    if(!window.TB_FIREBASE) return Promise.reject(new Error('not-configured'));
+    if(loading) return loading;
+    loading=script(BASE+'firebase-app-compat.js').then(function(){ return Promise.all([script(BASE+'firebase-auth-compat.js'),script(BASE+'firebase-firestore-compat.js')]); })
+      .then(function(){ var app=firebase.apps.length?firebase.app():firebase.initializeApp(window.TB_FIREBASE); auth=firebase.auth(app); db=firebase.firestore(app);
+        return new Promise(function(res,rej){ var off=auth.onAuthStateChanged(function(u){ if(u){ off(); uid=u.uid; res(); } }); auth.signInAnonymously().catch(rej); }); })
+      .catch(function(e){ loading=null; throw e; });
+    return loading;
+  }
+  function rnd(n){ var a=new Uint8Array(n), s='', abc='abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789'; crypto.getRandomValues(a); for(var i=0;i<n;i++) s+=abc[a[i]%abc.length]; return s; }
+  function sha(t){ return crypto.subtle.digest('SHA-256',new TextEncoder().encode(t)).then(function(b){ return [].map.call(new Uint8Array(b),function(x){ return ('0'+x.toString(16)).slice(-2); }).join(''); }); }
+  var DEV=(function(){ try{ var d=localStorage.getItem('tbDev'); if(!d){ d=rnd(12); localStorage.setItem('tbDev',d); } return d; }catch(e){ return rnd(12); } })();
+  function trip(id){ return db.collection('trips').doc(id); }
+  function join(id,ek){ var ref=trip(id).collection('eds').doc(uid); return ref.get().then(function(s){ if(!s.exists) return ref.set({ek:ek}); }); }
+
+  window.TBLive={
+    on:function(){ return !!window.TB_FIREBASE; },
+    dev:DEV,
+    /* new shared trip: returns {id, ek} */
+    create:function(planJson){ return ready().then(function(){ var id=rnd(14), ek=rnd(22); return sha(ek).then(function(h){
+      return trip(id).set({h:h,plan:planJson,v:1,by:DEV,updated:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){ return join(id,ek); }).then(function(){ return {id:id,ek:ek}; }); }); }); },
+    join:function(id,ek){ return ready().then(function(){ return join(id,ek); }); },
+    get:function(id){ return ready().then(function(){ return trip(id).get(); }).then(function(s){ return s.exists?s.data():null; }); },
+    push:function(id,ek,planJson,v){ return ready().then(function(){ return join(id,ek); }).then(function(){ return trip(id).update({plan:planJson,v:v,by:DEV,updated:firebase.firestore.FieldValue.serverTimestamp()}); }); },
+    /* calls fn(data) on every change made by someone else; returns a stop function */
+    watch:function(id,fn){ var stop=null, dead=false; ready().then(function(){ if(dead) return; stop=trip(id).onSnapshot(function(s){ if(!s.exists||s.metadata.hasPendingWrites) return; var d=s.data(); if(d.by!==DEV) fn(d); },function(){}); }).catch(function(){}); return function(){ dead=true; if(stop) stop(); }; },
+    /* traveller reviews: text + stars + up to 10 photos (data URLs) for one place */
+    postReview:function(r,photos){ return ready().then(function(){ var ref=db.collection('reviews').doc(); return ref.set({place:r.place,city:r.city,r:r.r||0,n:(r.n||'').slice(0,1000),np:photos.length,uid:uid,at:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){
+      return Promise.all(photos.slice(0,10).map(function(d,i){ return ref.collection('ph').doc(String(i)).set({d:d}); })); }).then(function(){ return ref.id; }); }); },
+    removeReview:function(rid){ return ready().then(function(){ var ref=db.collection('reviews').doc(rid); return ref.collection('ph').get().then(function(q){ return Promise.all(q.docs.map(function(x){ return x.ref.delete(); })); }).then(function(){ return ref.delete(); }); }); },
+    reviews:function(place,city){ return ready().then(function(){ return db.collection('reviews').where('place','==',place).where('city','==',city).limit(6).get(); }).then(function(q){ return q.docs.map(function(x){ var d=x.data(); d.id=x.id; return d; }); }); },
+    photos:function(rid){ return ready().then(function(){ return db.collection('reviews').doc(rid).collection('ph').get(); }).then(function(q){ return q.docs.map(function(x){ return x.data().d; }); }); }
+  };
+})();
+</script>

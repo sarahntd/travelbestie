@@ -19,7 +19,7 @@ sub build {
     . "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n"
     . "<script>window.__tbHash=location.hash;</script>\n"
     . slurp("$root/src/plan/head.html") . "\n</head>\n<body>\n"
-    . slurp("$root/src/plan/body.html") . join("", map { -f "$root/src/plan/$_" ? slurp("$root/src/plan/$_") : "" } qw(itineraries.html destinations.html)) . "\n</body>\n</html>\n";
+    . slurp("$root/src/plan/body.html") . join("", map { -f "$root/src/plan/$_" ? slurp("$root/src/plan/$_") : "" } qw(itineraries.html more.html live.html destinations.html ui.html)) . "\n</body>\n</html>\n";
   mkdir "$root/preview" unless -d "$root/preview";
   open(my $o, '>:raw', "$root/preview/index.html") or die $!; print $o $html; close $o;
   return $html;
@@ -33,6 +33,11 @@ while (my $c = $d->accept) {
   if (my $r = $c->get_request) {
     $c->force_last_request;
     my $path = $r->uri->path;
+    # local-only helper: lets the preview save the generated share image into public/ (only og.png is allowed)
+    if ($r->method eq 'POST' && $path eq '/__save/og.png') {
+      open(my $o, '>:raw', "$root/public/og.png") or die $!; print $o $r->content; close $o;
+      $c->send_response(HTTP::Response->new(200, 'OK', ['Content-Type' => 'text/plain'], 'saved')); next;
+    }
     if ($path eq '/' || $path eq '/index.html') {
       my $res = HTTP::Response->new(200);
       $res->header('Content-Type' => $types{html}, 'Cache-Control' => 'no-store');

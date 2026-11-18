@@ -1,7 +1,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>travelbestie.site</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script>
+/* Travel Bestie logo: heart + paper plane on the brand gradient. tbLogoIcon(size) returns inline SVG. */
+(function(){ var n=0;
+  window.tbLogoIcon=function(size,flat){ var id='tbg'+(++n);
+    return '<svg class="tb-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="'+size+'" height="'+size+'" aria-hidden="true" focusable="false"><defs><linearGradient id="'+id+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5B21D9"/><stop offset=".55" stop-color="#8B4FF0"/><stop offset="1" stop-color="#F06BB5"/></linearGradient></defs>'+
+      (flat?'':'<rect width="64" height="64" rx="16" fill="url(#'+id+')"/>')+
+      '<path d="M32 53C24 45.5 11 36 11 24.5 11 17.5 16.3 12 23 12c3.9 0 7 1.9 9 4.9 2-3 5.1-4.9 9-4.9 6.7 0 12 5.5 12 12.5C53 36 40 45.5 32 53Z" fill="'+(flat?'url(#'+id+')':'#fff')+'"/>'+
+      '<path d="M20.5 28.2 43.6 19l-7.3 19.4-5.1-6.8Z" fill="'+(flat?'#fff':'#7B4FD6')+'"/><path d="m31.2 31.6 12.4-12.6-9.6 15.9Z" fill="'+(flat?'#E9DDFF':'#4A1FA0')+'"/>'+
+      (flat?'':'<circle cx="49.5" cy="50" r="2.2" fill="#fff" opacity=".9"/><circle cx="54.5" cy="44.5" r="1.6" fill="#fff" opacity=".7"/><circle cx="57" cy="38.5" r="1.1" fill="#fff" opacity=".5"/>')+'</svg>'; };
+})();
+</script>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
 <style>
 .sg-wrap{font-family:Fredoka,sans-serif;color:#3E2A6B;background:#F3EEFF;padding:24px 16px;box-sizing:border-box;border-radius:24px}
 .sg-wrap *{box-sizing:border-box}
@@ -553,6 +567,10 @@ svg a{cursor:pointer}
 /* welcome and how-to */
 .sg-welcome{background:linear-gradient(160deg,#FFFFFF,#F7F2FF);border:2px solid #FFFFFF;border-radius:28px;padding:22px 20px;margin:4px 0 16px;box-shadow:0 14px 34px rgba(123,79,214,.14)}
 .sg-wrap .wl-hi{text-align:center;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:20px;color:#B0407F!important;margin-bottom:6px}
+.sg-wrap .wl-q{margin:0 auto 12px;max-width:560px}
+.sg-wrap .wl-q .wl-hi{font-size:19px;line-height:1.4;margin-bottom:4px}
+.sg-wrap .wl-by{text-align:center;font-size:13px;font-weight:700;color:#7B4FD6;letter-spacing:.02em}
+html[data-theme="dark"] .sg-wrap .wl-by{color:#D9CCFF}
 .wl-p{text-align:center;font-size:15px;line-height:1.6;margin:0 auto 6px;max-width:640px}
 .wl-h{font-size:19px;margin:18px 0 10px}
 .wl-h::before{content:"\2726  ";color:#7B4FD6}

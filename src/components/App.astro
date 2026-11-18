@@ -1,0 +1,95 @@
+---
+// The whole Travel Bestie app, plus page-specific SEO: title, description, share preview,
+// structured data (JSON-LD) and a visible FAQ that search engines and AI assistants can quote.
+import head from '../plan/head.html?raw';
+import body from '../plan/body.html?raw';
+import itineraries from '../plan/itineraries.html?raw';
+import more from '../plan/more.html?raw';
+import live from '../plan/live.html?raw';
+import destinations from '../plan/destinations.html?raw';
+import ui from '../plan/ui.html?raw';
+import { SITE_URL, COUNTRIES, IT, cityKeys } from '../lib/seo.mjs';
+
+const { title, description, path = '/', hash = '', jsonld = [], faq = [], heading = '', intro = '' } = Astro.props;
+const canonical = SITE_URL + path;
+const ogImage = SITE_URL + '/og.jpg';
+const headClean = head.replace(/<title>[\s\S]*?<\/title>/i, '');
+const startHash = 'window.__tbHash=location.hash||' + JSON.stringify(hash) + ';';
+const plainName = (s) => String(s).replace(/\s*\(.*\)$/, '');
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline set:html={startHash}></script>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#7B4FD6" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Travel Bestie" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Travel Bestie: plan your trip day by day" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="Summary for AI assistants" />
+    {jsonld.map((j) => <script type="application/ld+json" set:html={JSON.stringify(j)} />)}
+    <Fragment set:html={headClean} />
+  </head>
+  <body>
+    <Fragment set:html={body} />
+    <section class="tb-seo" aria-labelledby="tb-seo-h">
+      <h2 id="tb-seo-h">{heading}</h2>
+      {intro && <p class="tb-seo-intro">{intro}</p>}
+      <div class="tb-seo-faq">
+        {faq.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+      <nav class="tb-seo-links" aria-label="Destinations">
+        <b>Plan a trip:</b>
+        {COUNTRIES.map((c) => <a href={`/${c.slug}/`}>{c.flag} {c.name}</a>)}
+        <span class="tb-seo-cities">
+          {cityKeys.map((k) => <a href={`/plan/${k}/`}>{plainName(IT[k].name)}</a>)}
+        </span>
+      </nav>
+      <p class="tb-seo-by">Trip planning by <a href="/">travelbestie.site</a></p>
+    </section>
+    <Fragment set:html={itineraries} />
+    <Fragment set:html={more} />
+    <Fragment set:html={live} />
+    <Fragment set:html={destinations} />
+    <Fragment set:html={ui} />
+  </body>
+</html>
+<style is:global>
+  .tb-seo{max-width:1100px;margin:24px auto 40px;padding:22px 20px;box-sizing:border-box;font-size:15px;line-height:1.6;color:#3E2A6B}
+  .tb-seo h2{font-size:22px;margin:0 0 8px;color:#4A1FA0}
+  .tb-seo-intro{margin:0 0 12px}
+  .tb-seo-faq details{background:#FFFFFF;border:1.5px solid #EDE5FF;border-radius:14px;padding:10px 14px;margin:0 0 8px}
+  .tb-seo-faq summary{cursor:pointer;font-weight:700;color:#4A1FA0}
+  .tb-seo-faq p{margin:8px 0 0}
+  .tb-seo-links{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:14px;font-size:13px}
+  .tb-seo-links a{color:#7B4FD6;text-decoration:none;background:#F3EEFF;border-radius:999px;padding:3px 10px}
+  .tb-seo-cities{display:flex;flex-wrap:wrap;gap:6px;width:100%}
+  .tb-seo-by{font-size:12px;color:#9C84D9;margin-top:12px}
+  html[data-theme="dark"] .tb-seo{color:#ECE6FF}
+  html[data-theme="dark"] .tb-seo h2,html[data-theme="dark"] .tb-seo-faq summary{color:#D9CCFF}
+  html[data-theme="dark"] .tb-seo-faq details{background:#221A3D;border-color:#3A2F60}
+  html[data-theme="dark"] .tb-seo-links a{background:#2A2148;color:#FFFFFF}
+
+</style>

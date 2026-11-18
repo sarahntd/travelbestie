@@ -1,0 +1,21 @@
+---
+import App from '../components/App.astro';
+import { COUNTRIES, countryFaq, faqJsonLd, breadcrumbs, SITE_URL, IT } from '../lib/seo.mjs';
+
+export function getStaticPaths() {
+  return COUNTRIES.map((c) => ({ params: { slug: c.slug } }));
+}
+const { slug } = Astro.params;
+const { country, cities, faq } = countryFaq(slug);
+const cityNames = cities.map((k) => String(IT[k].name).replace(/\s*\(.*\)$/, ''));
+const title = `${country.name} trip planner: free itinerary for ${cityNames.slice(0, 3).join(', ')} | Travel Bestie`;
+const description = `${country.tag} Plan a free day-by-day ${country.name} itinerary for ${cityNames.join(', ')}: best time to visit, things to book, ride apps and a budget estimate.`;
+const jsonld = [
+  { '@context': 'https://schema.org', '@type': 'TouristDestination', name: country.name, description: country.tag, url: `${SITE_URL}/${slug}/`,
+    includesAttraction: cities.map((k) => ({ '@type': 'City', name: String(IT[k].name).replace(/\s*\(.*\)$/, ''), url: `${SITE_URL}/plan/${k}/` })) },
+  faqJsonLd(faq),
+  breadcrumbs([{ name: 'Travel Bestie', path: '/' }, { name: country.name, path: `/${slug}/` }]),
+];
+---
+<App title={title} description={description} path={`/${slug}/`} hash={`#dest-${slug}`} jsonld={jsonld} faq={faq}
+  heading={`${country.flag} ${country.name} travel guide and trip planner`} intro={`${country.tag} Choose a city above to build your plan.`} />

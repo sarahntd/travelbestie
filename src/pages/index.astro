@@ -1,20 +1,16 @@
 ---
-import head from '../plan/head.html?raw';
-import body from '../plan/body.html?raw';
-import itineraries from '../plan/itineraries.html?raw';
-import destinations from '../plan/destinations.html?raw';
+import App from '../components/App.astro';
+import { HOME_FAQ, faqJsonLd, COUNTRIES, SITE_URL } from '../lib/seo.mjs';
+
+const title = 'Travel Bestie: free day-by-day trip planner';
+const description = 'Plan your trip to Singapore, Malaysia, Indonesia, Thailand, Vietnam, the Philippines or China in minutes: day-by-day itineraries, maps, entry fees, things to book and a budget estimate. Free, in English and Bahasa Indonesia.';
+const jsonld = [
+  { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Travel Bestie', url: SITE_URL + '/', inLanguage: ['en', 'id'] },
+  { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Travel Bestie', url: SITE_URL + '/', applicationCategory: 'TravelApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }, description,
+    areaServed: COUNTRIES.map((c) => ({ '@type': 'Country', name: c.name })) },
+  faqJsonLd(HOME_FAQ),
+];
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script is:inline>window.__tbHash=location.hash;</script>
-    <Fragment set:html={head} />
-  </head>
-  <body>
-    <Fragment set:html={body} />
-    <Fragment set:html={itineraries} />
-    <Fragment set:html={destinations} />
-  </body>
-</html>
+<App title={title} description={description} path="/" jsonld={jsonld} faq={HOME_FAQ}
+  heading="Travel Bestie: your free trip planner"
+  intro="Plan less, wander more. Pick a city, set your dates and budget, and get a day-by-day itinerary with maps, entry fees, things to book and a budget estimate. Share it with friends, save it as a PDF, or turn your trip into an Instagram story." />

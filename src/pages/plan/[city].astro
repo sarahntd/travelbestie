@@ -1,0 +1,23 @@
+---
+import App from '../../components/App.astro';
+import { cityKeys, cityFaq, faqJsonLd, breadcrumbs, SITE_URL, IT } from '../../lib/seo.mjs';
+
+export function getStaticPaths() {
+  return cityKeys.map((k) => ({ params: { city: k } }));
+}
+const { city } = Astro.params;
+const { name, country, faq, stops, best } = cityFaq(city);
+const n = IT[city].days.length;
+const title = `${name} itinerary: ${n}-day trip plan${best ? `, best time ${best.split(' and ')[0]}` : ''} | Travel Bestie`;
+const description = `Free ${n}-day ${name} itinerary: ${stops.slice(0, 5).join(', ')} and more. Day-by-day times, maps, entry fees, what to book and a budget estimate. Adjusts to your dates and season.`;
+const jsonld = [
+  { '@context': 'https://schema.org', '@type': 'TouristTrip', name: `${n} days in ${name}`, description, url: `${SITE_URL}/plan/${city}/`,
+    touristType: ['Leisure', 'Culture', 'Food'],
+    itinerary: { '@type': 'ItemList', itemListElement: IT[city].days.map((d, i) => ({ '@type': 'ListItem', position: i + 1, name: `Day ${i + 1}: ${d.t}` })) } },
+  { '@context': 'https://schema.org', '@type': 'TouristDestination', name, containedInPlace: country ? { '@type': 'Country', name: country.name } : undefined },
+  faqJsonLd(faq),
+  breadcrumbs([{ name: 'Travel Bestie', path: '/' }, ...(country ? [{ name: country.name, path: `/${country.slug}/` }] : []), { name, path: `/plan/${city}/` }]),
+];
+---
+<App title={title} description={description} path={`/plan/${city}/`} hash={`#plan-${city}`} jsonld={jsonld} faq={faq}
+  heading={`${name} itinerary and travel FAQ`} intro={IT[city].note} />

@@ -337,3 +337,40 @@ window.TB_BOOK.push(
  ["Crystal Cove Island","tour","Island hopping boat"],["Ariel's Point","tour","Ariel's Point day trip"],["White Beach","tour","Paraw sunset sail"],["Spa","table","Spa appointment"]
 );
 </script>
+
+<!-- ===== Getting between cities in a multi-city trip: [icon, how, minutes door to door] ===== -->
+<script>
+window.TB_LINKS={
+ "singapore|kuala-lumpur":["✈️","Flight about 1 hour, or a coach about 5 to 6 hours",180],
+ "singapore|penang":["✈️","Flight about 1 hour 20 minutes",210],
+ "singapore|bali":["✈️","Flight about 2 hours 40 minutes",300],
+ "singapore|bangkok":["✈️","Flight about 2 hours 25 minutes",300],
+ "singapore|phuket":["✈️","Flight about 1 hour 35 minutes",240],
+ "singapore|saigon":["✈️","Flight about 2 hours",270],
+ "singapore|hanoi":["✈️","Flight about 3 hours 20 minutes",360],
+ "singapore|manila":["✈️","Flight about 3 hours 30 minutes",360],
+ "kuala-lumpur|penang":["🚆","ETS train about 4 hours to Butterworth plus the ferry, or a flight about 1 hour",270],
+ "bali|lombok":["⛴️","Fast boat about 2 hours, or a flight about 40 minutes",240],
+ "bali|labuan-bajo":["✈️","Flight about 1 hour 10 minutes",210],
+ "bali|java":["✈️","Flight to Yogyakarta about 1 hour 20 minutes",240],
+ "java|sumatera":["✈️","Flight via Jakarta to Medan",360],
+ "bangkok|phuket":["✈️","Flight about 1 hour 25 minutes",240],
+ "bangkok|koh-samui":["✈️","Flight about 1 hour, or train and ferry overnight",240],
+ "phuket|koh-samui":["✈️","Flight about 1 hour, or bus and ferry about 6 to 7 hours",300],
+ "saigon|da-nang":["✈️","Flight about 1 hour 20 minutes",240],
+ "saigon|hanoi":["✈️","Flight about 2 hours 10 minutes",300],
+ "da-nang|hanoi":["✈️","Flight about 1 hour 20 minutes",240],
+ "manila|cebu":["✈️","Flight about 1 hour 20 minutes",240],
+ "manila|el-nido":["✈️","Flight about 1 hour 20 minutes",240],
+ "manila|boracay":["✈️","Flight to Caticlan about 1 hour, then a short boat",270],
+ "cebu|boracay":["✈️","Flight to Caticlan about 1 hour, then a short boat",270],
+ "cebu|el-nido":["✈️","Flight about 1 hour 15 minutes",240],
+ "beijing|shanghai":["🚄","High-speed train about 4.5 hours",330],
+ "beijing|xian":["🚄","High-speed train about 4.5 to 6 hours",360],
+ "xian|chengdu":["🚄","High-speed train about 3.5 hours",270],
+ "shanghai|chengdu":["✈️","Flight about 3 hours",360],
+ "beijing|chengdu":["✈️","Flight about 3 hours, or high-speed train about 8 hours",360],
+ "shanghai|xian":["✈️","Flight about 2.5 hours, or high-speed train about 6 hours",330]
+};
+window.TB_BOOK.push(["Travel from","transport","Train, bus, boat or flight tickets between cities"]);
+</script>

@@ -1,0 +1,61 @@
+rules_version = '2';
+// Travel Bestie: paste this into Firebase console > Firestore Database > Rules, then Publish.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Shared trip plans. Anyone with the link can read one trip (no listing).
+    // Only people who know the edit key (stored hashed as h) can change it.
+    match /trips/{id} {
+      function okPlan(d) {
+        return d.keys().hasOnly(['h', 'plan', 'v', 'by', 'updated'])
+          && d.plan is string && d.plan.size() < 900000
+          && d.by is string && d.by.size() < 40;
+      }
+      allow get: if true;
+      allow list, delete: if false;
+      allow create: if request.auth != null && okPlan(request.resource.data)
+        && request.resource.data.h is string && request.resource.data.h.size() == 64;
+      allow update: if request.auth != null && okPlan(request.resource.data)
+        && request.resource.data.h == resource.data.h
+        && exists(/databases/$(database)/documents/trips/$(id)/eds/$(request.auth.uid));
+
+      // "editors": you join by proving you know the edit key from the link
+      match /eds/{uid} {
+        allow get: if request.auth != null && request.auth.uid == uid;
+        allow list, update, delete: if false;
+        allow create: if request.auth != null && request.auth.uid == uid
+          && request.resource.data.keys().hasOnly(['ek'])
+          && request.resource.data.ek is string
+          && hashing.sha256(request.resource.data.ek).toHexString().lower()
+             == get(/databases/$(database)/documents/trips/$(id)).data.h;
+      }
+    }
+
+    // Traveller reviews (stars, note, up to 10 photos) shown on each place.
+    match /reviews/{rid} {
+      allow read: if true;
+      allow update: if false;
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasOnly(['place', 'city', 'r', 'n', 'np', 'uid', 'at'])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.place is string && request.resource.data.place.size() < 200
+        && request.resource.data.city is string && request.resource.data.city.size() < 80
+        && request.resource.data.r is int && request.resource.data.r >= 0 && request.resource.data.r <= 5
+        && request.resource.data.n is string && request.resource.data.n.size() <= 1000
+        && request.resource.data.np is int && request.resource.data.np <= 10;
+      allow delete: if request.auth != null && resource.data.uid == request.auth.uid;
+
+      match /ph/{i} {
+        allow read: if true;
+        allow update: if false;
+        allow create: if request.auth != null
+          && i in ['0','1','2','3','4','5','6','7','8','9']
+          && get(/databases/$(database)/documents/reviews/$(rid)).data.uid == request.auth.uid
+          && request.resource.data.keys().hasOnly(['d'])
+          && request.resource.data.d is string && request.resource.data.d.size() < 250000;
+        allow delete: if request.auth != null
+          && get(/databases/$(database)/documents/reviews/$(rid)).data.uid == request.auth.uid;
+      }
+    }
+  }
+}

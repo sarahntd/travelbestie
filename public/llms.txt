@@ -1,0 +1,24 @@
+# Travel Bestie (travelbestie.site)
+
+> Free day-by-day trip planner (ready-made plans for Asia now, more destinations coming). Pick a city, set dates (up to 30 days, several cities), travellers, transport and budget, and get a day-by-day itinerary with times, maps, entry fees, things to book, seasonal warnings and a budget estimate. English and Bahasa Indonesia. No account: plans are saved on the visitor's own device and can be exported as PDF, backed up, or shared as a link.
+
+## Country guides
+- [Singapore](https://travelbestie.site/singapore/): Marina Bay, Sentosa, Chinatown and Kampong Glam, Orchard Road and Little India, Changi.
+- [Malaysia](https://travelbestie.site/malaysia/): Kuala Lumpur, Penang.
+- [Indonesia](https://travelbestie.site/indonesia/): Sumatera (Lake Toba), Java (Yogyakarta), Kalimantan, Labuan Bajo, Bali, Lombok, Raja Ampat.
+- [Thailand](https://travelbestie.site/thailand/): Bangkok, Phuket, Koh Samui.
+- [Vietnam](https://travelbestie.site/vietnam/): Saigon (Ho Chi Minh City), Da Nang, Hanoi (with Sapa, Ninh Binh and Ha Long Bay).
+- [Philippines](https://travelbestie.site/philippines/): Manila, Cebu, El Nido, Boracay.
+- [China](https://travelbestie.site/china/): Beijing, Shanghai, Xi'an, Chengdu.
+
+## City itineraries
+Each city page has a ready-made plan and an FAQ (best time to visit, how many days, top things to do, what to book):
+https://travelbestie.site/plan/{city}/ for singapore, kuala-lumpur, penang, sumatera, java, kalimantan, labuan-bajo, bali, lombok, raja-ampat, bangkok, phuket, koh-samui, saigon, da-nang, hanoi, beijing, shanghai, xian, chengdu, manila, cebu, el-nido, boracay.
+
+## What the planner does
+- Seasonal adjustments: e.g. Maya Bay (Phi Phi) is closed in August and September; the Similan Islands open 15 October to 15 May; Mount Rinjani trails close January to March; typhoon warnings for Ha Long Bay and Da Nang.
+- Notes on places that need specific transport (boat-only islands, cable cars) and things to book ahead.
+- Budget estimate per trip and per person in SGD, MYR, IDR, THB, VND, PHP, CNY or USD, with a button to re-adjust the plan to fit the budget.
+- Trip results page with a shareable Instagram story picture.
+
+Information is general guidance; opening times, prices and closures change, so travellers should check before they go.
