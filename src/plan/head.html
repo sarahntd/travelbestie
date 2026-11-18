@@ -3,6 +3,16 @@
 <title>travelbestie.site</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+/* hide the page's built-in HTML (the old example design) until the app has drawn the new one */
+html.tb-loading .sg-wrap,html.tb-loading .sg-adj-fab,html.tb-loading .tb-seo{visibility:hidden}
+html.tb-loading body::after{content:"";position:fixed;left:50%;top:42%;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:18px;z-index:30000;
+  background:url("/favicon.svg") center/64px 64px no-repeat;box-shadow:0 14px 34px rgba(123,79,214,.35);animation:tbBoot 1s ease-in-out infinite alternate}
+@keyframes tbBoot{from{transform:scale(.92);opacity:.75}to{transform:scale(1.04);opacity:1}}
+@media (prefers-reduced-motion:reduce){html.tb-loading body::after{animation:none}}
+</style>
+<script>document.documentElement.classList.add('tb-loading');setTimeout(function(){document.documentElement.classList.remove('tb-loading');},5000);</script>
+
 <script>
 /* Travel Bestie logo: heart + paper plane on the brand gradient. tbLogoIcon(size) returns inline SVG. */
 (function(){ var n=0;

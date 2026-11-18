@@ -431,3 +431,7 @@ html[data-theme="dark"] .sg-wrap .wl-i{background:#3A2F60!important;color:#FFFFF
 /* leftovers of the old static example plan: budget and search buttons (your trip's budget lives in Overview) */
 .sg-bud-main,.sg-bud,.sg-stop,.sg-sfab,.sg-sbar{display:none!important}
 </style>
+<script>
+/* the new design is drawn: show the page (two frames later, so the swap is never visible) */
+(function(){ function show(){ document.documentElement.classList.remove('tb-loading'); } requestAnimationFrame(function(){ requestAnimationFrame(show); }); setTimeout(show,250); })();
+</script>

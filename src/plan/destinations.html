@@ -1104,7 +1104,8 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
     '<div class="tb-fsig">&mdash; Sarah</div><div class="tb-btns"><button type="button" class="tb-cta" data-dest-go="plan">&#9992;&#65039; '+(LANG==='id'?'Rencanakan perjalananmu':'Plan your trip')+'</button><button type="button" class="tb-cta ghost" data-dest-go="home">&larr; '+(LANG==='id'?'Kembali ke Beranda':'Back to Home')+'</button></div></div></div>';
   // ---- How it works (its own page too) ----
   var howPage=document.createElement('section'); howPage.className='sg-dest'; howPage.setAttribute('data-dest','howto'); howPage.setAttribute('aria-label','How it works'); holder.insertBefore(howPage,holder.querySelector('.dz-foot'));
-  setTimeout(function(){ howPage.innerHTML='<div class="tb-how"><div class="tb-ppk">'+(LANG==='id'?'Panduan':'Guide')+'</div>'+window.tbHowHtml(LANG)+'</div>'; },0);
+  window.tbFillHow=function(){ if(!window.tbHowHtml||howPage.firstChild) return; howPage.innerHTML='<div class="tb-how"><div class="tb-ppk">'+(LANG==='id'?'Panduan':'Guide')+'</div>'+window.tbHowHtml(LANG)+'</div>'; };
+  window.tbFillHow();
   // ---- Feedback: goes to the founder's Google Sheet, which emails her each new one ----
   var fbPage=document.createElement('section'); fbPage.className='sg-dest'; fbPage.setAttribute('data-dest','feedback'); fbPage.setAttribute('aria-label','Send feedback'); holder.insertBefore(fbPage,holder.querySelector('.dz-foot'));
   var FBT=LANG==='id'?{k:'Masukan',h:'Bantu Travel Bestie jadi lebih baik',p:'Ada ide, nemu error, atau cuma mau bilang suka? Sarah membaca setiap pesan.',type:'Tentang apa?',types:[['idea','&#128161; Ide'],['bug','&#128027; Ada yang error'],['love','&#128150; Aku suka'],['other','&#128172; Lainnya']],rate:'Seberapa membantu Travel Bestie? (opsional)',msg:'Pesanmu',ph:'Ceritakan apa saja…',name:'Nama (opsional)',email:'Email (opsional, kalau mau dibalas)',send:'Kirim masukan',sending:'Mengirim…',ok:'Terima kasih! Masukanmu sudah terkirim ke Sarah. &#128140;',err:'Gagal mengirim. Cek koneksimu lalu coba lagi.',need:'Tulis pesanmu dulu ya.',off:'Form masukan belum aktif. Coba lagi nanti.',priv:'Masukanmu disimpan di Google Sheet milik Sarah dan hanya dipakai untuk memperbaiki Travel Bestie.'}
@@ -1190,6 +1191,7 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
     return '<h3 class="wl-h">'+(id?'Cara kerjanya':'How it works')+'</h3><div class="wl-grid">'+S.map(function(s){ return '<div class="wl-c"><span class="wl-i">'+s[0]+'</span><b>'+s[1]+'</b><p>'+s[2]+'</p></div>'; }).join('')+'</div>'+
       '<div class="wl-btns"><button type="button" class="tb-cta" data-plan-city="">&#9992;&#65039; '+(id?'Mulai rencanakan':'Start planning')+'</button><button type="button" class="tb-cta ghost" data-tb-example="open">&#128064; '+(id?'Lihat contoh rencana':'See the example plan')+'</button></div>'+
       '<p class="wl-p" style="margin-top:12px;font-size:13px;opacity:.8">'+(id?'Rencanamu disimpan di HP atau komputer ini. Unduh file cadangan untuk memindahkannya ke perangkat lain.':'Your plans are saved on this phone or computer. Download a backup file to move them to another device.')+'</p>'; };
+  if(window.tbFillHow) window.tbFillHow();
   if(wel) wel.innerHTML=window.tbQuoteHtml('en')+
     '<p class="wl-p">Your Travel Bestie helps you plan any trip, day by day.<br>Pick a city, set your dates, and your plan is ready in seconds.</p>'+window.tbHowHtml('en');
 
