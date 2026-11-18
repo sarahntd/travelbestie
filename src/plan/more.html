@@ -373,8 +373,14 @@ window.TB_TRENDING={
 // add trending places to each city's "extra ideas" so free days and suggestions use them
 Object.keys(window.TB_TRENDING).forEach(function(k){ var c=(window.TB_ITIN||{})[k]; if(!c) return; c.extras=c.extras||[];
   window.TB_TRENDING[k].slice().reverse().forEach(function(t){ if(!c.extras.some(function(x){ return x[0]===t[0]; })) c.extras.unshift([t[0],'🔥 Trending: '+t[1]]); }); });
-/* Klook links for day trips and tickets. Put your Klook affiliate ID here to earn commission (e.g. "12345"). */
-window.TB_KLOOK_AID=null;
+/* Klook affiliate settings (from your Klook Affiliate dashboard).
+   TB_KLOOK_AID  = your affiliate ID (AID), e.g. "12345". Every Klook link on the site then carries it.
+   TB_KLOOK_ADID = optional ad ID from a dashboard tracking link (affiliate.klook.com/redirect?aid=...&aff_adid=...).
+                   When set, links go through Klook's official affiliate redirect for the most reliable tracking. */
+window.TB_KLOOK_AID="143999";
+window.TB_KLOOK_ADID=null;
 window.tbKlook=function(q){ var id=(function(){ try{ return localStorage.getItem('tbLang')==='id'; }catch(e){ return false; } })();
-  return 'https://www.klook.com/'+(id?'id':'en-US')+'/search/result/?query='+encodeURIComponent(q)+(window.TB_KLOOK_AID?'&aid='+encodeURIComponent(window.TB_KLOOK_AID):''); };
+  var url='https://www.klook.com/'+(id?'id':'en-US')+'/search/result/?query='+encodeURIComponent(q);
+  if(window.TB_KLOOK_AID&&window.TB_KLOOK_ADID) return 'https://affiliate.klook.com/redirect?aid='+encodeURIComponent(window.TB_KLOOK_AID)+'&aff_adid='+encodeURIComponent(window.TB_KLOOK_ADID)+'&k_site='+encodeURIComponent(url);
+  return url+(window.TB_KLOOK_AID?'&aid='+encodeURIComponent(window.TB_KLOOK_AID):''); };
 </script>

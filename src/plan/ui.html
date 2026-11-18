@@ -175,7 +175,7 @@ html[data-theme="dark"] .tb-langmenu button.on,html[data-theme="dark"] .tb-langm
   function fixContrast(){ clearTimeout(fixTimer); fixTimer=setTimeout(function(){
     document.querySelectorAll('[data-tbfix]').forEach(function(el){ el.style.removeProperty('color'); el.removeAttribute('data-tbfix'); });
     var all=document.querySelectorAll('.sg-wrap *, .tb-pop *, .sg-hmenu *, .tb-langmenu *, .tb-seo *, .tb-pdfwrap *, .tb-mod *');
-    for(var i=0;i<all.length;i++){ var el=all[i]; if(el.offsetParent===null&&getComputedStyle(el).position!=='fixed') continue; if(/^(svg|path|g|text|circle|rect|line|img|input|select|textarea|option|script|style|iframe|canvas)$/i.test(el.nodeName)) continue;
+    for(var i=0;i<all.length;i++){ var el=all[i]; if(el.closest('.tb-kban,.tb-kpc,.tb-mth')) continue; if(el.offsetParent===null&&getComputedStyle(el).position!=='fixed') continue; if(/^(svg|path|g|text|circle|rect|line|img|input|select|textarea|option|script|style|iframe|canvas)$/i.test(el.nodeName)) continue;
       var cs=getComputedStyle(el); if(cs.backgroundImage&&cs.backgroundImage!=='none') continue; var lb=lumOf(cs.backgroundColor); if(lb==null) continue;
       var lt=lumOf(cs.color); if(lt==null) continue; var want=null;
       if(lb>0.62&&lt>0.55) want='#2A1B4F'; else if(lb<0.3&&lt<0.4) want='#FFFFFF';
@@ -510,3 +510,68 @@ html[data-theme="dark"] .sg-wrap .wl-i{background:#3A2F60!important;color:#FFFFF
   document.addEventListener('change',function(e){ if(e.target.closest&&e.target.closest('.tb-bkmenu')){ var m=e.target.closest('.tb-bkmenu'); m.hidden=true; } },true);
 })();
 </script>
+<style>
+/* ---- Klook promo, magazine style ---- */
+.sg-wrap .tb-klookpromo{padding:0!important;overflow:hidden;border:0!important;background:#FFFFFF!important;box-shadow:0 14px 38px rgba(255,91,0,.16)}
+.tb-kban{position:relative;display:flex;gap:16px;align-items:stretch;padding:22px 22px 20px;color:#FFFFFF;background:radial-gradient(circle at 85% 20%,rgba(255,255,255,.28),transparent 40%),linear-gradient(125deg,#FF5B00 0%,#FF7A2F 38%,#F0539B 100%);overflow:hidden}
+.tb-kban::after{content:"";position:absolute;right:-60px;bottom:-80px;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,.12)}
+.tb-kban-t{position:relative;z-index:1;flex:1 1 auto;min-width:0}
+.sg-wrap .tb-kban h2{margin:8px 0 6px!important;font-size:clamp(26px,5vw,36px)!important;line-height:1.05;color:#FFFFFF!important;letter-spacing:-.02em}
+.tb-kban p{margin:0 0 12px;font-size:14.5px;line-height:1.5;color:#FFFFFF;opacity:.95;max-width:440px}
+.tb-kpl{display:inline-block;font:800 14px "Plus Jakarta Sans",sans-serif;color:#FF5B00;background:#FFFFFF;border-radius:10px;padding:5px 10px;letter-spacing:-.02em}
+.tb-kchips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.tb-kchips span{font-size:12.5px;font-weight:700;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:5px 10px;backdrop-filter:blur(4px)}
+.tb-kbtns{display:flex;flex-wrap:wrap;gap:8px}
+.sg-wrap .tb-kbig{display:inline-flex;align-items:center;gap:6px;font:800 15px "Plus Jakarta Sans",sans-serif;color:#FF5B00!important;background:#FFFFFF;border-radius:999px;padding:11px 20px;text-decoration:none;box-shadow:0 8px 20px rgba(120,30,0,.25)}
+.sg-wrap .tb-kghost{font:700 14px "Plus Jakarta Sans",sans-serif;color:#FFFFFF!important;background:transparent;border:1.5px solid rgba(255,255,255,.75);border-radius:999px;padding:10px 16px;cursor:pointer}
+.tb-kban-art{position:relative;z-index:1;flex:0 0 150px;display:block}
+.tb-kban-art span{position:absolute;font-size:52px;filter:drop-shadow(0 8px 14px rgba(120,30,0,.35));animation:tbKFloat 4s ease-in-out infinite}
+.tb-kban-art .tk1{right:24px;top:6px;font-size:76px;transform:rotate(-12deg)}
+.tb-kban-art .tk2{left:4px;bottom:20px;animation-delay:-1.3s}
+.tb-kban-art .tk3{right:6px;bottom:0;font-size:44px;animation-delay:-2.6s}
+@keyframes tbKFloat{0%,100%{translate:0 0}50%{translate:0 -8px}}
+.tb-krow-h{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 6px}
+.tb-krow-h b{font-size:15px;color:#3E2A6B}
+.tb-krow-nav button{width:32px;height:32px;border-radius:50%;border:1.5px solid #FFD2B8;background:#FFFFFF;color:#FF5B00;font-size:18px;font-weight:800;cursor:pointer;margin-left:4px}
+.tb-krow{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 20px 20px;scrollbar-width:none}
+.tb-krow::-webkit-scrollbar{display:none}
+.sg-wrap .tb-kpc{position:relative;flex:0 0 200px;height:250px;scroll-snap-align:start;border-radius:20px;overflow:hidden;text-decoration:none;color:#FFFFFF!important;display:block;border:0;padding:0;
+  background:linear-gradient(150deg,#7B4FD6,#E58CC6);box-shadow:0 10px 24px rgba(62,42,107,.18);transition:transform .25s ease,box-shadow .25s ease}
+.sg-wrap .tb-kpc:hover{transform:translateY(-4px);box-shadow:0 16px 30px rgba(62,42,107,.28)}
+.tb-kimg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .5s ease}
+.tb-kpc:hover .tb-kimg{transform:scale(1.06)}
+.tb-kpc::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,10,40,0) 35%,rgba(20,10,40,.85) 100%)}
+.tb-ktag{position:absolute;z-index:2;left:10px;top:10px;font-size:11px;font-weight:800;color:#FF5B00;background:#FFFFFF;border-radius:999px;padding:4px 9px;box-shadow:0 4px 10px rgba(0,0,0,.15)}
+.tb-ktag.you{color:#FFFFFF;background:#7B4FD6}
+.tb-kinfo{position:absolute;z-index:2;left:12px;right:12px;bottom:12px;display:flex;flex-direction:column;gap:2px}
+.sg-wrap .tb-kinfo small{font-size:12px;font-weight:700;opacity:.9;color:#FFFFFF!important}
+.sg-wrap .tb-kinfo b{font-size:17px;line-height:1.2;color:#FFFFFF!important}
+.sg-wrap .tb-kinfo em{font-style:normal;font-size:12.5px;font-weight:800;color:#FFD2B8!important;margin-top:4px}
+.tb-kdisc{padding:0 20px 16px;margin:0}
+@media (max-width:600px){.tb-kban-art{display:none}.sg-wrap .tb-kpc{flex-basis:170px;height:220px}}
+@media (prefers-reduced-motion:reduce){.tb-kban-art span{animation:none}}
+html[data-theme="dark"] .sg-wrap .tb-klookpromo{background:#221A3D!important}
+html[data-theme="dark"] .tb-krow-h b{color:#FFFFFF}
+html[data-theme="dark"] .tb-krow-nav button{background:#2A2148;border-color:#7A4A2A;color:#FFB27A}
+</style>
+<script>
+/* make sure every Klook link on the page carries the affiliate ID, including old hard-coded ones */
+(function(){ if(!window.TB_KLOOK_AID) return;
+  function tag(root){ (root||document).querySelectorAll('a[href*="klook.com"]').forEach(function(a){ var h=a.getAttribute('href'); if(!h||/[?&]aid=/.test(h)||/affiliate\.klook\.com/.test(h)) return;
+    try{ var u=new URL(h,location.href); u.searchParams.set('aid',window.TB_KLOOK_AID); a.setAttribute('href',u.toString()); }catch(e){} }); }
+  tag(); var t=null; new MutationObserver(function(){ clearTimeout(t); t=setTimeout(function(){ tag(); },120); }).observe(document.body,{childList:true,subtree:true});
+})();
+</script>
+<style>.tb-krow-h .tb-kupd{font-weight:600;font-size:12px;opacity:.7;margin-left:6px}.sg-wrap .tb-kpl{color:#FF5B00!important}.sg-wrap .tb-kbig{color:#FF5B00!important}</style>
+<style>
+/* Klook brand colours win over the dark-mode "white text on buttons" rule */
+html body .sg-wrap .tb-klookpromo .tb-kpl,html body .sg-wrap .tb-klookpromo .tb-kbig,html body .sg-wrap .tb-klookpromo .tb-kbig *,html body .sg-wrap .tb-klookpromo .tb-ktag:not(.you),html body .sg-wrap .tb-klookpromo .tb-ktag:not(.you) *{color:#FF5B00!important}
+html body .sg-wrap .tb-klookpromo .tb-ktag.you,html body .sg-wrap .tb-klookpromo .tb-ktag.you *{color:#FFFFFF!important}
+</style>
+<style>.sg-wrap .tb-kaddday{background:linear-gradient(120deg,#FF5B00,#F0539B)!important;color:#FFFFFF!important;font-size:13px!important;padding:7px 12px!important}</style>
+<style>
+/* "Add my Klook booking" as a solid white button with orange text, like Browse Klook */
+html body .sg-wrap .tb-klookpromo .tb-kghost{background:#FFFFFF!important;border:0!important;color:#FF5B00!important;font:800 15px "Plus Jakarta Sans",sans-serif;padding:11px 20px;box-shadow:0 8px 20px rgba(120,30,0,.25);transition:transform .15s ease,box-shadow .15s ease}
+html body .sg-wrap .tb-klookpromo .tb-kghost *{color:#FF5B00!important}
+html body .sg-wrap .tb-klookpromo :is(.tb-kghost,.tb-kbig):hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(120,30,0,.32)}
+</style>

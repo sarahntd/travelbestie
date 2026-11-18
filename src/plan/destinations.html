@@ -455,6 +455,19 @@ body:not(.tb-ex-on) .sg-sfab,body:not(.tb-ex-on) .sg-adj-fab{display:none!import
 .sg-wrap .tb-card h2{margin:0 0 4px;font-size:22px}
 .sg-wrap .tb-card .tb-s{font-size:14px;color:#7B4FD6!important;margin-bottom:12px}
 .tb-btns{display:flex;flex-wrap:wrap;gap:8px}
+.sg-wrap .tb-mytrips{position:relative;border:0!important;background:#FFFFFF!important;box-shadow:0 0 0 2px transparent,0 16px 40px rgba(123,79,214,.22)!important;isolation:isolate}
+.sg-wrap .tb-mytrips::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:2.5px;background:linear-gradient(120deg,#5B21D9,#8B4FF0 45%,#F06BB5);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;z-index:-1;pointer-events:none}
+.tb-mth{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-bottom:4px}
+.tb-mtk{flex:1 0 100%;font-size:11.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#B0407F}
+.sg-wrap .tb-mytrips h2{margin:0!important;font-size:clamp(26px,5vw,34px)!important;line-height:1.1;letter-spacing:-.02em;background:linear-gradient(110deg,#4A1FA0,#7B4FD6 50%,#E58CC6);-webkit-background-clip:text;background-clip:text;color:transparent!important}
+.tb-mtcd{display:inline-flex;align-items:center;gap:4px;font-size:13.5px;font-weight:600;color:#4A1FA0;background:#FFF3D6;border:1.5px solid #F7D27A;border-radius:999px;padding:5px 12px;animation:tbCdPulse 2.6s ease-in-out infinite}
+.tb-mtcd b{font-weight:800}
+@keyframes tbCdPulse{0%,100%{box-shadow:0 0 0 0 rgba(247,210,122,.6)}50%{box-shadow:0 0 0 6px rgba(247,210,122,0)}}
+@media (prefers-reduced-motion:reduce){.tb-mtcd{animation:none}}
+html[data-theme="dark"] .sg-wrap .tb-mytrips{background:#221A3D!important}
+html[data-theme="dark"] .tb-mtk{color:#F2A7D4}
+html[data-theme="dark"] .sg-wrap .tb-mytrips h2{background:linear-gradient(110deg,#D9C2FF,#FFFFFF 50%,#FFB3DA);-webkit-background-clip:text;background-clip:text}
+html[data-theme="dark"] .tb-mtcd{background:#43381A;border-color:#8A7230;color:#FFEDB8}
 .tb-cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
 .tb-cgrid:not(.all) .tb-cx{display:none}
 .tb-trendn{display:block;margin-top:4px;font-size:12.5px;font-weight:700;color:#B0407F}
@@ -523,6 +536,29 @@ html[data-theme="dark"] .dz-tag .dz-nick{color:#F2A7D4}
 html[data-theme="dark"] .tb-heads{background:#2A2148;border-color:#45386F;color:#ECE6FF}
 html[data-theme="dark"] .tb-heads.warn{background:#3F2E14;border-color:#8A6A2A;color:#FFE9C2}
 .tb-dtl{display:grid;gap:8px;margin:8px 0 10px}
+.tb-klookpromo{border:2px solid #FFD2B8!important;background:linear-gradient(135deg,#FFF6F0,#FFFFFF)!important}
+.tb-kph{display:flex;gap:12px;align-items:flex-start}
+.tb-kpl{flex:0 0 auto;font:800 15px "Plus Jakarta Sans",sans-serif;letter-spacing:-.02em;color:#FFFFFF;background:linear-gradient(120deg,#FF5B00,#FF8A3D);border-radius:12px;padding:8px 10px}
+.tb-kpw{display:flex;flex-wrap:wrap;gap:6px 14px;list-style:none;padding:0;margin:10px 0;font-size:13px;color:#7A3A10;font-weight:600}
+.tb-kpg{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin:6px 0 12px}
+.tb-kpc{display:flex;flex-direction:column;gap:2px;text-decoration:none;border:1.5px solid #FFD2B8;border-radius:14px;padding:10px 12px;background:#FFFFFF;color:#3E2A6B}
+.tb-kpc small{font-size:11px;font-weight:800;color:#FF5B00;text-transform:uppercase;letter-spacing:.06em}
+.tb-kpc b{font-size:16px;color:#3E2A6B}.tb-kpc span{font-size:12.5px;color:#6B5A8F}.tb-kpc em{font-style:normal;font-size:12.5px;font-weight:800;color:#FF5B00;margin-top:4px}
+.tb-kpc:hover{border-color:#FF8A3D}
+.tb-kdisc{font-size:11.5px;color:#8A72C9;margin:8px 0 0}
+.tb-kform{display:grid;gap:10px;margin:10px 0}
+.tb-kform label{display:grid;gap:4px;font-size:13px;font-weight:700;color:#4A1FA0}
+.tb-kform input,.tb-kform select{font:15px "Plus Jakarta Sans",sans-serif;border:1.5px solid #E4D9FF;border-radius:12px;padding:9px 12px;color:#3E2A6B;background:#FFFFFF}
+.tb-kbl{display:grid;gap:8px;margin:8px 0 10px}
+.tb-kb1{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;border:1.5px solid #FFD2B8;border-radius:14px;padding:10px 12px}
+.tb-kb1 b{color:#3E2A6B}.tb-kb1 small{flex:1 1 200px;color:#7B4FD6;font-size:12.5px}
+html[data-theme="dark"] .tb-klookpromo{background:linear-gradient(135deg,#3A2418,#221A3D)!important;border-color:#7A4A2A!important}
+html[data-theme="dark"] .tb-kpw{color:#FFD2B8}
+html[data-theme="dark"] .tb-kpc{background:#2A2148;border-color:#5A3F3A;color:#ECE6FF}
+html[data-theme="dark"] .tb-kpc b{color:#FFFFFF}html[data-theme="dark"] .tb-kpc span{color:#D9CCFF}html[data-theme="dark"] .tb-kpc small,html[data-theme="dark"] .tb-kpc em{color:#FFB27A}
+html[data-theme="dark"] .tb-kform label{color:#ECE6FF}
+html[data-theme="dark"] .tb-kform input,html[data-theme="dark"] .tb-kform select{background:#2A2148;border-color:#45386F;color:#FFFFFF}
+html[data-theme="dark"] .tb-kb1{border-color:#7A4A2A}html[data-theme="dark"] .tb-kb1 b{color:#FFFFFF}html[data-theme="dark"] .tb-kb1 small{color:#D9CCFF}
 .tb-dt1{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;border:1.5px solid #EDE5FF;border-radius:14px;padding:10px 12px}
 .tb-dt1 b{display:block;color:#4A1FA0}.tb-dt1 small{display:block;color:#7B4FD6;font-size:12.5px}
 .tb-dtb{display:flex;gap:6px;flex-wrap:wrap}
@@ -1380,7 +1416,9 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
     var realPlans=plans.filter(function(p){ return !p.example; });
     if(realPlans.length){
       var list=realPlans.slice().sort(function(a,b){ return a.from<b.from?-1:a.from>b.from?1:0; });
-      h+='<div class="tb-card"><h2>&#128197; Your trip plans</h2><div class="tb-s">Each plan can be up to 30 days, with several cities or countries. Planning another trip? Add another plan.</div><div class="tb-plist">'+
+      var today=isoOf(new Date()), nxt=list.filter(function(p){ return p.to>=today; })[0], cd='';
+      if(nxt){ var dd=Math.round((new Date(nxt.from+'T00:00:00')-new Date(today+'T00:00:00'))/864e5); cd=dd>1?'&#9203; '+esc(routeName(nxt))+' in <b>'+dd+' days</b>':dd===1?'&#9203; '+esc(routeName(nxt))+' starts <b>tomorrow</b>!':'&#127796; '+esc(routeName(nxt))+' is <b>happening now</b>'; }
+      h+='<div class="tb-card tb-mytrips"><div class="tb-mth"><span class="tb-mtk">&#9992;&#65039; My trips &middot; '+realPlans.length+' plan'+(realPlans.length>1?'s':'')+'</span><h2>Your next adventure</h2>'+(cd?'<span class="tb-mtcd">'+cd+'</span>':'')+'</div><div class="tb-s">Tap <b>Go to my trip</b> to see your days, map and budget. Each plan can be up to 30 days, with several cities or countries.</div><div class="tb-plist">'+
         list.map(function(p){ var c=IT[p.city], f=byKey[c.country], on=active==='custom'&&plan&&p.id===plan.id;
           return '<div class="tb-prow'+(on?' on':'')+'"><div class="tb-pi"><b>'+f[1]+' '+esc(routeName(p))+(on?' <span class="tb-now">Open now</span>':'')+'</b><small>'+fmtY(p.from)+' to '+fmtY(p.to)+' &middot; '+p.days.length+' day'+(p.days.length>1?'s':'')+' &middot; '+pplOf(p)+(p.budget?' &middot; '+CURS[p.cur]+Number(p.budget).toLocaleString(LOC)+' pp':'')+'</small></div>'+
             '<div class="tb-btns"><button type="button" class="tb-cta" data-tb-open="'+p.id+'">&#9992;&#65039; Go to my trip</button><button type="button" class="tb-cta ghost" data-plan-edit="'+p.id+'">&#9998; Edit</button><button type="button" class="tb-cta ghost" data-pdf-id="'+p.id+'">&#128196; PDF</button><button type="button" class="tb-cta ghost" data-tripshare-id="'+p.id+'">&#128101; Share</button><button type="button" class="tb-cta ghost" data-tb-del="'+p.id+'">Delete</button></div></div>';
@@ -1391,6 +1429,7 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
       D.slice().sort(function(a,b){ var ia=TOP6.indexOf(a[0]), ib=TOP6.indexOf(b[0]); return (ia<0?99:ia)-(ib<0?99:ib)||D.indexOf(a)-D.indexOf(b); }).map(function(d){ var cs=cityList().filter(function(x){ return x[1].country===d[0]; });
         var ti=TOP6.indexOf(d[0]); return '<div class="tb-c'+(ti<0?' tb-cx':'')+'"><button type="button" class="tb-cn" data-dest-go="'+d[0]+'"><span>'+d[1]+'</span>'+d[2]+(TRENDING&&ti>-1?'<em class="tb-trend">&#128293; #'+(ti+1)+'</em>':'')+'</button><div class="tb-chips">'+cs.map(function(x){ return '<button type="button" data-plan-city="'+x[0]+'">'+esc(x[1].name)+'</button>'; }).join('')+'</div></div>';
       }).join('')+'</div><div class="tb-cmore-w"><button type="button" class="tb-cta tb-cmore" data-cmore="1" aria-expanded="'+homeAll+'">'+(homeAll?'&#9650; Show fewer countries':'&#127757; Show all '+D.length+' countries')+'</button></div></div>';
+    h+=klookPromoHtml();
     h+='<div class="tb-card"><h2>&#128064; See an example plan</h2><div class="tb-s">Sarah\'s 5-day Singapore trip, with budget, reviews and a trip recap.</div><div class="tb-btns">'+
       '<button type="button" class="tb-cta" data-tb-example="open">&#128064; Open example plan</button></div></div>';
     hb.innerHTML=h;
@@ -1921,7 +1960,62 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
       (al.length?'<ul>'+al.map(function(x){ return '<li><b>'+esc(x.e[3])+'</b> &middot; '+fd(x.e[0])+(x.e[1]!==x.e[0]?' to '+fd(x.e[1]):'')+(x.e[5]?' (expected)':'')+(legs.length>1?' &middot; '+esc(shortName(x.city)):'')+'<br><span>'+esc(x.e[4])+'</span></li>'; }).join('')+'</ul>':'')+
       (ok.length?'<div class="tb-hok">'+(al.length?'<b>Also on:</b> ':'')+ok.map(function(x){ return esc(x.e[3])+' ('+fd(x.e[0])+(x.e[5]?', expected':'')+')'; }).join(' &middot; ')+'</div>':'')+
       (rules.length?'<details class="tb-hrules"'+(compact?'':' open')+'><summary>&#128220; Local rules to know ('+rules.length+')</summary><ul>'+rules.map(function(r){ return '<li>'+esc(r)+'</li>'; }).join('')+'</ul></details>':'')+'</div>'; }
-  function ovHeadsUp(){ if(!plan||!overPage) return; var old=overPage.querySelector('.tb-heads'); if(old) old.remove(); var h=headsUpHtml(legsOf(plan),plan.from,false); if(!h) return;
+  // ---- Klook: promo on Home, "did you book it?" after a visit, and bookings saved into the plan ----
+  // Trending today: yesterday's most-read Wikivoyage destinations (updates every day by itself, cached for the day)
+  var TITLE_ALIAS={Ho_Chi_Minh_City:'saigon',Yogyakarta:'java',Lake_Toba:'sumatera',"Xi'an":'xian',Ha_Long:'ha-long',Ha_Long_Bay:'ha-long',Jeju:'jeju',Jeju_Island:'jeju',Metro_Manila:'manila',Cebu_City:'cebu',Malang:'bromo','Bromo-Tengger-Semeru_National_Park':'bromo',Macau:'hong-kong',Melaka:'malacca',Nusa_Penida:'bali',Ubud:'bali',Kuta:'bali',Seminyak:'bali',Canggu:'bali',Gili_Islands:'lombok',Komodo_National_Park:'labuan-bajo',Angkor_Archaeological_Park:'siem-reap',Angkor:'siem-reap',Ao_Nang:'krabi',Phi_Phi_Islands:'krabi',Patong:'phuket',Hokkaido:'sapporo',Nara:'kyoto',Kobe:'osaka',George_Town:'penang',Gold_Coast:null,Brunei:null};
+  function cityOfTitle(t){ if(TITLE_ALIAS.hasOwnProperty(t)) return TITLE_ALIAS[t]; var n=t.replace(/_/g,' ').toLowerCase(); var hit=null; Object.keys(IT).forEach(function(k){ if(hit||IT[k].custom) return; var b=IT[k].name.replace(/ \(.*\)$/,'').toLowerCase(); if(b===n||k.replace(/-/g,' ')===n) hit=k; }); return hit; }
+  var daily=null; try{ daily=JSON.parse(ls('tbDaily')||'null'); }catch(e){}
+  (function loadDaily(){ var today=isoOf(new Date()); if(daily&&daily.d===today) return;
+    function day(off){ var d=new Date(Date.now()-off*864e5); return d.getFullYear()+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+('0'+d.getDate()).slice(-2); }
+    function get(off){ return fetch('https://wikimedia.org/api/rest_v1/metrics/pageviews/top/en.wikivoyage/all-access/'+day(off)).then(function(r){ if(!r.ok) throw 0; return r.json(); }); }
+    get(1).catch(function(){ return get(2); }).then(function(j){ var arts=(j.items&&j.items[0].articles)||[], seen={}, list=[];
+      arts.forEach(function(a){ var k=cityOfTitle(a.article); if(k&&IT[k]&&!seen[k]){ seen[k]=1; list.push([k,a.views]); } });
+      if(!list.length) return; daily={d:today,from:day(1),list:list.slice(0,12)}; ls('tbDaily',JSON.stringify(daily)); if(cur==='home') renderHome(); }).catch(function(){}); })();
+  function klookPromoHtml(){ if(!window.tbKlook) return ''; var picks=[];
+    if(plan&&!plan.example) legsOf(plan).forEach(function(l){ if(IT[l.city]&&!IT[l.city].custom&&!picks.some(function(p){ return p[0]===l.city; })) picks.push([l.city,'Your trip']); });
+    (daily&&daily.list||[]).forEach(function(x,i){ if(picks.length<10&&!picks.some(function(p){ return p[0]===x[0]; })) picks.push([x[0],'Today',i+1]); });
+    Object.keys(window.TB_TRENDING||{}).forEach(function(k){ if(picks.length<10&&!picks.some(function(p){ return p[0]===k; })&&IT[k]) picks.push([k,'Trending']); });
+    setTimeout(klookPhotos,0);
+    return '<div class="tb-card tb-klookpromo"><div class="tb-kban"><div class="tb-kban-t"><span class="tb-kpl">klook</span><h2>Tours, tickets <br>&amp; day trips</h2><p>Skip the queues and lock in the best activities before you go. Book on Klook, then add it straight into your plan.</p>'+
+      '<div class="tb-kchips"><span>&#9889; Instant e-tickets</span><span>&#128260; Free cancellation on many</span><span>&#128241; Ticket on your phone</span></div>'+
+      '<div class="tb-kbtns"><a class="tb-kbig" target="_blank" rel="noopener" data-kname="Klook day trip" href="'+esc(window.tbKlook('day trip'))+'">&#128269; Browse Klook</a><button type="button" class="tb-kghost" data-kadd="1">&#10133; Add my Klook booking to my trip</button></div></div>'+
+      '<div class="tb-kban-art" aria-hidden="true"><span class="tk1">&#127903;&#65039;</span><span class="tk2">&#127966;&#65039;</span><span class="tk3">&#128674;</span></div></div>'+
+      '<div class="tb-krow-h"><b>'+(picks.some(function(p){ return p[1]==='Your trip'; })?'For your trip and trending today':'Trending today')+(daily?' <small class="tb-kupd">updated '+fmt(new Date(daily.d+'T00:00:00'))+'</small>':'')+'</b><span class="tb-krow-nav"><button type="button" data-kscroll="-1" aria-label="Scroll left">&#8249;</button><button type="button" data-kscroll="1" aria-label="Scroll right">&#8250;</button></span></div>'+
+      '<div class="tb-krow">'+picks.map(function(p){ var nm=shortName(p[0]), t=(window.TB_TRENDING||{})[p[0]], top=t?t[0][0]:'Day trips and tickets', f=byKey[IT[p[0]].country]||byKey.other;
+        return '<a class="tb-kpc" target="_blank" rel="noopener" data-kcity="'+p[0]+'" data-kname="'+esc(t?top:nm+' day trip')+'" data-kimg="'+esc(t?top:nm)+'" href="'+esc(window.tbKlook(t&&t[0][2]?t[0][2]:nm+' things to do'))+'"><span class="tb-kimg"></span><span class="tb-ktag'+(p[1]==='Your trip'?' you':'')+'">'+(p[1]==='Your trip'?'&#9992;&#65039; Your trip':p[1]==='Today'?'&#128293; #'+p[2]+' today':'&#128293; Trending')+'</span><span class="tb-kinfo"><small>'+f[1]+' '+esc(nm)+'</small><b>'+esc(top)+'</b><em>See on Klook &rarr;</em></span></a>'; }).join('')+'</div>'+
+      (window.TB_KLOOK_AID?'<p class="tb-kdisc">Travel Bestie may earn a small commission when you book through these links, at no extra cost to you.</p>':'')+'</div>'; }
+  // photos for the Klook cards (free Wikipedia images)
+  function klookPhotos(){ document.querySelectorAll('.tb-kpc[data-kimg]:not([data-kok])').forEach(function(a){ a.setAttribute('data-kok','1'); var k=a.getAttribute('data-kcity'), c=IT[k]; if(!c) return;
+      wiki(a.getAttribute('data-kimg'),c.q).then(function(w){ if(!w||!w.thumbnail) return wiki(shortName(k),c.q); return w; }).then(function(w){ if(w&&w.thumbnail){ var im=a.querySelector('.tb-kimg'); im.style.backgroundImage='url("'+(w.thumbnail.source||'').replace(/"/g,'')+'")'; a.classList.add('has-img'); } }).catch(function(){}); }); }
+  window.addEventListener('click',function(e){ var b=e.target.closest&&e.target.closest('[data-kscroll]'); if(!b) return; e.preventDefault(); e.stopPropagation(); var row=b.closest('.tb-klookpromo').querySelector('.tb-krow'); row.scrollBy({left:(+b.getAttribute('data-kscroll'))*Math.max(220,row.clientWidth*0.8),behavior:'smooth'}); },true);
+  var kPend=null;
+  function klookClicked(name,city){ kPend={name:name,city:city,t:Date.now()}; try{ sessionStorage.setItem('tbKPend',JSON.stringify(kPend)); }catch(e){} }
+  function klookBack(){ if(!kPend){ try{ kPend=JSON.parse(sessionStorage.getItem('tbKPend')||'null'); }catch(e){} } if(!kPend||Date.now()-kPend.t<4000) return;
+    var p=kPend; kPend=null; try{ sessionStorage.removeItem('tbKPend'); }catch(e){} openKlookAdd(p.name,p.city,true); }
+  function openKlookAdd(name,city,asked,dayN){ var own=plans.filter(function(p){ return !p.example&&!(p.shared&&!p.shared.ek); });
+    if(!own.length){ var c0=modal('<div class="tb-ppk">Klook</div><h3 class="tb-mh">'+(asked?'Did you book something?':'Add a Klook booking')+'</h3><p class="tb-mp">Create a trip plan first, then you can add your Klook bookings to the right day.</p><div class="tb-btns" style="justify-content:flex-end"><button type="button" class="tb-cta ghost" data-modx="1">Not now</button><button type="button" class="tb-cta" data-plan-city="'+(city&&IT[city]?city:'')+'" data-modx="1">&#9992;&#65039; Plan my trip</button></div>'); return; }
+    var pl=(plan&&own.indexOf(plan)>-1)?plan:own.filter(function(p){ return legsOf(p).some(function(l){ return l.city===city; }); })[0]||own[0];
+    function dayOpts(p){ return p.days.map(function(d,i){ var dc=d.city||p.city; return '<option value="'+i+'"'+((dayN?i===dayN-1&&p===plan:(dc===city&&!dayOpts.done))?(dayOpts.done=1,' selected'):'')+'>Day '+(i+1)+' &middot; '+fmt(addDays(p.from,i))+' &middot; '+esc(shortName(dc))+'</option>'; }).join(''); }
+    var c=modal('<div class="tb-ppk">Klook</div><h3 class="tb-mh">'+(asked?'&#127903;&#65039; Did you book it on Klook?':'&#127903;&#65039; Add a Klook booking')+'</h3><p class="tb-mp">Add it to your plan so it shows on the right day, with your booking reference.</p>'+
+      '<div class="tb-kform"><label>What did you book?<input type="text" class="tb-kn" maxlength="80" value="'+esc(name||'')+'" placeholder="e.g. Nusa Penida day trip"></label>'+
+      (own.length>1?'<label>Which trip?<select class="tb-kp">'+own.map(function(p){ return '<option value="'+p.id+'"'+(p===pl?' selected':'')+'>'+esc(routeName(p))+'</option>'; }).join('')+'</select></label>':'')+
+      '<label>Which day?<select class="tb-kd">'+dayOpts(pl)+'</select></label><label>Start time<select class="tb-kt">'+hourOpts(540,360,1320)+'</select></label>'+
+      '<label>Booking reference (optional)<input type="text" class="tb-kr" maxlength="40" placeholder="e.g. KLK1234567"></label></div>'+
+      '<div class="tb-btns" style="justify-content:flex-end"><button type="button" class="tb-cta ghost" data-modx="1">'+(asked?'No, I didn\'t book':'Cancel')+'</button><button type="button" class="tb-cta" data-ksave="1">&#9989; Add to my plan</button></div><p class="tb-mmsg"></p>');
+    var ps=c.querySelector('.tb-kp'); if(ps) ps.onchange=function(){ pl=byId(ps.value); dayOpts.done=0; c.querySelector('.tb-kd').innerHTML=dayOpts(pl); };
+    c.querySelector('[data-ksave]').onclick=function(){ var nm=c.querySelector('.tb-kn').value.trim(); if(!nm){ c.querySelector('.tb-mmsg').textContent='Type what you booked.'; return; }
+      var di=+c.querySelector('.tb-kd').value, tm=+c.querySelector('.tb-kt').value, ref=c.querySelector('.tb-kr').value.trim(), d=pl.days[di], dc=d.city||pl.city;
+      d.add=d.add||[]; d.add.push([nm,'🎟️ Booked on Klook'+(ref?' · Ref '+ref:''),tm]); if(tm+60>(d.end||1320)) d.end=Math.min(1440,tm+120); if(!d.base) d.base=d.i;
+      var keep=plan; plan=pl; d.i=adjustDay(d,dc).items; plan=keep;
+      pl.klook=pl.klook||[]; pl.klook.push({name:nm,day:di+1,time:tm,ref:ref,at:Date.now()}); pl.booked=pl.booked||{}; pl.booked['klook:'+nm]=true;
+      plan=pl; savePlans(); mod.classList.remove('open'); renderAll(); go('myday',di+1); liveToast('✅ '+nm+' added to Day '+(di+1),1); }; }
+  function klookCard(){ if(!plan||plan.example||!window.tbKlook) return ''; if(!plan.klook||!plan.klook.length) return '<div class="tb-card tb-kbook"><h2>&#127903;&#65039; Your Klook bookings</h2><div class="tb-s">Booked a tour, ticket or day trip on Klook? Add it here and it goes straight onto the right day of your plan.</div><div class="tb-btns"><button type="button" class="tb-cta" data-kadd="1">&#10133; Add my Klook booking</button><a class="tb-cta ghost" target="_blank" rel="noopener" href="'+esc(window.tbKlook(shortName(plan.city)+' things to do'))+'" data-kcity="'+plan.city+'">&#128269; Find things to book</a></div></div>';
+    return '<div class="tb-card tb-kbook"><h2>&#127903;&#65039; Your Klook bookings</h2><div class="tb-kbl">'+plan.klook.map(function(k){ return '<div class="tb-kb1"><b>'+esc(k.name)+'</b><small>Day '+k.day+' &middot; '+fmt(addDays(plan.from,k.day-1))+' &middot; '+fmtT(k.time)+(k.ref?' &middot; Ref '+esc(k.ref):'')+'</small><button type="button" class="tb-cta ghost" data-tb-day="'+k.day+'">Open Day '+k.day+'</button></div>'; }).join('')+'</div><button type="button" class="tb-cta ghost" data-kadd="1">&#10133; Add another booking</button></div>'; }
+  window.addEventListener('click',function(e){ var a=e.target.closest&&e.target.closest('a[href*="klook.com"],[data-klook]'); if(a){ var card=a.closest('.tb-dt1'), nm=a.getAttribute('data-kname')||(card&&card.querySelector('b')?card.querySelector('b').textContent:'')||(a.closest('li')&&a.closest('li').querySelector('b')?a.closest('li').querySelector('b').textContent:''); var ck=a.getAttribute('data-kcity')||(plan&&cur==='myday'?(plan.days[curDay-1]||{}).city:null)||(plan?plan.city:null); klookClicked(nm,ck); }
+    var k=e.target.closest&&e.target.closest('[data-kadd]'); if(k){ e.preventDefault(); e.stopPropagation(); var kd=+k.getAttribute('data-kday')||0; openKlookAdd('',kd&&plan?(plan.days[kd-1].city||plan.city):(plan?plan.city:null),false,kd); } },true);
+  window.addEventListener('focus',function(){ setTimeout(klookBack,400); }); document.addEventListener('visibilitychange',function(){ if(!document.hidden) setTimeout(klookBack,400); });
+  function ovHeadsUp(){ if(!plan||!overPage) return;
+    var okb=overPage.querySelector('.tb-kbook'); if(okb) okb.remove(); var kc=klookCard(); if(kc){ var t2=document.createElement('div'); t2.innerHTML=kc; var bud=overPage.querySelector('.tb-budget'); if(bud) bud.parentNode.insertBefore(t2.firstChild,bud); } var old=overPage.querySelector('.tb-heads'); if(old) old.remove(); var h=headsUpHtml(legsOf(plan),plan.from,false); if(!h) return;
     var tmp=document.createElement('div'); tmp.innerHTML=h; var anchor=overPage.querySelector('.tb-sum'); if(anchor&&anchor.nextSibling) anchor.parentNode.insertBefore(tmp.firstChild,anchor.nextSibling); else overPage.insertBefore(tmp.firstChild,overPage.firstChild); }
   // ---- Day trips and tickets: ideas for this city, bookable on Klook, addable to the day ----
   function dayTripsCard(n){ if(!plan||!window.tbKlook) return; var d=plan.days[n-1]; if(!d) return; var ck=d.city||plan.city, c=IT[ck]; if(!c||c.custom) return;
@@ -1929,7 +2023,7 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
     var box=document.createElement('div'); box.className='tb-card tb-dtrips';
     box.innerHTML='<h2>&#127903;&#65039; Day trips and tickets from '+esc(nm)+'</h2><div class="tb-s">Add one to this day, or book it on Klook (opens Klook in a new tab).</div><div class="tb-dtl">'+
       ideas.map(function(x,i){ return '<div class="tb-dt1"><div><b>'+esc(x[0])+'</b><small>'+esc(x[1])+'</small></div><div class="tb-dtb"><button type="button" class="tb-cta ghost" data-dtadd="'+i+'">&#10133; Add to Day '+n+'</button><a class="tb-cta tb-klook" target="_blank" rel="noopener" href="'+esc(window.tbKlook(x[0]+' '+nm))+'">Book on Klook</a></div></div>'; }).join('')+
-      '</div><a class="tb-cta ghost tb-klookall" target="_blank" rel="noopener" href="'+esc(window.tbKlook(nm+' day trip'))+'">&#128269; See all '+esc(nm)+' day trips on Klook</a>';
+      '</div><div class="tb-btns"><a class="tb-cta ghost tb-klookall" target="_blank" rel="noopener" href="'+esc(window.tbKlook(nm+' day trip'))+'">&#128269; See all '+esc(nm)+' day trips on Klook</a><button type="button" class="tb-cta tb-kaddday" data-kadd="1" data-kday="'+n+'">&#10133; I booked on Klook, add it to Day '+n+'</button></div>';
     var anchor=dayPage.querySelector('.tb-map')||dayPage.querySelector('.tb-day'); if(anchor&&anchor.parentNode) anchor.parentNode.insertBefore(box,anchor.nextSibling); else dayPage.appendChild(box);
     box.querySelectorAll('[data-dtadd]').forEach(function(b){ b.onclick=function(e){ e.stopPropagation(); if(plan.example||(plan.shared&&!plan.shared.ek)) return; var x=ideas[+b.getAttribute('data-dtadd')];
       d.add=d.add||[]; if(!d.add.some(function(a){ return a[0]===x[0]; })) d.add.push([x[0],x[1].replace(/^🔥 Trending: /,''),null]); if(!d.base) d.base=d.i; d.i=adjustDay(d,ck).items; savePlans(); renderDayPage(n); liveToast('✅ Added '+x[0]+' to Day '+n,1); }; }); }
