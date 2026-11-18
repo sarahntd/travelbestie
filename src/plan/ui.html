@@ -284,6 +284,9 @@ html[data-theme="dark"] .sg-wrap .sg-tabs .tb-swipe{background:#2A2148;border-co
 .tb-picko.sel{font-weight:800;color:#7B4FD6}
 .tb-picko small{opacity:.6;margin-left:6px;font-weight:500}
 .tb-pickn{padding:10px;font-size:13.5px;color:#8A72C9}
+.tb-picko.tb-pickadd{margin-top:4px;border:1.5px dashed #B79CFF;font-weight:800;color:#7B4FD6}
+.tb-picko.tb-pickadd small{display:block;margin:2px 0 0;font-weight:500;opacity:.75}
+html[data-theme="dark"] .tb-picko.tb-pickadd{border-color:#6A55B0;color:#D9CCFF}
 html[data-theme="dark"] .tb-pickbtn{background:#2A2148;border-color:#45386F;color:#ECE6FF}
 html[data-theme="dark"] .tb-pickp{background:#1E1736;border-color:#45386F}
 html[data-theme="dark"] .tb-picks{background:#2A2148;border-color:#45386F;color:#FFFFFF}
@@ -307,16 +310,19 @@ html[data-theme="dark"] .tb-pickg{color:#F2A7D4}
     function draw(){ var q=norm(inp.value.trim()), all=items(), last=null, h='', n=0;
       all.forEach(function(it){ if(q&&norm(it.t+' '+it.g).indexOf(q)<0) return; if(it.g!==last){ last=it.g; if(it.g) h+='<span class="tb-pickg">'+it.g+'</span>'; }
         h+='<button type="button" role="option" class="tb-picko'+(it.v===sel.value?' sel':'')+'" data-v="'+it.v.replace(/"/g,'&quot;')+'">'+it.t+(q&&it.g?'<small>'+it.g+'</small>':'')+'</button>'; n++; });
-      list.innerHTML=n?h:'<div class="tb-pickn">'+(ID?'Tidak ketemu. Pilih "Tempat lain" untuk mengetik sendiri.':'No match. Choose "Somewhere else" to type your own.')+'</div>'; act=-1; }
+      var raw=inp.value.trim(), canAdd=raw.length>=2&&[].some.call(sel.options,function(o){ return o.value==='__other'; })&&!all.some(function(it){ return norm(it.t)===q; });
+      var add=canAdd?'<button type="button" role="option" class="tb-picko tb-pickadd" data-v="__other" data-name="'+raw.replace(/"/g,'&quot;')+'">&#10133; '+(ID?'Rencanakan trip ke':'Plan a trip to')+' &ldquo;'+raw.replace(/</g,'&lt;')+'&rdquo;<small>'+(ID?'kami riset tempatnya untukmu':'we\'ll research it for you')+'</small></button>':'';
+      list.innerHTML=(n?h:'')+add+(n||add?'':'<div class="tb-pickn">'+(ID?'Ketik nama tempat tujuanmu.':'Type the place you\'re going.')+'</div>'); if(!n&&add){ act=-1; } else act=-1; }
     function open(){ if(box.classList.contains('open')) return; document.querySelectorAll('.tb-pick.open').forEach(function(x){ if(x!==box) x.__close(); }); box.classList.add('open'); btn.setAttribute('aria-expanded','true'); inp.value=''; draw(); setTimeout(function(){ inp.focus(); var s=list.querySelector('.sel'); if(s) s.scrollIntoView({block:'center'}); },0); }
     function close(){ box.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
     box.__close=close;
-    function choose(v){ close(); if(v!==sel.value){ sel.value=v; sel.dispatchEvent(new Event('change',{bubbles:true})); } label(); btn.focus(); }
+    function choose(v,name){ close(); if(v!==sel.value){ sel.value=v; sel.dispatchEvent(new Event('change',{bubbles:true})); } label();
+      if(v==='__other'&&name){ var form=box.closest('.tb-form')||document, on=form.querySelector('.tb-oname'); if(on){ on.value=name; on.dispatchEvent(new Event('input',{bubbles:true})); setTimeout(function(){ var oc=form.querySelector('.tb-octry'); if(oc) oc.focus(); },50); } } else btn.focus(); }
     btn.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); box.classList.contains('open')?close():open(); });
     inp.addEventListener('input',draw);
     inp.addEventListener('keydown',function(e){ var os=list.querySelectorAll('.tb-picko'); if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); if(!os.length) return; act=(act+(e.key==='ArrowDown'?1:-1)+os.length)%os.length; os.forEach(function(o,i){ o.classList.toggle('act',i===act); }); os[act].scrollIntoView({block:'nearest'}); }
-      else if(e.key==='Enter'){ e.preventDefault(); var o=os[act>=0?act:0]; if(o) choose(o.getAttribute('data-v')); } else if(e.key==='Escape'){ close(); btn.focus(); } });
-    list.addEventListener('click',function(e){ var o=e.target.closest('.tb-picko'); if(o){ e.stopPropagation(); choose(o.getAttribute('data-v')); } });
+      else if(e.key==='Enter'){ e.preventDefault(); var o=os[act>=0?act:0]; if(o) choose(o.getAttribute('data-v'),o.getAttribute('data-name')); } else if(e.key==='Escape'){ close(); btn.focus(); } });
+    list.addEventListener('click',function(e){ var o=e.target.closest('.tb-picko'); if(o){ e.stopPropagation(); choose(o.getAttribute('data-v'),o.getAttribute('data-name')); } });
     pan.addEventListener('click',function(e){ e.stopPropagation(); });
     // keep the button in sync when the planner changes the select itself
     var d=Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype,'value'); Object.defineProperty(sel,'value',{get:function(){ return d.get.call(this); },set:function(v){ d.set.call(this,v); label(); },configurable:true});
