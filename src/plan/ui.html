@@ -421,7 +421,7 @@ html[data-theme="dark"] .sg-wrap .wl-i{background:#3A2F60!important;color:#FFFFF
   // mute button next to Light/Dark
   function addBtn(){ var box=document.querySelector('.sg-wrap .sg-tabs .tb-tools'); if(!box||box.querySelector('.tb-sound')) return;
     var a=document.createElement('a'); a.href='#'; a.setAttribute('role','button'); a.className='tb-tool tb-sound';
-    function paint(){ var o=on(); a.innerHTML=o?'&#128266;':'&#128263;'; a.setAttribute('aria-label',o?'Sound on (tap to mute)':'Sound off (tap to turn on)'); a.title=a.getAttribute('aria-label'); }
+    function paint(){ var o=on(); a.innerHTML=o?'&#128266; <b class="tb-mon">On</b>':'&#128263;'; a.classList.toggle('on',o); a.setAttribute('aria-pressed',o); a.setAttribute('aria-label',o?'Sound on (tap to mute)':'Sound off (tap to turn on)'); a.title=a.getAttribute('aria-label'); }
     a.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); try{ localStorage.setItem(KEY,on()?'off':'on'); }catch(x){} paint(); window.tbSfx('toggle'); },true);
     paint(); box.insertBefore(a,box.firstChild); }
   addBtn(); setTimeout(addBtn,600);
@@ -434,4 +434,79 @@ html[data-theme="dark"] .sg-wrap .wl-i{background:#3A2F60!important;color:#FFFFF
 <script>
 /* the new design is drawn: show the page (two frames later, so the swap is never visible) */
 (function(){ function show(){ document.documentElement.classList.remove('tb-loading'); } requestAnimationFrame(function(){ requestAnimationFrame(show); }); setTimeout(show,250); })();
+</script>
+<style>
+/* the old example plan's page arrows ("Up next: Day 1 ...") sit directly in the page; your own plans use their own */
+.sg-wrap > .sg-pnav{display:none!important}
+</style>
+<script>
+/* ---- background music: a soft, upbeat travel loop made live in the browser (free, no files) ---- */
+(function(){
+  var KEY='tbMusic', ctx=null, master=null, delay=null, timer=null, step=0, nextT=0, playing=false;
+  var BPM=92, S16=60/BPM/4;
+  // Cmaj9 - Am7 - Fmaj7 - G6sus: warm, bright and calm
+  var CH=[[48,55,59,62,64],[45,52,55,60,64],[41,48,52,57,64],[43,50,55,57,62]];
+  var ARP=[0,2,3,4,3,2,1,2, 0,2,4,3,2,4,3,1];
+  function hz(n){ return 440*Math.pow(2,(n-69)/12); }
+  function on(){ try{ return localStorage.getItem(KEY)!=='off'; }catch(e){ return true; } } // on unless the visitor turned it off
+  function init(){ if(ctx) return; var A=window.AudioContext||window.webkitAudioContext; if(!A) return; ctx=new A();
+    master=ctx.createGain(); master.gain.value=0; var comp=ctx.createDynamicsCompressor(); master.connect(comp); comp.connect(ctx.destination);
+    delay=ctx.createDelay(1); delay.delayTime.value=S16*3; var fb=ctx.createGain(); fb.gain.value=0.32; var dl=ctx.createBiquadFilter(); dl.type='lowpass'; dl.frequency.value=2200;
+    delay.connect(dl); dl.connect(fb); fb.connect(delay); dl.connect(master); }
+  function pad(notes,t,dur){ notes.slice(0,4).forEach(function(n,i){ [0,7].forEach(function(det){ var o=ctx.createOscillator(), g=ctx.createGain(), f=ctx.createBiquadFilter();
+    o.type=i===0?'sine':'triangle'; o.frequency.value=hz(n+(i===0?-12:0)); o.detune.value=det; f.type='lowpass'; f.frequency.value=900;
+    g.gain.setValueAtTime(0.0001,t); g.gain.linearRampToValueAtTime(i===0?0.07:0.028,t+0.6); g.gain.setValueAtTime(i===0?0.07:0.028,t+dur-0.5); g.gain.linearRampToValueAtTime(0.0001,t+dur);
+    o.connect(f); f.connect(g); g.connect(master); o.start(t); o.stop(t+dur+0.05); }); }); }
+  function pluck(n,t,v){ var o=ctx.createOscillator(), g=ctx.createGain(); o.type='sine'; o.frequency.value=hz(n+12);
+    g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(v,t+0.01); g.gain.exponentialRampToValueAtTime(0.0001,t+0.5);
+    o.connect(g); g.connect(master); g.connect(delay); o.start(t); o.stop(t+0.55); }
+  function kick(t){ var o=ctx.createOscillator(), g=ctx.createGain(); o.frequency.setValueAtTime(110,t); o.frequency.exponentialRampToValueAtTime(42,t+0.18);
+    g.gain.setValueAtTime(0.22,t); g.gain.exponentialRampToValueAtTime(0.0001,t+0.25); o.connect(g); g.connect(master); o.start(t); o.stop(t+0.3); }
+  var noiseBuf=null; function shaker(t,v){ if(!noiseBuf){ noiseBuf=ctx.createBuffer(1,ctx.sampleRate*0.1,ctx.sampleRate); var d=noiseBuf.getChannelData(0); for(var i=0;i<d.length;i++) d[i]=Math.random()*2-1; }
+    var s=ctx.createBufferSource(), f=ctx.createBiquadFilter(), g=ctx.createGain(); s.buffer=noiseBuf; f.type='highpass'; f.frequency.value=6500;
+    g.gain.setValueAtTime(v,t); g.gain.exponentialRampToValueAtTime(0.0001,t+0.06); s.connect(f); f.connect(g); g.connect(master); s.start(t); s.stop(t+0.08); }
+  function sched(){ while(nextT<ctx.currentTime+0.25){ var bar=Math.floor(step/16)%4, s16=step%16, ch=CH[bar], t=nextT;
+      if(s16===0) pad(ch,t,S16*16+0.3);
+      if(s16%2===0){ var idx=ARP[(s16+(bar%2?3:0))%16]; pluck(ch[idx%ch.length],t,s16%8===0?0.06:0.04); }
+      if(s16===0||s16===8) kick(t);
+      if(s16%4===2) shaker(t,0.05); else if(s16%2===1) shaker(t,0.018);
+      step++; nextT+=S16; } }
+  function start(){ init(); if(!ctx) return; if(ctx.state==='suspended') ctx.resume(); if(playing) return; playing=true; step=0; nextT=ctx.currentTime+0.1;
+    master.gain.cancelScheduledValues(ctx.currentTime); master.gain.setValueAtTime(master.gain.value,ctx.currentTime); master.gain.linearRampToValueAtTime(0.55,ctx.currentTime+2.5);
+    timer=setInterval(sched,80); sched(); }
+  function stop(){ if(!ctx||!playing) return; playing=false; master.gain.cancelScheduledValues(ctx.currentTime); master.gain.setValueAtTime(master.gain.value,ctx.currentTime); master.gain.linearRampToValueAtTime(0,ctx.currentTime+0.8);
+    setTimeout(function(){ if(!playing){ clearInterval(timer); timer=null; } },900); }
+  document.addEventListener('visibilitychange',function(){ if(!ctx) return; if(document.hidden){ if(playing) ctx.suspend(); } else if(playing) ctx.resume(); });
+  // 🎵 button next to the sound button
+  function addBtn(){ var box=document.querySelector('.sg-wrap .sg-tabs .tb-tools'); if(!box||box.querySelector('.tb-music')) return;
+    var a=document.createElement('a'); a.href='#'; a.setAttribute('role','button'); a.className='tb-tool tb-music';
+    function paint(){ var o=playing||(on()&&!stoppedByUser); a.innerHTML=o?'&#127925; <b class="tb-mon">On</b>':'&#127925;'; a.setAttribute('aria-pressed',o); a.setAttribute('aria-label',o?'Background music on (tap to stop)':'Play background music'); a.title=a.getAttribute('aria-label'); a.classList.toggle('on',o); }
+    a.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); if(playing||on()){ stop(); stoppedByUser=true; try{ localStorage.setItem(KEY,'off'); }catch(x){} } else { stoppedByUser=false; start(); try{ localStorage.setItem(KEY,'on'); }catch(x){} } paint(); },true);
+    paint(); box.insertBefore(a,box.firstChild); window.tbMusicPaint=paint; }
+  addBtn(); setTimeout(addBtn,600);
+  // Music is on by default. Browsers only allow sound after the visitor's first tap, click or key,
+  // so it starts then (and right away if the browser already allows it). Tapping 🎵 turns it off.
+  var stoppedByUser=false;
+  if(on()){
+    var first=function(e){ if(e&&e.target&&e.target.closest&&e.target.closest('.tb-music')) return cleanup(); cleanup(); if(on()&&!stoppedByUser){ start(); if(window.tbMusicPaint) window.tbMusicPaint(); } };
+    var cleanup=function(){ ['pointerdown','keydown','touchstart'].forEach(function(ev){ window.removeEventListener(ev,first,true); }); };
+    ['pointerdown','keydown','touchstart'].forEach(function(ev){ window.addEventListener(ev,first,true); });
+    try{ init(); if(ctx&&ctx.state==='running'){ cleanup(); start(); } else if(ctx){ ctx.resume().then(function(){ if(ctx.state==='running'&&!playing&&!stoppedByUser){ cleanup(); start(); if(window.tbMusicPaint) window.tbMusicPaint(); } }).catch(function(){}); } }catch(e){}
+  }
+  window.tbMusic={start:start,stop:stop,playing:function(){ return playing; }};
+})();
+</script>
+<style>
+.sg-wrap .sg-tabs .tb-sound.on,.sg-wrap .sg-tabs .tb-music.on{background:linear-gradient(120deg,#7B4FD6,#E58CC6)!important;border-color:transparent!important;color:#FFFFFF!important}
+.sg-wrap .sg-tabs .tb-sound .tb-mon,.sg-wrap .sg-tabs .tb-music .tb-mon{font-weight:800;color:inherit!important}
+</style>
+<script>
+/* one Backup button: opens Save / Load */
+(function(){
+  window.addEventListener('click',function(e){ var b=e.target.closest&&e.target.closest('.tb-bkbtn');
+    document.querySelectorAll('.tb-bkmenu').forEach(function(m){ var mine=b&&m.parentNode===b.parentNode; if(!mine&&!(e.target.closest&&e.target.closest('.tb-bkmenu'))){ m.hidden=true; var bb=m.parentNode.querySelector('.tb-bkbtn'); if(bb) bb.setAttribute('aria-expanded','false'); } });
+    if(b){ e.preventDefault(); var m=b.parentNode.querySelector('.tb-bkmenu'); m.hidden=!m.hidden; b.setAttribute('aria-expanded',!m.hidden); }
+    else if(e.target.closest&&e.target.closest('.tb-bkmenu [data-backup]')){ var m2=e.target.closest('.tb-bkmenu'); setTimeout(function(){ m2.hidden=true; },0); } },true);
+  document.addEventListener('change',function(e){ if(e.target.closest&&e.target.closest('.tb-bkmenu')){ var m=e.target.closest('.tb-bkmenu'); m.hidden=true; } },true);
+})();
 </script>

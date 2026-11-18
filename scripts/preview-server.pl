@@ -19,7 +19,7 @@ sub build {
     . "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n"
     . "<script>window.__tbHash=location.hash;</script>\n"
     . slurp("$root/src/plan/head.html") . "\n</head>\n<body>\n"
-    . slurp("$root/src/plan/body.html") . join("", map { -f "$root/src/plan/$_" ? slurp("$root/src/plan/$_") : "" } qw(itineraries.html more.html live.html destinations.html ui.html)) . "\n</body>\n</html>\n";
+    . slurp("$root/src/plan/body.html") . join("", map { -f "$root/src/plan/$_" ? slurp("$root/src/plan/$_") : "" } qw(itineraries.html more.html events.html live.html destinations.html ui.html helper.html)) . "\n</body>\n</html>\n";
   mkdir "$root/preview" unless -d "$root/preview";
   open(my $o, '>:raw', "$root/preview/index.html") or die $!; print $o $html; close $o;
   return $html;

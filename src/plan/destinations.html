@@ -511,6 +511,31 @@ html[data-theme="dark"] .sg-wrap .tb-cn .tb-trend{background:#4A2245;color:#FFD3
 .sg-wrap .tb-fitbtn{background:linear-gradient(120deg,#B0407F,#E58CC6)!important;font-size:15px;padding:11px 20px}
 .tb-fit small{font-size:12.5px;color:#7B4FD6}
 .vs-set .vs-x{display:block;font-size:10.5px;font-weight:600;letter-spacing:0;text-transform:none;opacity:.8}
+.dz-tag .dz-nick{display:block;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:700;font-size:20px;color:#B0407F;margin-bottom:2px}
+.dz-tag .dz-line{display:block}
+html[data-theme="dark"] .dz-tag .dz-nick{color:#F2A7D4}
+.tb-heads{border-radius:16px;padding:12px 14px;margin:10px 0 14px;background:#F3EEFF;border:1.5px solid #E4D9FF;color:#3E2A6B;font-size:14px}
+.tb-heads.warn{background:#FFF4E5;border-color:#F5C36B;color:#5A3A00}
+.tb-heads .tb-hh{display:block;font-size:15px;margin-bottom:4px}
+.tb-heads ul{margin:4px 0;padding-left:18px}.tb-heads li{margin:4px 0}.tb-heads li span{opacity:.9}
+.tb-heads .tb-hok{margin-top:6px;font-size:13px}
+.tb-hrules{margin-top:8px}.tb-hrules summary{cursor:pointer;font-weight:700}
+html[data-theme="dark"] .tb-heads{background:#2A2148;border-color:#45386F;color:#ECE6FF}
+html[data-theme="dark"] .tb-heads.warn{background:#3F2E14;border-color:#8A6A2A;color:#FFE9C2}
+.tb-dtl{display:grid;gap:8px;margin:8px 0 10px}
+.tb-dt1{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;border:1.5px solid #EDE5FF;border-radius:14px;padding:10px 12px}
+.tb-dt1 b{display:block;color:#4A1FA0}.tb-dt1 small{display:block;color:#7B4FD6;font-size:12.5px}
+.tb-dtb{display:flex;gap:6px;flex-wrap:wrap}
+.sg-wrap .tb-dtb .tb-cta,.sg-wrap .tb-klookall{font-size:13px!important;padding:7px 12px!important;text-decoration:none}
+.sg-wrap .tb-klook{background:linear-gradient(120deg,#FF5B00,#FF8A3D)!important;color:#FFFFFF!important}
+.sg-wrap .tb-klookbtn{margin-left:8px;text-decoration:none}
+.tb-trendc{border:1.5px solid #F5A3C8!important;background:#FFF2F8!important}
+.tb-trendc h3 small{font-weight:500;font-size:12px;opacity:.8}
+.tb-trendc a{color:#FF5B00;font-weight:700}
+html[data-theme="dark"] .tb-dt1{border-color:#3A2F60}
+html[data-theme="dark"] .tb-dt1 b{color:#FFFFFF}html[data-theme="dark"] .tb-dt1 small{color:#BBA8F0}
+html[data-theme="dark"] .tb-trendc{background:#3A1F35!important;border-color:#8A3D6A!important}
+html[data-theme="dark"] .tb-trendc a{color:#FFB27A}
 .tb-fitw{display:flex;flex-direction:column;gap:2px;width:100%;box-sizing:border-box;border-radius:14px;padding:10px 14px;font-size:14px}
 .tb-fitw.over{background:#FFE9EC;border:1.5px solid #F5A3B0;color:#8A1C33}
 .tb-fitw.near{background:#FFF6DB;border:1.5px solid #F2D27A;color:#6B4E00}
@@ -911,6 +936,16 @@ html[data-theme="dark"] .tb-fbstars button{color:#4A3D7A!important}
 html[data-theme="dark"] .tb-fbstars button.on{color:#F2C14E!important}
 html[data-theme="dark"] .tb-fbmsgout.good{color:#7EE2A8}html[data-theme="dark"] .tb-fbmsgout.bad{color:#FF9A8B}
 html[data-theme="dark"] .tb-fbpriv{color:#BBA8F0}
+.tb-bkwrap{position:relative;display:inline-flex}
+.tb-bkmenu{position:absolute;left:0;top:calc(100% + 6px);z-index:70;min-width:250px;background:#FFFFFF;border:2px solid #E4D9FF;border-radius:16px;padding:6px;box-shadow:0 14px 34px rgba(62,42,107,.25)}
+.tb-bkmenu[hidden]{display:none}
+.sg-wrap .tb-bkmenu :is(button,label){display:flex;flex-direction:column;align-items:flex-start;gap:1px;width:100%;box-sizing:border-box;text-align:left;font:700 14px "Plus Jakarta Sans",system-ui,sans-serif;color:#4A1FA0!important;background:transparent;border:0;border-radius:12px;padding:9px 12px;cursor:pointer}
+.sg-wrap .tb-bkmenu :is(button,label):hover{background:#F3EEFF}
+.sg-wrap .tb-bkmenu small{font-weight:500;font-size:12px;color:#8A72C9!important}
+html[data-theme="dark"] .tb-bkmenu{background:#1E1736;border-color:#45386F}
+html[data-theme="dark"] .sg-wrap .tb-bkmenu :is(button,label){color:#FFFFFF!important}
+html[data-theme="dark"] .sg-wrap .tb-bkmenu :is(button,label):hover{background:#2A2148}
+html[data-theme="dark"] .sg-wrap .tb-bkmenu small{color:#BBA8F0!important}
 .tb-robar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13.5px;color:#4A1FA0;background:#F3EEFF;border:1.5px solid #E4D9FF;border-radius:14px;padding:8px 12px;margin:0 0 10px}
 .tb-robar .tb-cta{font-size:12.5px!important;padding:5px 12px!important;margin-left:auto}
 .sg-wrap.tb-ro :is([data-plan-edit],[data-adj-open],.tb-gm button,[data-fit],[data-rleg],[data-rlegx],.tb-route button,.tb-route select,[data-drag],[data-cost]){pointer-events:none;opacity:.5}
@@ -1165,7 +1200,15 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
     ['Travel far enough, you meet yourself.','Bepergianlah cukup jauh, dan kamu akan bertemu dirimu sendiri.','David Mitchell'],
     ['Once a year, go someplace you\'ve never been before.','Sekali setahun, pergilah ke tempat yang belum pernah kamu kunjungi.','Dalai Lama']
   ];
-  if(window.__tbQ==null) window.__tbQ=Math.floor(Math.random()*TBQ.length);
+  // a different quote on every visit, refresh and return to Home (never the same one twice in a row)
+  window.tbNextQuote=function(){ var last=-1; try{ last=+(localStorage.getItem('tbLastQ')||-1); }catch(e){} var i=Math.floor(Math.random()*(TBQ.length-1)); if(i>=last&&last>=0) i++; i=i%TBQ.length; window.__tbQ=i; try{ localStorage.setItem('tbLastQ',i); }catch(e){} return i; };
+  window.tbNextQuote();
+  // coming back to Home (menu, Back button or link) shows a fresh quote
+  var lastWasHome=true;
+  window.addEventListener('hashchange',function(){ var h=location.hash, home=(!h||h==='#home'||h==='#');
+    if(home&&!lastWasHome){ window.tbNextQuote(); var fq=document.querySelector('.sg-wrap .sg-welcome .wl-q'); if(fq) fq.outerHTML=window.tbQuoteHtml(LANG==='id'?'id':'en'); }
+    lastWasHome=home; });
+  lastWasHome=!(window.__tbHash||location.hash)||/^#home$/.test(window.__tbHash||location.hash);
   window.tbQuoteHtml=function(lang){ var q=TBQ[window.__tbQ]; return '<figure class="wl-q"><div class="wl-hi">&ldquo;'+(lang==='id'?q[1]:q[0])+'&rdquo;</div><figcaption class="wl-by">&mdash; '+q[2]+'</figcaption></figure>'; };
   var wel=wrap.querySelector('.sg-welcome');
   // "How it works": one tutorial used on Home and on its own page (Home ▾ > How it works)
@@ -1204,6 +1247,8 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
   holder.querySelectorAll('.sg-dest .sg-sec[id]').forEach(function(sec){
     var c=CITYSEC[sec.id]; if(!c||!IT[c]) return;
     var h=sec.querySelector('h2'); if(h) h.setAttribute('data-plan-city',c);
+    var tr=(window.TB_TRENDING||{})[c]; if(tr){ var tc=document.createElement('div'); tc.className='sg-card tb-trendc'; tc.innerHTML='<h3>&#128293; Trending now <small>('+esc(window.TB_TRENDING_AT||'')+')</small></h3><div class="sg-meta"><ul>'+tr.map(function(t){ return '<li><b>'+esc(t[0])+'</b>: '+esc(t[1])+(t[2]&&window.tbKlook?' <a target="_blank" rel="noopener" href="'+esc(window.tbKlook(t[2]))+'">Tickets on Klook</a>':'')+'</li>'; }).join('')+'</ul></div>'; var fc=sec.querySelector('.sg-card'); sec.insertBefore(tc,fc||null); }
+    if(window.tbKlook){ var kl=document.createElement('a'); kl.className='tb-cta ghost tb-klookbtn'; kl.target='_blank'; kl.rel='noopener'; kl.href=window.tbKlook(IT[c].name.replace(/ \(.*\)$/,'')+' day trip'); kl.innerHTML='&#127903;&#65039; Day trips and tickets on Klook'; sec.appendChild(kl); }
     var b=document.createElement('button'); b.type='button'; b.className='tb-cta'; b.setAttribute('data-plan-city',c); b.innerHTML='&#10024; Plan your trip to '+esc(IT[c].name.replace(/ \(.*\)$/,''));
     sec.appendChild(b);
   });
@@ -1248,6 +1293,7 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
     if(cl&&cl.alt) return [cl.alt[0]||x[0],cl.alt[1],cl.alt[2],cl.n];
     return [x[0],x[1],x[2],(cl||hits[0]).n];
   }
+  function tagOf(k){ var t=(window.TB_TAGLINE||{})[k]; return t?'<span class="dz-nick">&ldquo;'+esc(t[0])+'&rdquo;</span><span class="dz-line">'+esc(t[1])+'</span>':'Set your dates and style, and we\'ll build your days.'; }
   function buildDays(cityKey,n,from){
     var c=IT[cityKey], out=[];
     for(var i=0;i<n;i++){
@@ -1269,23 +1315,39 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
   function linkOf(a,b){ var k=LINKS[a+'|'+b]||LINKS[b+'|'+a]; if(k) return k; var ca=IT[a]&&IT[a].country, cb=IT[b]&&IT[b].country; return (ca&&ca===cb&&ca!=='other')?['✈️','Domestic flight, train or long-distance bus; compare times and prices',180]:['✈️','International flight; check routes, baggage and visa rules',240]; }
   function cityOptions(){ return D.map(function(d){ return '<optgroup label="'+d[2]+'">'+cityList().filter(function(x){ return x[1].country===d[0]; }).map(function(x){ return '<option value="'+x[0]+'">'+esc(x[1].name)+'</option>'; }).join('')+'</optgroup>'; }).join(''); }
   // build all days of a route; days that already exist (same city, same place in the route) keep your changes
-  function makeDays(legs,from,old){
-    var out=[], di=0, oldMap={};
+  // trip goals that change how days are paced: "no early mornings", "relaxed", "packed", "sunrise"...
+  function goalPrefs(g){ g=String(g||'').toLowerCase(); var p={};
+    if(/no early|not early|late start|sleep in|lie in|bangun siang|tidak pagi|gak pagi|nggak pagi/.test(g)) p.start=600;
+    else if(/sunrise|early bird|early start|pagi-pagi|subuh/.test(g)) p.start=420;
+    if(/relax|slow|chill|easy|santai|lazy|honeymoon|with kids|toddler|elderly|parents|orang tua|anak kecil|bayi/.test(g)) p.pace='relaxed';
+    else if(/packed|see everything|as much as|max|padat|banyak tempat|semua tempat/.test(g)) p.pace='packed';
+    return p; }
+  // Rebuild the days from the current settings. A day keeps your own edits only if it is still the same
+  // city on the same date; otherwise it is planned again for its new date (season, opening days), keeping
+  // your preferences (start/end time, pace, skipped, added and renamed stops).
+  var lastRebuild=null;
+  function makeDays(legs,from,old,goals){
+    var out=[], di=0, oldMap={}, stat={kept:0,replanned:0,fresh:0}, gp=goalPrefs(goals!=null?goals:(plan&&plan.goals));
     (old||[]).forEach(function(d){ if(d&&d.legKey) oldMap[d.legKey]=d; });
     legs.forEach(function(l,li){
       var built=buildDays(l.city,l.days,isoOf(addDays(from,di)));
       built.forEach(function(d,k){
-        var key=li+'|'+l.city+'|'+k+(li>0&&k===0?'|from:'+legs[li-1].city:'');
-        if(oldMap[key]){ out.push(oldMap[key]); return; }
-        d.city=l.city; d.legKey=key;
+        var key=li+'|'+l.city+'|'+k+(li>0&&k===0?'|from:'+legs[li-1].city:''), date=isoOf(addDays(from,di+k)), o=oldMap[key];
+        if(o&&o.date===date&&!(goals!=null&&o.goalsUsed!==String(goals||'')&&!o.pace&&o.start==null)){ out.push(o); stat.kept++; return; }
+        d.city=l.city; d.legKey=key; d.date=date; d.goalsUsed=String(goals!=null?goals:((plan&&plan.goals)||''));
+        if(o){ ['start','end','pace','skip','add','ren'].forEach(function(f){ if(o[f]!=null&&!(f==='pace'&&o.paceFromGoals)&&!(f==='start'&&o.startFromGoals)) d[f]=JSON.parse(JSON.stringify(o[f])); }); stat.replanned++; } else stat.fresh++;
+        if(d.pace==null&&gp.pace){ d.pace=gp.pace; d.paceFromGoals=true; }
+        if(d.start==null&&gp.start!=null){ d.start=gp.start; d.startFromGoals=true; }
         if(li>0&&k===0){ var lk=linkOf(legs[li-1].city,l.city), prev=shortName(legs[li-1].city), nm=shortName(l.city);
           d.t='Travel day: '+prev+' → '+nm; d.travel={from:legs[li-1].city,to:l.city,icon:lk[0],how:lk[1],mins:lk[2]};
           var items=[["8:00 AM",nm,"Travel from "+prev+": "+lk[1]]].concat(d.i);
           d.base=items; d.durs=[lk[2]+60].concat(d.i.map(function(){ return 90; })); d.manual=true; d.start=480; d.end=1320; d.i=items;
           d.tip='Travel day: allow time to check out, get to the station or airport, and check in.'; }
+        else if(d.pace||d.start!=null||d.end!=null||(d.skip&&d.skip.length)||(d.add&&d.add.length)||(d.ren&&Object.keys(d.ren).length)){ d.base=d.i; d.i=adjustDay(d,d.city).items; }
         out.push(d); });
       di+=l.days; });
     out.forEach(function(d){ if(d.manual&&d.travel&&d.base&&!d.durs.__done) d.i=adjustDay(d,d.city).items; });
+    lastRebuild={kept:stat.kept,replanned:stat.replanned,fresh:stat.fresh,goals:gp};
     return out;
   }
   // ---- renderers ----
@@ -1352,7 +1414,7 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
     var to=same?ed.to:isoOf(addDays(from,Math.min(4,c.days.length)-1));
     var modesSel=same?modesOf(ed):['transit'], curc=same?ed.cur:(CTYCUR[c.country]||'SGD'), budget=same&&ed.budget?plan.budget:'';
     var groups=D.map(function(d){ return '<optgroup label="'+d[2]+'">'+cityList().filter(function(x){ return x[1].country===d[0]; }).map(function(x){ return '<option value="'+x[0]+'"'+(x[0]===city?' selected':'')+'>'+esc(x[1].name)+'</option>'; }).join('')+'</optgroup>'; }).join('')+'<optgroup label="Not on the list?"><option value="__other"'+(isOther?' selected':'')+'>&#9999;&#65039; Somewhere else&hellip;</option></optgroup>';
-    planPage.innerHTML='<div class="dz-hero"><div class="dz-flag" aria-hidden="true">&#10024;</div><div class="dz-k">'+(ed?'Edit your trip':'Plan your trip')+'</div><h1 class="dz-t">'+esc(c.name.replace(/ \(.*\)$/,''))+'</h1><div class="dz-tag">Set your dates and style, and we\'ll build your days.</div></div>'+
+    planPage.innerHTML='<div class="dz-hero"><div class="dz-flag" aria-hidden="true">&#10024;</div><div class="dz-k">'+(ed?'Edit your trip':'Plan your trip')+'</div><h1 class="dz-t">'+esc(c.name.replace(/ \(.*\)$/,''))+'</h1><div class="dz-tag">'+tagOf(city)+'</div></div>'+
       '<div class="tb-form">'+
       '<div class="tb-f"><label for="tbCity">Where to</label><select id="tbCity" class="tb-city">'+groups+'</select>'+
         '<div class="tb-other"'+(isOther?'':' hidden')+'><input type="text" class="tb-oname" maxlength="60" placeholder="City or place, e.g. Siem Reap" value="'+esc(isOther?ed&&ed.custom?ed.custom.name:'':'')+'"><input type="text" class="tb-octry" maxlength="40" placeholder="Country, e.g. Cambodia" value="'+esc(isOther&&ed&&ed.custom?ed.custom.country:'')+'"><small>We don\'t have a ready-made plan here yet, so your days start empty. Add your own stops with &#10024; Adjust this day.</small></div>'+
@@ -1361,7 +1423,7 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
       '<div class="tb-f"><label for="tbGoals">Your trip goals (optional)</label><textarea id="tbGoals" class="tb-goals" rows="3" maxlength="600" placeholder="e.g. Honeymoon, love sunsets and seafood, halal food only, not too many early mornings, want one spa day.">'+esc(same&&ed.goals||'')+'</textarea></div>'+
       '<div class="tb-f tb-datef"><span class="tb-l">Dates</span><input type="hidden" class="tb-from" value="'+from+'"><input type="hidden" class="tb-to" value="'+to+'">'+
       '<div class="tb-dates"><button type="button" class="tb-dbtn" data-pick="from"><b>From</b> <span></span> <i aria-hidden="true">&#9660;</i></button><button type="button" class="tb-dbtn" data-pick="to"><b>End trip</b> <span></span> <i aria-hidden="true">&#9660;</i></button></div>'+
-      '<div class="tb-cal" role="dialog" aria-label="Choose your dates"></div><div class="tb-dn"></div></div>'+
+      '<div class="tb-cal" role="dialog" aria-label="Choose your dates"></div><div class="tb-dn"></div></div><div class="tb-evwarn" aria-live="polite"></div>'+
       '<div class="tb-f"><span class="tb-l">Travellers</span><div class="tb-ppl"><button type="button" data-p="-1" aria-label="Fewer travellers">&minus;</button><b class="tb-pn">'+(same&&ed.people?plan.people:1)+'</b><button type="button" data-p="1" aria-label="More travellers">+</button><span class="tb-pl"></span></div></div>'+
       '<div class="tb-f"><span class="tb-l">Getting around <small class="tb-lhint">(pick one or more)</small></span><div class="tb-modes">'+MODES.map(function(m){ return '<button type="button" data-m="'+m[0]+'"'+(modesSel.indexOf(m[0])>=0?' class="on"':'')+' aria-pressed="'+(modesSel.indexOf(m[0])>=0)+'">'+m[1]+' '+m[2]+'</button>'; }).join('')+'</div><small class="tb-mhint">Mixing works best: we suggest walking for short hops and your other choice for longer ones. Love walking? Say so in your trip goals and we\'ll walk more.</small></div>'+
       '<div class="tb-f"><span class="tb-l">Budget per person (optional, not counting hotels)</span><div class="tb-bud"><select class="tb-cur" aria-label="Currency">'+Object.keys(CURS).map(function(k){ return '<option value="'+k+'"'+(k===curc?' selected':'')+'>'+CURS[k]+' '+k+'</option>'; }).join('')+'</select><input type="text" inputmode="numeric" class="tb-budget tb-money" placeholder="no limit" value="'+fmtIn(budget)+'"></div></div>'+
@@ -1406,7 +1468,7 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
     document.addEventListener('click',function(e){ if(picking&&!e.target.closest('.tb-datef')) calClose(); });
     document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&picking) calClose(); });
     if(fEl.value<today){ fEl.value=isoOf(addDays(today,14)); tEl.value=isoOf(addDays(fEl.value,Math.min(4,c.days.length)-1)); }
-    sel.onchange=function(){ var ob=planPage.querySelector('.tb-other'); ob.hidden=sel.value!=='__other'; if(sel.value==='__other'){ planPage.querySelector('.dz-t').textContent=planPage.querySelector('.tb-oname').value||'Somewhere else'; upd(); planPage.querySelector('.tb-oname').focus(); return; } var k=IT[sel.value]; planPage.querySelector('.dz-t').textContent=k.name.replace(/ \(.*\)$/,''); planPage.querySelector('.tb-season').textContent=k.note||''; if(!curPicked) curEl.value=CTYCUR[k.country]||'SGD'; upd(); try{ history.replaceState(null,'','#plan-'+sel.value); }catch(e){} };
+    sel.onchange=function(){ var ob=planPage.querySelector('.tb-other'); ob.hidden=sel.value!=='__other'; if(sel.value==='__other'){ planPage.querySelector('.dz-t').textContent=planPage.querySelector('.tb-oname').value||'Somewhere else'; upd(); planPage.querySelector('.tb-oname').focus(); return; } var k=IT[sel.value]; planPage.querySelector('.dz-t').textContent=k.name.replace(/ \(.*\)$/,''); planPage.querySelector('.dz-tag').innerHTML=tagOf(sel.value); planPage.querySelector('.tb-season').textContent=k.note||''; if(!curPicked) curEl.value=CTYCUR[k.country]||'SGD'; upd(); try{ history.replaceState(null,'','#plan-'+sel.value); }catch(e){} };
     curEl.onchange=function(){ curPicked=true; };
     // extra cities (route legs) after the first one
     var extra=(ed&&ed.legs&&ed.legs.length>1)?ed.legs.slice(1).map(function(l){ return {city:l.city,days:l.days}; }):[];
@@ -1416,7 +1478,10 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
     function firstDays(){ return count()-exSum(); }
     function sd(d){ return d.toLocaleDateString(LOC,{day:'numeric',month:'short'}); }
     function setTotal(n){ n=Math.max(1+extra.length,Math.min(MAXD,n)); tEl.value=isoOf(addDays(fEl.value,n-1)); upd(); }
-    function legSum(){ var el=planPage.querySelector('.tb-legsum'); if(!el||!extra) return; var box=planPage.querySelector('.tb-legs');
+    function evWarn(){ var box=planPage.querySelector('.tb-evwarn'); if(!box) return; if(sel.value==='__other'||!fEl.value||!window.tbTripHeadsUp){ box.innerHTML=''; return; }
+      var ex=extra||[], first=Math.max(1,count()-ex.reduce(function(a,l){ return a+l.days; },0)), legs=[{city:sel.value,days:first}].concat(ex);
+      box.innerHTML=headsUpHtml(legs,fEl.value,true); }
+    function legSum(){ evWarn(); var el=planPage.querySelector('.tb-legsum'); if(!el||!extra) return; var box=planPage.querySelector('.tb-legs');
       if(!extra.length){ el.textContent=''; el.className='tb-legsum'; return; }
       var n=count(), first=firstDays(), fn=sel.value==='__other'?(planPage.querySelector('.tb-oname').value||'First city'):shortName(sel.value);
       var lens=[first].concat(extra.map(function(l){ return l.days; })), start=0;
@@ -1459,11 +1524,16 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
         custom={name:on,country:oc}; cityKey='custom-'+on.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'-'+Date.now().toString(36); registerCustom({city:cityKey,custom:custom}); }
       var exd=extra.reduce(function(a,l){ return a+l.days; },0); if(n-exd<1){ msg.textContent='Your extra cities use more days than your dates. Pick a later End trip date or fewer days.'; return; }
       var legs=[{city:cityKey,days:n-exd}].concat(extra.map(function(l){ return {city:l.city,days:l.days}; }));
-      var np={city:cityKey,custom:custom||undefined,legs:legs,from:fEl.value,to:tEl.value,modes:mSel.length?mSel:['transit'],mode:mainMode(mSel.length?mSel:['transit']),cur:curEl.value,budget:num(planPage.querySelector('.tb-budget').value)||0,goals:planPage.querySelector('.tb-goals').value.trim(),people:+pn.textContent||1,days:makeDays(legs,fEl.value,ed?ed.days:null),created:Date.now()};
+      var np={city:cityKey,custom:custom||undefined,legs:legs,from:fEl.value,to:tEl.value,modes:mSel.length?mSel:['transit'],mode:mainMode(mSel.length?mSel:['transit']),cur:curEl.value,budget:num(planPage.querySelector('.tb-budget').value)||0,goals:planPage.querySelector('.tb-goals').value.trim(),people:+pn.textContent||1,days:makeDays(legs,fEl.value,ed?ed.days:null,planPage.querySelector('.tb-goals').value.trim()),created:Date.now()};
+      var rb=lastRebuild;
       if(ed){ ['reviews','memories','storyPics','booked','cheapFood'].forEach(function(k){ if(ed[k]!==undefined) np[k]=ed[k]; }); }
       if(ed&&plans.indexOf(ed)>-1){ np.id=ed.id; np.created=ed.created||np.created; if(ed.costs){ np.costs=ed.costs; if(ed.cur!==np.cur){ np.costs.food=null; np.costs.transport=null; np.costs.activities=null; } } plans[plans.indexOf(ed)]=np; } else { np.id='p'+Date.now(); plans.push(np); }
       plan=np; editing=null; savePlans(); active='custom'; ls('tbActive','custom'); askPersist();
-      renderAll(); go('myday',1);
+      renderAll(); go(ed?'overview':'myday',1);
+      if(ed&&rb){ var bits=[]; if(rb.replanned||rb.fresh) bits.push((rb.replanned+rb.fresh)+' day'+(rb.replanned+rb.fresh>1?'s':'')+' re-planned for your new settings'); if(rb.kept) bits.push(rb.kept+' kept as you left them');
+        if(rb.goals.pace) bits.push(rb.goals.pace+' pace from your goals'); if(rb.goals.start!=null) bits.push('days start at '+fmtT(rb.goals.start));
+        if(ed.budget!==np.budget||ed.people!==np.people||ed.cur!==np.cur) bits.push('budget updated');
+        liveToast('✅ Plan updated: '+(bits.join(', ')||'saved')+'.',1); }
       if(plan.goals&&window.claude&&window.claude.use){ var bx=dayPage.querySelector('.tb-ai'); if(bx){ bx.classList.add('open'); bx.querySelector('textarea').value='Build my dream trip around these goals: '+plan.goals; customise(); } }
     };
     upd();
@@ -1594,6 +1664,8 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
     var wd=date.getDay(), mode=plan.mode, ms=modesOf(plan), se=seasonOf(pc,date), all=its.map(function(x){ return x[1]+' '+x[2]; }).join(' | ');
     var bk=its.map(function(x){ var b=bookOf(x); return b?[x[1],b]:null; }).filter(Boolean).filter(function(z,ix,a){ return a.findIndex(function(y){ return y[1].text===z[1].text; })===ix; });
     if(bk.length) add('&#128203;','Book ahead for today: '+bk.map(function(z){ return z[1].text; }).join('; ')+'.');
+    if(window.tbEventsFor){ var dIso=isoOf(date); window.tbEventsFor(pc,dIso,dIso).forEach(function(e){ add(e[6]==='alert'?'&#9888;&#65039;':'&#127881;',e[3]+(e[5]?' (expected)':'')+': '+e[4]); }); }
+    if(window.tbRulesFor&&plan.days.findIndex(function(x){ return (x.city||plan.city)===pc; })===plan.days.indexOf(d)) window.tbRulesFor(pc).forEach(function(r){ add('&#128220;',r); });
     if(d.tip) add('&#128161;',d.tip);
     if(se.code==='w'||se.code==='t') add(se.icon,se.label+': '+se.text);
     if(se.code==='h') add(se.icon,'Hot season: carry water, wear sunscreen and plan a break in the middle of the day.');
@@ -1711,6 +1783,7 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
   function hourOpts(sel,from,to){ var o=''; for(var t=from;t<=to;t+=30) o+='<option value="'+t+'"'+(t===sel?' selected':'')+'>'+fmtT(t)+'</option>'; return o; }
   function renderDayPage(n){
     if(!plan) return;
+    setTimeout(function(){ dayTripsCard(curDay); },0);
     n=Math.max(1,Math.min(plan.days.length,n)); curDay=n;
     var d=plan.days[n-1], ck=d.city||plan.city, c=IT[ck], f=byKey[c.country]||byKey.other, m=modeOf(plan.mode), date=addDays(plan.from,n-1);
     var A=adjustDay(d,ck), its=A.items, hb2=dayBounds(d);
@@ -1838,7 +1911,30 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
     var pct=overPage.querySelectorAll('.tb-bar i'); var parts=[t.stays,t.food,t.transport,t.activities,t.other];
     pct.forEach(function(b,i){ b.style.width=(t.all?parts[i]/t.all*100:0)+'%'; });
   }
+  // ---- Heads up: festivals, closures and local rules that a trip crosses ----
+  function headsUpHtml(legs,from,compact){ var hu=window.tbTripHeadsUp?window.tbTripHeadsUp(legs,from):[], rules=[], seenR={};
+    legs.forEach(function(l){ (window.tbRulesFor?window.tbRulesFor(l.city):[]).forEach(function(r){ if(!seenR[r]){ seenR[r]=1; rules.push(r); } }); });
+    if(!hu.length&&!rules.length) return '';
+    function fd(s){ return fmt(new Date(s+'T00:00:00')); }
+    var al=hu.filter(function(x){ return x.e[6]==='alert'; }), ok=hu.filter(function(x){ return x.e[6]!=='alert'; });
+    return '<div class="tb-heads'+(al.length?' warn':'')+'"><b class="tb-hh">'+(al.length?'&#9888;&#65039; Heads up for your dates':'&#127881; Happening during your trip')+'</b>'+
+      (al.length?'<ul>'+al.map(function(x){ return '<li><b>'+esc(x.e[3])+'</b> &middot; '+fd(x.e[0])+(x.e[1]!==x.e[0]?' to '+fd(x.e[1]):'')+(x.e[5]?' (expected)':'')+(legs.length>1?' &middot; '+esc(shortName(x.city)):'')+'<br><span>'+esc(x.e[4])+'</span></li>'; }).join('')+'</ul>':'')+
+      (ok.length?'<div class="tb-hok">'+(al.length?'<b>Also on:</b> ':'')+ok.map(function(x){ return esc(x.e[3])+' ('+fd(x.e[0])+(x.e[5]?', expected':'')+')'; }).join(' &middot; ')+'</div>':'')+
+      (rules.length?'<details class="tb-hrules"'+(compact?'':' open')+'><summary>&#128220; Local rules to know ('+rules.length+')</summary><ul>'+rules.map(function(r){ return '<li>'+esc(r)+'</li>'; }).join('')+'</ul></details>':'')+'</div>'; }
+  function ovHeadsUp(){ if(!plan||!overPage) return; var old=overPage.querySelector('.tb-heads'); if(old) old.remove(); var h=headsUpHtml(legsOf(plan),plan.from,false); if(!h) return;
+    var tmp=document.createElement('div'); tmp.innerHTML=h; var anchor=overPage.querySelector('.tb-sum'); if(anchor&&anchor.nextSibling) anchor.parentNode.insertBefore(tmp.firstChild,anchor.nextSibling); else overPage.insertBefore(tmp.firstChild,overPage.firstChild); }
+  // ---- Day trips and tickets: ideas for this city, bookable on Klook, addable to the day ----
+  function dayTripsCard(n){ if(!plan||!window.tbKlook) return; var d=plan.days[n-1]; if(!d) return; var ck=d.city||plan.city, c=IT[ck]; if(!c||c.custom) return;
+    var old=dayPage.querySelector('.tb-dtrips'); if(old) old.remove(); var ideas=(c.extras||[]).slice(0,6), nm=shortName(ck);
+    var box=document.createElement('div'); box.className='tb-card tb-dtrips';
+    box.innerHTML='<h2>&#127903;&#65039; Day trips and tickets from '+esc(nm)+'</h2><div class="tb-s">Add one to this day, or book it on Klook (opens Klook in a new tab).</div><div class="tb-dtl">'+
+      ideas.map(function(x,i){ return '<div class="tb-dt1"><div><b>'+esc(x[0])+'</b><small>'+esc(x[1])+'</small></div><div class="tb-dtb"><button type="button" class="tb-cta ghost" data-dtadd="'+i+'">&#10133; Add to Day '+n+'</button><a class="tb-cta tb-klook" target="_blank" rel="noopener" href="'+esc(window.tbKlook(x[0]+' '+nm))+'">Book on Klook</a></div></div>'; }).join('')+
+      '</div><a class="tb-cta ghost tb-klookall" target="_blank" rel="noopener" href="'+esc(window.tbKlook(nm+' day trip'))+'">&#128269; See all '+esc(nm)+' day trips on Klook</a>';
+    var anchor=dayPage.querySelector('.tb-map')||dayPage.querySelector('.tb-day'); if(anchor&&anchor.parentNode) anchor.parentNode.insertBefore(box,anchor.nextSibling); else dayPage.appendChild(box);
+    box.querySelectorAll('[data-dtadd]').forEach(function(b){ b.onclick=function(e){ e.stopPropagation(); if(plan.example||(plan.shared&&!plan.shared.ek)) return; var x=ideas[+b.getAttribute('data-dtadd')];
+      d.add=d.add||[]; if(!d.add.some(function(a){ return a[0]===x[0]; })) d.add.push([x[0],x[1].replace(/^🔥 Trending: /,''),null]); if(!d.base) d.base=d.i; d.i=adjustDay(d,ck).items; savePlans(); renderDayPage(n); liveToast('✅ Added '+x[0]+' to Day '+n,1); }; }); }
   function renderOverview(){
+    setTimeout(ovHeadsUp,0);
     if(!plan) return;
     var c=IT[plan.city], f=byKey[c.country], m=modeOf(plan.mode), cu=plan.cur, cc=costsOf(plan), est=estimates(plan), ppl=plan.people||1, n=plan.days.length;
     var row=function(key,icon,label,hint){ var v=cc[key]!=null?cc[key]:est[key]; return '<label class="tb-brow"><span class="tb-bl">'+icon+' '+label+'<small>'+hint+'</small></span><span class="tb-bin"><em>'+CURS[cu]+'</em><input type="text" inputmode="numeric" class="tb-money" data-cost="'+key+'" value="'+fmtIn(v)+'"></span></label>'; };
@@ -1918,20 +2014,20 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
 
       (T.badges.length?'<div class="tb-card"><h2>&#127941; Badges</h2><div class="tb-rbadges">'+T.badges.map(function(b){ return '<div class="tb-rbadge"><span>'+b[0]+'</span><b>'+b[1]+'</b><small>'+esc(b[2])+'</small></div>'; }).join('')+'</div></div>':'')+
       '<div class="tb-card"><h2>&#128197; Day by day</h2><div class="tb-rtl">'+plan.days.map(function(d,i){ var v=(d.i||[]).filter(function(x){ var r=(plan.reviews||{})[(i+1)+'|'+x[1]]; return r&&r.v; }).length; return '<button type="button" data-tb-day="'+(i+1)+'"><b>Day '+(i+1)+'</b><span>'+esc(d.t)+'</span><small>'+fmt(addDays(plan.from,i))+' &middot; '+v+'/'+(d.i||[]).length+' visited</small></button>'; }).join('')+'</div></div>'+
-      '<div class="tb-card tb-mem"><h2>&#128247; Memories for your story</h2><div class="tb-s">Tap up to 4 photos to put on your Instagram story, or add new ones. Photos from My review appear here too.</div><div class="tb-memg">'+
+      '<div class="tb-card tb-mem"><h2>&#128247; Memories for your story</h2><div class="tb-s">Tap up to 10 photos to put on your Instagram story, or add new ones. Photos from My review appear here too. <b class="tb-memc">'+storySel(T).length+'/10 chosen</b></div><div class="tb-memg">'+
         T.photos.map(function(id){ return '<button type="button" class="tb-memi'+(storySel(T).indexOf(id)>-1?' on':'')+'" data-mem="'+id+'"><img alt="'+esc(T.caps[id]||'Memory')+'"><span class="tb-memk">&#10003;</span>'+(T.caps[id]?'<small>'+esc(T.caps[id])+'</small>':'')+'</button>'; }).join('')+
         '<label class="tb-memadd"><span>&#10133;</span>Add photos<input type="file" accept="image/*" multiple hidden></label></div></div>'+
       '<div class="tb-rshare"><button type="button" class="tb-cta tb-rmake" data-story="1">&#128248; Make my Instagram story</button><div class="tb-rout"></div><p class="tb-stn" style="text-align:center">Your story picture is made on your phone; nothing is uploaded.</p></div>';
     resPage.querySelectorAll('[data-mem]').forEach(function(b){ var id=b.getAttribute('data-mem'); pGet(id).then(function(src){ if(src) b.querySelector('img').src=src; else b.remove(); });
-      b.onclick=function(e){ e.stopPropagation(); var sel=storySel(T).slice(), ix=sel.indexOf(id); if(ix>-1) sel.splice(ix,1); else { if(sel.length>=4) sel.shift(); sel.push(id); } plan.storyPics=sel; savePlans(); resPage.querySelectorAll('[data-mem]').forEach(function(x){ x.classList.toggle('on',sel.indexOf(x.getAttribute('data-mem'))>-1); }); }; });
-    var ma=resPage.querySelector('.tb-memadd input'); if(ma) ma.addEventListener('change',function(){ var files=[].slice.call(this.files||[]).slice(0,8), lab=this.parentNode; lab.classList.add('busy'); plan.memories=plan.memories||[];
-      Promise.all(files.map(function(fl){ return shrink(fl).then(function(src){ var id='ph'+Date.now().toString(36)+Math.random().toString(36).slice(2,7); return pPut(id,src).then(function(){ plan.memories.push({id:id,name:''}); var sel=storySel(tripData()); if(sel.length<4&&(plan.storyPics||[]).indexOf(id)<0){ plan.storyPics=sel.concat([id]).slice(0,4); } }); }).catch(function(){}); })).then(function(){ savePlans(); renderResults(); var mm=resPage.querySelector('.tb-mem'); if(mm) mm.scrollIntoView({block:'nearest'}); }); });
+      b.onclick=function(e){ e.stopPropagation(); var sel=storySel(T).slice(), ix=sel.indexOf(id); if(ix>-1) sel.splice(ix,1); else { if(sel.length>=10) sel.shift(); sel.push(id); } plan.storyPics=sel; savePlans(); resPage.querySelectorAll('[data-mem]').forEach(function(x){ x.classList.toggle('on',sel.indexOf(x.getAttribute('data-mem'))>-1); }); }; });
+    var ma=resPage.querySelector('.tb-memadd input'); if(ma) ma.addEventListener('change',function(){ var files=[].slice.call(this.files||[]).slice(0,10), lab=this.parentNode; lab.classList.add('busy'); plan.memories=plan.memories||[];
+      Promise.all(files.map(function(fl){ return shrink(fl).then(function(src){ var id='ph'+Date.now().toString(36)+Math.random().toString(36).slice(2,7); return pPut(id,src).then(function(){ plan.memories.push({id:id,name:''}); var sel=storySel(tripData()); if(sel.length<10&&(plan.storyPics||[]).indexOf(id)<0){ plan.storyPics=sel.concat([id]).slice(0,10); } }); }).catch(function(){}); })).then(function(){ savePlans(); renderResults(); var mm=resPage.querySelector('.tb-mem'); if(mm) mm.scrollIntoView({block:'nearest'}); }); });
     resPage.querySelectorAll('img[data-ph]').forEach(function(im){ pGet(im.getAttribute('data-ph')).then(function(src){ if(src) im.src=src; else im.remove(); }); });
     if(best){ var bph=resPage.querySelector('.tb-rbph'); if(best.ph.length) pGet(best.ph[0]).then(function(src){ if(src) bph.innerHTML='<img alt="'+esc(best.name)+'" src="'+src+'">'; else bph.remove(); }); else bph.remove(); }
     resPage.querySelector('[data-story]').onclick=function(e){ e.stopPropagation(); makeStory(T); };
   }
   function storySel(T){ var have=T.photos; if(plan.storyPics&&plan.storyPics.length) return plan.storyPics.filter(function(id){ return have.indexOf(id)>-1; });
-    var first=T.rated.filter(function(x){ return x.ph.length; }).map(function(x){ return x.ph[0]; }); return first.concat(have).filter(function(v,ix,a){ return a.indexOf(v)===ix; }).slice(0,4); }
+    var first=T.rated.filter(function(x){ return x.ph.length; }).map(function(x){ return x.ph[0]; }); return first.concat(have).filter(function(v,ix,a){ return a.indexOf(v)===ix; }).slice(0,10); }
   // a photo in a white polaroid frame, slightly tilted, with a caption
   function polaroid(g,im,cx,cy,w,h,rot,cap){ g.save(); g.translate(cx,cy); g.rotate(rot*Math.PI/180); g.shadowColor='rgba(30,10,60,.35)'; g.shadowBlur=30; g.shadowOffsetY=12; g.fillStyle='#FFFFFF'; rrect(g,-w/2,-h/2,w,h,14); g.fill(); g.shadowColor='transparent';
     var pad=Math.round(w*0.05), capH=cap?Math.round(h*0.14):pad; cover(g,im,-w/2+pad,-h/2+pad,w-2*pad,h-pad-capH,6);
@@ -1941,7 +2037,7 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
   function cover(g,im,x,y,w,h,r){ g.save(); rrect(g,x,y,w,h,r); g.clip(); var k=Math.max(w/im.width,h/im.height), iw=im.width*k, ih=im.height*k; g.drawImage(im,x+(w-iw)/2,y+(h-ih)/2,iw,ih); g.restore(); }
   function makeStory(T){
     var out=resPage.querySelector('.tb-rout'), btn=resPage.querySelector('[data-story]'); btn.disabled=true; btn.innerHTML='&#9203; Making your story&hellip;';
-    var phIds=storySel(T).slice(0,4);
+    var phIds=storySel(T).slice(0,10);
     var ready=(document.fonts&&document.fonts.ready)?document.fonts.ready:Promise.resolve();
     ready.then(function(){ return Promise.all(phIds.map(function(id){ return pGet(id).then(loadImg).then(function(im){ if(im) im._cap=T.caps[id]||''; return im; }); })); }).then(function(imgs){
       imgs=imgs.filter(Boolean);
@@ -1953,7 +2049,11 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
       g.font='500 38px "Plus Jakarta Sans", sans-serif'; g.fillStyle='rgba(255,255,255,.92)'; g.fillText(fmtY(plan.from)+' – '+fmtY(plan.to),W/2,330);
       var y=390;
       if(imgs.length){ var n=imgs.length, L={1:[[540,690,720,600,-2]],2:[[315,690,450,560,-6],[765,705,450,560,5]],3:[[300,650,440,500,-6],[770,550,400,300,5],[725,895,400,300,-3]],4:[[310,580,430,340,-5],[770,600,430,340,4],[320,905,430,340,3],[765,920,430,340,-4]]}[n];
-        L.forEach(function(p,ix){ polaroid(g,imgs[ix],p[0],p[1],p[2],p[3],p[4],imgs[ix]._cap); }); y=1060; }
+        if(!L){ // 5 to 10 photos: a polaroid collage in rows, last row centred
+          L=[]; var cols=n<=6?3:(n<=9?3:4), rows=Math.ceil(n/cols), top=400, zone=650, cw=900/cols, ch=zone/rows;
+          for(var q=0;q<n;q++){ var row=Math.floor(q/cols), inRow=Math.min(cols,n-row*cols), col=q-row*cols, x0=90+(900-inRow*cw)/2;
+            L.push([x0+col*cw+cw/2, top+row*ch+ch/2, cw*0.92, ch*0.92, (q%2?3.5:-3.5)*(q%3?1:0.6)]); } }
+        L.forEach(function(p,ix){ polaroid(g,imgs[ix],p[0],p[1],p[2],p[3],p[4],n>6?'':imgs[ix]._cap); }); y=1060; }
       else { g.font='160px sans-serif'; g.fillText(byKey[T.c.country]?'✈️':'🌍',W/2,y+190); y+=280; }
       var tiles=[[T.visited+'/'+T.stops,'places visited'],[plan.days.length+'','days'],[Math.round(T.dist)+' km','travelled'],[T.steps.toLocaleString(LOC),'steps'],['~'+money(T.spend,plan.cur),'spent'],[T.avg?T.avg.toFixed(1)+' ★':'–','average rating']];
       var cols=imgs.length?3:2, tw=(W-180-(cols-1)*20)/cols, th=imgs.length?130:150;
@@ -1977,7 +2077,7 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
   function askPersist(){ try{ if(!(navigator.storage&&navigator.storage.persist)) return; navigator.storage.persisted().then(function(p){ if(p){ persisted=true; return true; } return navigator.storage.persist(); }).then(function(ok){ persisted=!!ok; var st=hb.querySelector('.tb-safe'); if(st) st.outerHTML=safeHtml(); }).catch(function(){}); }catch(e){} }
   function safeHtml(){ var ios=/iPhone|iPad|iPod/.test(navigator.userAgent)&&!(window.navigator.standalone||window.matchMedia&&matchMedia('(display-mode: standalone)').matches);
     return '<div class="tb-safe">'+(persisted?'&#128274; Your plans are kept safe on this device.':'&#128190; Your plans are saved on this device.')+(ios?' On iPhone, tap Share &rarr; Add to Home Screen so Safari keeps them, or download a backup.':' Download a backup to keep them on another device too.')+'</div>'; }
-  function backupHtml(){ return '<div class="tb-bkrow">'+safeHtml()+'<div class="tb-btns"><button type="button" class="tb-cta" data-pdf-all="1">&#11015;&#65039; Download my plans</button><button type="button" class="tb-cta ghost" data-backup="1" title="A file to move your plans to another phone or browser">&#128190; Backup file</button><label class="tb-cta ghost tb-load">&#11014;&#65039; Load a backup<input type="file" accept=".json,application/json" hidden></label></div><div class="tb-bkmsg" aria-live="polite"></div></div>'; }
+  function backupHtml(){ return '<div class="tb-bkrow">'+safeHtml()+'<div class="tb-btns"><button type="button" class="tb-cta" data-pdf-all="1">&#11015;&#65039; Download my plans</button><div class="tb-bkwrap"><button type="button" class="tb-cta ghost tb-bkbtn" aria-haspopup="menu" aria-expanded="false" title="Move your plans to another phone or browser">&#128190; Backup &#9662;</button><div class="tb-bkmenu" role="menu" hidden><button type="button" role="menuitem" data-backup="1">&#128190; Save a backup file<small>Download all your plans and photos</small></button><label class="tb-load" role="menuitem">&#11014;&#65039; Load a backup<small>Bring plans from another device</small><input type="file" accept=".json,application/json" hidden></label></div></div></div><div class="tb-bkmsg" aria-live="polite"></div></div>'; }
   function bkMsg(t,ok){ var m=hb.querySelector('.tb-bkmsg'); if(m){ m.className='tb-bkmsg '+(ok?'ok':'err'); m.textContent=t; } }
   function photoIdsOf(p){ var ids=[]; Object.keys(p.reviews||{}).forEach(function(k){ (p.reviews[k].ph||[]).forEach(function(id){ ids.push(id); }); }); (p.memories||[]).forEach(function(m){ ids.push(m.id); }); return ids; }
   function downloadBackup(){
@@ -2117,6 +2217,7 @@ html[data-theme="dark"] .sg-wrap .tb-byleg{background:#2A2148;color:#ECE6FF}
     if(view!=='plan'&&view!=='myday'&&view!=='overview'&&view!=='results'){ if(!byKey[view]&&view!=='founder'&&view!=='feedback'&&view!=='howto') view='home'; cur=view; }
     var key=cur;
     if(key==='home'){
+
       wrap.classList.remove('sg-destmode');
       if(!fromHash){ tabs.querySelectorAll('button').forEach(function(b){ b.classList.toggle('on',b===home); }); if(location.hash!=='#home') location.hash='#home'; }
       hb.classList.add('pg-on');

@@ -5,9 +5,11 @@ import head from '../plan/head.html?raw';
 import body from '../plan/body.html?raw';
 import itineraries from '../plan/itineraries.html?raw';
 import more from '../plan/more.html?raw';
+import events from '../plan/events.html?raw';
 import live from '../plan/live.html?raw';
 import destinations from '../plan/destinations.html?raw';
 import ui from '../plan/ui.html?raw';
+import helper from '../plan/helper.html?raw';
 import { SITE_URL, COUNTRIES, IT, cityKeys } from '../lib/seo.mjs';
 
 const { title, description, path = '/', hash = '', jsonld = [], faq = [], heading = '', intro = '' } = Astro.props;
@@ -71,9 +73,11 @@ const plainName = (s) => String(s).replace(/\s*\(.*\)$/, '');
     </section>
     <Fragment set:html={itineraries} />
     <Fragment set:html={more} />
+    <Fragment set:html={events} />
     <Fragment set:html={live} />
     <Fragment set:html={destinations} />
     <Fragment set:html={ui} />
+    <Fragment set:html={helper} />
   </body>
 </html>
 <style is:global>

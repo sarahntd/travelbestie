@@ -106,6 +106,7 @@ export const HOME_FAQ = [
   { q: 'Which countries does Travel Bestie cover?', a: `Ready-made plans and guides for ${listJoin(COUNTRIES.map((c) => c.name))}, plus any other destination you type in yourself.` },
   { q: 'Can I plan a trip to several cities?', a: 'Yes. One plan can be up to 30 days and cover several cities, with travel days between them.' },
   { q: 'Is Travel Bestie free, and where are my plans saved?', a: 'It is free and needs no account. Plans are saved privately on your own phone or computer; you can download a backup, a PDF, or share a copy with friends.' },
+  { q: 'Can I share my trip plan and edit it with my friends?', a: 'Yes. Open your plan and tap "Share with friends". Send the edit link to your travel buddies so you can all change the plan together, and everyone sees the updates on their own phone. Send the view-only link to people who just want to follow along. You can also download the whole plan as a PDF or share your trip as an Instagram story.' },
   { q: 'Does Travel Bestie work in Bahasa Indonesia?', a: 'Yes. Switch between English and Bahasa Indonesia with the language menu at the top.' },
 ];
 

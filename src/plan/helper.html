@@ -1,0 +1,226 @@
+<style>
+/* ---- Bestie: the built-in travel helper (answers from the site's own guides; no AI service) ---- */
+.tb-hfab{position:fixed;right:18px;bottom:18px;z-index:9800;display:flex;align-items:center;gap:8px;border:0;cursor:pointer;padding:5px 14px 5px 5px;border-radius:999px;
+  background:linear-gradient(120deg,#5B21D9,#8B4FF0 55%,#F06BB5);color:#FFFFFF;font:800 14px "Plus Jakarta Sans",system-ui,sans-serif;box-shadow:0 10px 26px rgba(91,33,217,.45)}
+.tb-hfab img,.tb-hav{width:44px;height:44px;border-radius:50%;object-fit:cover;background:#F1E9FF;border:2px solid #FFFFFF;flex:0 0 auto}
+.tb-hfab .dot{position:absolute;left:38px;top:4px;width:11px;height:11px;border-radius:50%;background:#3DDC84;border:2px solid #FFFFFF}
+.tb-hfab{animation:tbHelloBob 3.2s ease-in-out infinite}
+@keyframes tbHelloBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.tb-help{position:fixed;right:18px;bottom:84px;z-index:9850;width:min(380px,calc(100vw - 24px));height:min(560px,calc(100vh - 110px));display:none;flex-direction:column;
+  background:#FFFFFF;border:2px solid #E4D9FF;border-radius:24px;box-shadow:0 20px 50px rgba(62,42,107,.35);overflow:hidden;font-family:"Plus Jakarta Sans",system-ui,sans-serif}
+.tb-help.open{display:flex;animation:tbHelpIn .22s ease-out}
+@keyframes tbHelpIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+.tb-hhead{display:flex;align-items:center;gap:10px;padding:12px 14px;background:linear-gradient(120deg,#4A1FA0,#7B4FD6 60%,#E58CC6);color:#FFFFFF}
+.tb-hhead b{display:block;font-size:16px}.tb-hhead small{display:block;font-size:11.5px;opacity:.9;line-height:1.3}
+.tb-hx{margin-left:auto;width:32px;height:32px;border-radius:50%;border:0;background:rgba(255,255,255,.2);color:#FFFFFF;font-size:20px;cursor:pointer}
+.tb-hmsgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:#FAF7FF;overscroll-behavior:contain}
+.tb-hm{max-width:88%;padding:10px 12px;border-radius:16px;font-size:14px;line-height:1.5;color:#3E2A6B;background:#FFFFFF;border:1.5px solid #EDE5FF;align-self:flex-start;white-space:normal}
+.tb-hm.me{align-self:flex-end;background:linear-gradient(120deg,#7B4FD6,#B45FD0);color:#FFFFFF;border:0}
+.tb-hm p{margin:0 0 6px}.tb-hm p:last-child{margin:0}.tb-hm ul{margin:4px 0 6px;padding-left:18px}.tb-hm li{margin:2px 0}
+.tb-hm .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tb-hm .acts button{font:700 12.5px "Plus Jakarta Sans",system-ui,sans-serif;border:0;border-radius:999px;padding:6px 12px;cursor:pointer;background:linear-gradient(120deg,#7B4FD6,#E58CC6);color:#FFFFFF}
+.tb-hm.typing{color:#9C84D9;font-style:italic}
+.tb-hchips{display:flex;gap:6px;overflow-x:auto;padding:8px 12px;border-top:1px solid #EDE5FF;scrollbar-width:none;background:#FFFFFF}
+.tb-hchips::-webkit-scrollbar{display:none}
+.tb-hchips button{flex:0 0 auto;font:700 12.5px "Plus Jakarta Sans",system-ui,sans-serif;color:#7B4FD6;background:#F3EEFF;border:1.5px solid #E4D9FF;border-radius:999px;padding:6px 11px;cursor:pointer}
+.tb-hform{display:flex;gap:8px;padding:10px 12px;border-top:1px solid #EDE5FF;background:#FFFFFF}
+.tb-hform input{flex:1;min-width:0;font:15px "Plus Jakarta Sans",system-ui,sans-serif;border:1.5px solid #E4D9FF;border-radius:999px;padding:10px 14px;color:#3E2A6B;background:#FFFFFF}
+.tb-hform button{border:0;border-radius:50%;width:42px;height:42px;font-size:18px;cursor:pointer;background:linear-gradient(120deg,#7B4FD6,#E58CC6);color:#FFFFFF}
+.tb-hnote{font-size:10.5px;color:#9C84D9;text-align:center;padding:0 12px 8px;background:#FFFFFF}
+html[data-theme="dark"] .tb-help{background:#1E1736;border-color:#45386F}
+html[data-theme="dark"] .tb-hmsgs{background:#171129}
+html[data-theme="dark"] .tb-hm{background:#2A2148;border-color:#3A2F60;color:#ECE6FF}
+html[data-theme="dark"] .tb-hm.me{background:linear-gradient(120deg,#6A3FD0,#A04FB8);color:#FFFFFF}
+html[data-theme="dark"] .tb-hchips,html[data-theme="dark"] .tb-hform,html[data-theme="dark"] .tb-hnote{background:#1E1736;border-color:#3A2F60}
+html[data-theme="dark"] .tb-hchips button{background:#2A2148;border-color:#45386F;color:#ECE6FF}
+html[data-theme="dark"] .tb-hform input{background:#2A2148;border-color:#45386F;color:#FFFFFF}
+html[data-theme="dark"] .tb-hnote{color:#BBA8F0}
+@media (max-width:520px){.tb-hfab span.lbl{display:none}.tb-hfab{padding:5px}.tb-help{right:12px;bottom:76px}}
+@media (prefers-reduced-motion:reduce){.tb-hfab{animation:none}.tb-help.open{animation:none}}
+@media print{.tb-hfab,.tb-help{display:none!important}}
+</style>
+<script>
+(function(){
+  var IT=window.TB_ITIN||{}, SEASON=window.TB_SEASON||{}, STXT=window.TB_SEASON_TXT||{}, SCITY=window.TB_SEASON_CITY||{}, LINKS=window.TB_LINKS||{}, BOOK=window.TB_BOOK||[], TAG=window.TB_TAGLINE||{};
+  var ID=(function(){ try{ return localStorage.getItem('tbLang')==='id'; }catch(e){ return false; } })();
+  var AVATAR='/bestie-avatar.png';
+  var COUNTRIES={singapore:['Singapore','Singapura','SGD','S$',1.3,[30,8,35]],malaysia:['Malaysia','Malaysia','MYR','RM',4.4,[15,6,15]],indonesia:['Indonesia','Indonesia','IDR','Rp',16000,[15,10,20]],thailand:['Thailand','Thailand','THB','฿',33,[18,8,25]],vietnam:['Vietnam','Vietnam','VND','₫',25500,[12,6,20]],philippines:['Philippines','Filipina','PHP','₱',58,[15,8,25]],china:['China','Tiongkok','CNY','¥',7.2,[20,8,25]]};
+  ((window.TB_MORE||{}).countries||[]).forEach(function(c){ COUNTRIES[c.key]=[c.name,c.name,c.cur[0],c.cur[1],c.cur[2],c.est]; });
+  var CN_ALIAS={'jepang':'japan','korea':'south-korea','korea selatan':'south-korea','kamboja':'cambodia','tiongkok':'china','cina':'china','filipina':'philippines','singapura':'singapore','brunei darussalam':'brunei','timor leste':'timor-leste','east timor':'timor-leste','hongkong':'hong-kong','taipei':null,'aussie':'australia'};
+  var CITY_ALIAS={'ho chi minh':'saigon','hcmc':'saigon','yogyakarta':'java','jogja':'java','yogya':'java','borobudur':'java','lake toba':'sumatera','toba':'sumatera','komodo':'labuan-bajo','gili':'lombok','samui':'koh-samui','kl':'kuala-lumpur','macau':'hong-kong','macao':'hong-kong','hokkaido':'sapporo','angkor':'siem-reap','malang':'bromo','palawan':'el-nido','xi an':'xian','halong':'ha-long','hoian':'hoi-an','danang':'da-nang','sabah':'kota-kinabalu','melaka':'malacca','mount fuji':'tokyo','fuji':'tokyo','nara':'kyoto','gold coast':null,'great barrier reef':'cairns','borneo':'kalimantan','phi phi':'krabi','chiang rai':'chiang-mai','batam':null,'bandung':null,'atauro':'dili','bsb':'bandar-seri-begawan'};
+  var MON=['january','february','march','april','may','june','july','august','september','october','november','december'], MONID=['januari','februari','maret','april','mei','juni','juli','agustus','september','oktober','november','desember'];
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function plain(n){ return String(n||'').replace(/\s*\(.*\)$/,''); }
+  function norm(s){ return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9\s'-]/g,' ').replace(/\s+/g,' ').trim(); }
+  function list(a){ return a.length<=1?a.join(''):a.slice(0,-1).join(', ')+' and '+a[a.length-1]; }
+  function monthRanges(code,ch){ var good=[]; for(var i=0;i<12;i++) if(code[i]===ch) good.push(i); if(!good.length) return ''; var r=[],s=good[0],p=good[0];
+    for(var k=1;k<=good.length;k++){ var m=good[k]; if(m===p+1){ p=m; continue; } r.push(s===p?cap(MON[s]):cap(MON[s])+' to '+cap(MON[p])); s=m; p=m; }
+    if(good[0]===0&&good[good.length-1]===11&&r.length>1){ var f=r.shift(), l=r.pop(); r.unshift((l.split(' to ')[0])+' to '+(f.indexOf(' to ')>-1?f.split(' to ')[1]:f)); } return list(r); }
+  function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+
+  // ---- find what the question is about ----
+  function findCities(q){ var hits=[], used={};
+    Object.keys(CITY_ALIAS).forEach(function(a){ var k=CITY_ALIAS[a]; if(k&&IT[k]&&new RegExp('\\b'+a+'\\b').test(q)&&!used[k]){ used[k]=1; hits.push([q.search(new RegExp('\\b'+a+'\\b')),k]); } });
+    Object.keys(IT).forEach(function(k){ if(IT[k].custom) return; var names=[norm(plain(IT[k].name)),k.replace(/-/g,' ')]; var m=String(IT[k].name).match(/\(([^)]+)\)/); if(m) names.push(norm(m[1]));
+      names.forEach(function(n){ if(!n||used[k]) return; var re=new RegExp('\\b'+n.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b'), pos=q.search(re); if(pos>-1){ used[k]=1; hits.push([pos,k]); } }); });
+    return hits.sort(function(a,b){ return a[0]-b[0]; }).map(function(h){ return h[1]; }); }
+  function findCountry(q){ var best=null; Object.keys(COUNTRIES).forEach(function(k){ [norm(COUNTRIES[k][0]),norm(COUNTRIES[k][1]),k.replace(/-/g,' ')].forEach(function(n){ if(n&&new RegExp('\\b'+n+'\\b').test(q)) best=best||k; }); });
+    Object.keys(CN_ALIAS).forEach(function(a){ if(CN_ALIAS[a]&&new RegExp('\\b'+a+'\\b').test(q)) best=best||CN_ALIAS[a]; }); return best; }
+  function findMonth(q){ for(var i=0;i<12;i++){ if(new RegExp('\\b('+MON[i]+'|'+MON[i].slice(0,3)+'|'+MONID[i]+')\\b').test(q)) return i; } return null; }
+  function citiesOf(country){ return Object.keys(IT).filter(function(k){ return IT[k].country===country&&!IT[k].custom; }); }
+  function guide(city){ var sec=null; document.querySelectorAll('.sg-dest .sg-sec h2[data-plan-city="'+city+'"]').forEach(function(h){ sec=sec||h.closest('.sg-sec'); });
+    var g={}; if(!sec) return g; sec.querySelectorAll('.sg-card').forEach(function(c){ var h=(c.querySelector('h3')||{}).textContent||'', m=(c.querySelector('.sg-meta')||{}).textContent||''; if(/must see/i.test(h)) g.see=m; else if(/eat/i.test(h)) g.eat=m; else if(/stay/i.test(h)) g.stay=m; else if(/getting there/i.test(h)) g.get=m; });
+    var sub=sec.querySelector('.sub'); if(sub) g.sub=sub.textContent; return g; }
+  function rides(country){ var box=document.querySelector('.sg-dest[data-dest="'+country+'"] .dz-rides'); if(!box) return []; return [].map.call(box.querySelectorAll('li'),function(li){ return li.innerHTML; }); }
+  function myPlan(){ try{ var ps=JSON.parse(localStorage.getItem('tbPlans')||'[]'), id=localStorage.getItem('tbCur'); return ps.filter(function(p){ return p.id===id&&!p.example; })[0]||ps.filter(function(p){ return !p.example; })[0]||null; }catch(e){ return null; } }
+
+  // ---- intents ----
+  var OFF=/\b(code|coding|python|javascript|html|sql|program|homework|essay|math|equation|calculus|physics|chemistry|politic|election|president|religion|stock|crypto|bitcoin|invest|trading|lyrics|song|poem|joke|diagnos|symptom|medicine dose|prescription|lawyer|legal advice|dating|relationship advice|recipe for|game cheat|hack)\b/;
+  var TRAVEL=/\b(travel|trip|holiday|holidays|vacation|tour|tourist|itinerary|visit|visiting|go to|going to|fly|flight|airport|hotel|stay|beach|island|city|cities|country|countries|visa|passport|luggage|pack|packing|weather|season|budget|cost|price|food|eat|halal|transport|train|bus|ferry|grab|taxi|ticket|book|booking|plan|planner|travelbestie|travel bestie|bestie|liburan|jalan|wisata|perjalanan|tiket|hotel|pesawat|kereta|bandara|koper|paspor|cuaca|musim|makan|kuliner|anggaran|biaya|rencana|destinasi|menginap|oleh-oleh|souvenir|currency|money|cash|atm|sim card|esim|wifi|safe|safety|aman|event|events|festival|festivals|holiday|holidays|lebaran|ramadan|eid|nyepi|songkran|tet|seollal|chuseok|golden week|cherry blossom|sakura|new year|fireworks|libur|acara|perayaan|beach club|party|parties|nightlife|countdown)\b/;
+  var SITE=[
+    [/share|edit with|with (my )?friends|together|bagikan|bareng|teman/, function(){ return a('<p>Open your plan and tap <b>👥 Share with friends</b> (on the Overview, any day page or in My plans).</p><ul><li><b>Edit link:</b> friends can change the plan with you, and everyone sees updates.</li><li><b>View-only link:</b> for people who just follow along.</li><li><b>Send a copy:</b> friends get their own copy to change.</li></ul>',[['👥 Share my plan','data-tripshare','1']]); }],
+    [/pdf|download|print|unduh|cetak/, function(){ return a('<p>Tap <b>📄 Download PDF</b> on your Overview (or <b>⬇️ Download my plans</b> on Home for all of them). A preview opens; choose <b>Save as PDF</b>.</p>'); }],
+    [/multi.?city|several cities|more than one city|two countries|multiple|banyak kota|beberapa kota|multi kota/, function(){ return a('<p>Yes! On the planner, use <b>🌏 Make it a multi-city trip</b> to add more cities or countries (up to 30 days). Set the dates for each city; travel days between them are added for you.</p>',[['✈️ Start planning','data-plan-city','']]); }],
+    [/over budget|adjust .*budget|fit .*budget|budget limit|lewat anggaran|melebihi/, function(){ return a('<p>Set a <b>budget per person</b> (it doesn\'t count hotels; add those in Overview). If your plan goes over, a red warning appears with <b>✨ Adjust your trip based on budget</b>, which suggests cheaper transport, food and free places, and shows every change before applying it.</p>'); }],
+    [/review|photo|picture|foto|ulasan/, function(){ return a('<p>On any stop, tap <b>My review</b>: mark it visited, give stars, write a note and add up to <b>10 photos</b>. Your photos also appear in <b>🎉 Trip results</b>, where you can make an Instagram story with up to 10 of them.</p>'); }],
+    [/instagram|story|recap/, function(){ return a('<p>Open <b>🎉 Trip results</b>, pick up to 10 photos under <b>Memories</b>, then tap <b>Make my Instagram story</b>.</p>'); }],
+    [/backup|another (phone|device|computer)|lost my plan|saved|save my|where.*plans|tersimpan|simpan|hp lain/, function(){ return a('<p>Your plans are saved on <b>this phone or computer</b>, no account needed. To move them, tap <b>💾 Backup file</b> on Home, then <b>⬆️ Load a backup</b> on the other device.</p>'); }],
+    [/language|bahasa|english|indonesian/, function(){ return a('<p>Tap <b>🌐 EN ▾</b> at the top right to switch between English and Bahasa Indonesia.</p>'); }],
+    [/dark mode|light mode|night mode|mode gelap|mode terang/, function(){ return a('<p>Tap <b>🌙 Dark</b> / <b>☀️ Light</b> at the top right.</p>'); }],
+    [/sound|mute|suara/, function(){ return a('<p>Tap <b>🔊</b> at the top right to mute or turn the click sounds back on.</p>'); }],
+    [/example|sample|contoh/, function(){ return a('<p>The example plan is a 5-day Singapore trip with a budget, reviews and trip results.</p>',[['👀 See the example plan','data-tb-example','open']]); }],
+    [/feedback|contact|bug|suggestion|saran|masukan|kontak/, function(){ return a('<p>I\'d love to hear it! Send it on the feedback page; Sarah reads every message.</p>',[['💌 Send feedback','data-dest-go','feedback']]); }],
+    [/who (made|created|built)|founder|sarah|about (you|travel bestie)|siapa (yang )?(buat|bikin)/, function(){ return a('<p>Travel Bestie was created by <b>Sarah Diah</b>, who loves planning trips. This chat is Sarah\'s automated helper: it answers instantly from Travel Bestie\'s guides, so it\'s not a live chat with her.</p>',[['👋 Meet the founder','data-dest-go','founder']]); }],
+    [/is (it|this|travel bestie) free|cost to use|account|sign up|gratis|daftar/, function(){ return a('<p>Travel Bestie is <b>free</b> and needs <b>no account</b>. Your plans stay on your device.</p>'); }],
+    [/how (does|do) (it|this|the site|travel bestie) work|how to use|tutorial|guide me|cara pakai|cara kerja/, function(){ return a('<p>Quick version: tap <b>Plan Your Trip Here</b>, pick a city, set dates, travellers, transport and budget, then <b>Create my plan</b>. You can adjust any day, share with friends and download a PDF.</p>',[['📖 How it works','data-dest-go','howto']]); }],
+    [/delete|remove (my )?plan|hapus/, function(){ return a('<p>On Home under <b>Your trip plans</b>, tap <b>Delete</b> on the plan.</p>'); }]
+  ];
+  function a(html,acts){ return {html:html,acts:acts||[]}; }
+  function planBtn(c){ return ['✈️ Plan '+plain(IT[c].name),'data-plan-city',c]; }
+  function guideBtn(country){ return ['📖 '+COUNTRIES[country][0]+' guide','data-dest-go',country]; }
+
+  function answer(raw){
+    var q=norm(raw); if(!q) return a('<p>Ask me anything about your trip, Bestie 😊</p>');
+    if(/^(hi|hello|hey|halo|hai|good (morning|afternoon|evening)|selamat (pagi|siang|sore|malam))\b/.test(q)&&q.split(' ').length<=4) return a('<p>Hi Bestie! 💜 It\'s Sarah. Ask me about a destination (best time, things to do, food, where to stay, getting around, budget) or how to use Travel Bestie.</p>');
+    if(/^(thanks|thank you|thx|makasih|terima kasih)/.test(q)) return a('<p>Anytime, Bestie! Have an amazing trip ✈️</p>');
+    var cities=findCities(q), country=findCountry(q), month=findMonth(q), city=cities[0]||null;
+    if(!country&&city) country=IT[city].country;
+    var REC=/\b(where (should|can|to) (i|we) (go|travel|visit)|recommend|suggest|best place|which (city|country|destination)|ideas? for|rekomendasi|saran|enaknya|kemana|ke mana)\b/; var travelish=TRAVEL.test(q)||!!city||!!country||REC.test(q)||(month!=null&&/\b(go|visit|travel|trip|ke|pergi|liburan)\b/.test(q));
+    if(OFF.test(q)&&!(city||country)) return refuse();
+    for(var i=0;i<SITE.length;i++){ if(SITE[i][0].test(q)&&(TRAVEL.test(q)||/share|pdf|backup|review|photo|budget|plan|story|bahasa|language|mode|sound|example|feedback|founder|free|delete|work|tutorial|multi/.test(q))) return SITE[i][1](); }
+    if(!travelish) return refuse();
+
+    // festivals, holidays and events (researched calendar + live public holidays)
+    if(/\b(event|events|festival|festivals|fest|what'?s on|whats on|happening|holiday|holidays|public holiday|celebrat\w*|concert|parade|fireworks|new year|libur|acara|perayaan|upcoming|coming up|lebaran|ramadan|eid|nyepi|songkran|tet|seollal|chuseok|golden week|cherry blossom|sakura|beach club|party|parties|nightlife|countdown)\b/.test(q)) return eventsAns(city,country,month,q);
+    // my own plan
+    if(/\b(my (plan|trip|itinerary)|day \d+|hari ke ?\d+|rencanaku)\b/.test(q)){ var p=myPlan(); if(!p) return a('<p>You don\'t have a plan yet. Let\'s make one!</p>',[['✈️ Start planning','data-plan-city','']]);
+      var dn=(q.match(/(?:day|hari ke) ?(\d+)/)||[])[1]; if(dn){ var d=p.days[+dn-1]; if(!d) return a('<p>Your plan has '+p.days.length+' days.</p>'); return a('<p><b>Day '+dn+': '+esc(d.t)+'</b></p><ul>'+d.i.map(function(x){ return '<li>'+esc(x[0])+' · '+esc(x[1])+'</li>'; }).join('')+'</ul>',[['📅 Open Day '+dn,'data-tb-day',dn]]); }
+      return a('<p>Your plan: <b>'+esc((p.legs||[{city:p.city}]).map(function(l){ return plain((IT[l.city]||{name:l.city}).name); }).join(' → '))+'</b>, '+p.days.length+' days from '+esc(p.from)+'.</p>',[['📊 Open Overview','data-tb-over','1']]); }
+
+    // getting from A to B
+    if(cities.length>=2&&/\b(from|to|between|get|travel|how far|ke|dari)\b/.test(q)){ var k1=cities[0], k2=cities[1], l=LINKS[k1+'|'+k2]||LINKS[k2+'|'+k1];
+      var t=l?l[0]+' '+l[1]+'.':(IT[k1].country===IT[k2].country?'✈️ A domestic flight, train or long-distance bus; compare times and prices.':'✈️ An international flight; check routes, baggage and visa rules.');
+      return a('<p><b>'+esc(plain(IT[k1].name))+' → '+esc(plain(IT[k2].name))+':</b> '+esc(t)+'</p><p>Want both in one trip? Add the second city with <b>Make it a multi-city trip</b>; the travel day is added for you.</p>',[planBtn(k1)]); }
+
+    // recommendations by month or general
+    if(/\b(where should|recommend|suggest|best place|which (city|country|destination)|ideas?|rekomendasi|saran|enaknya|kemana|ke mana)\b/.test(q)||(month!=null&&!city&&!country)){
+      var mm=month!=null?month:new Date().getMonth(), pool=Object.keys(IT).filter(function(k){ return !IT[k].custom&&(SEASON[k]||'')[mm]==='d'&&(!country||IT[k].country===country); });
+      var pick=pool.sort(function(){ return Math.random()-0.5; }).slice(0,6);
+      if(!pick.length) return a('<p>I couldn\'t find a dry-season match'+(country?' in '+COUNTRIES[country][0]:'')+' for '+cap(MON[mm])+'. Try another month, or ask about a city.</p>');
+      return a('<p>Great picks for <b>'+cap(MON[mm])+'</b>'+(country?' in '+COUNTRIES[country][0]:'')+' (dry, comfortable season):</p><ul>'+pick.map(function(k){ var t=TAG[k]; return '<li><b>'+esc(plain(IT[k].name))+'</b>'+(t?': '+esc(t[0]):'')+'</li>'; }).join('')+'</ul>',pick.slice(0,3).map(planBtn)); }
+
+    if(!city&&country){ var cs=citiesOf(country), cc=COUNTRIES[country];
+      if(/\b(ride|grab|taxi|uber|getting around|transport|transportasi|ojek)\b/.test(q)){ var r=rides(country); return a('<p><b>Getting around '+esc(cc[0])+':</b></p><ul>'+r.slice(0,4).map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ul>',[guideBtn(country)]); }
+      if(/\b(currency|money|cash|atm|mata uang|uang)\b/.test(q)) return a('<p>'+esc(cc[0])+' uses <b>'+esc(cc[2])+' ('+esc(cc[3])+')</b>. About '+esc(cc[3])+' '+Math.round(cc[4]).toLocaleString()+' = US$1 (approximate; check today\'s rate).</p>');
+      if(/\b(budget|cost|price|expensive|cheap|how much|biaya|harga|mahal|murah|anggaran)\b/.test(q)) return budgetAns(country,null);
+      if(/\b(visa|passport|paspor|entry)\b/.test(q)) return visaAns(cc[0]);
+      if(/\b(best time|when|season|weather|month|cuaca|musim|kapan|bulan)\b/.test(q)) return a('<p><b>Best months in '+esc(cc[0])+'</b> (it depends on the region):</p><ul>'+cs.map(function(k){ var b=monthRanges(SEASON[k]||'','d'); return b?'<li><b>'+esc(plain(IT[k].name))+':</b> '+b+'</li>':''; }).join('')+'</ul>',[guideBtn(country)]);
+      return a('<p><b>'+esc(cc[0])+'</b>: Travel Bestie has plans for '+esc(list(cs.map(function(k){ return plain(IT[k].name); })))+'.</p><p>Ask me about any of them, e.g. "best time to visit '+esc(plain(IT[cs[0]].name))+'".</p>',[guideBtn(country)].concat(cs.slice(0,2).map(planBtn))); }
+
+    if(city){ var c=IT[city], nm=plain(c.name), g=guide(city), code=SEASON[city]||'', ctry=COUNTRIES[c.country]||['','', '','',1,[20,8,20]];
+      if(month!=null&&code){ var ch=code[month]||'m', st=(SCITY[city]||{})[ch]||STXT[ch]||['','',''], yy=new Date().getFullYear()+(month<new Date().getMonth()?1:0), evm=window.tbEventsFor?window.tbEventsFor(city,iso(new Date(yy,month,1)),iso(new Date(yy,month+1,0))):[];
+        if(evm.length) return a('<p><b>'+esc(nm)+' in '+cap(MON[month])+':</b> '+esc(st[0]+' '+st[1])+'. '+esc(st[2])+'</p><p><b>🎉 Happening then:</b> '+evm.map(function(e){ return esc(e[3])+' ('+fmtD(e[0])+(e[5]?', expected':'')+')'; }).join('; ')+'.</p>',[planBtn(city)]); return a('<p><b>'+esc(nm)+' in '+cap(MON[month])+':</b> '+esc(st[0]+' '+st[1])+'. '+esc(st[2])+'</p>'+(code.indexOf('d')>-1?'<p>Best months: '+monthRanges(code,'d')+'.</p>':''),[planBtn(city)]); }
+      if(/\b(best time|when|season|weather|rain|hot|cold|month|cuaca|musim|kapan|hujan|bulan)\b/.test(q)) return a('<p><b>Best time for '+esc(nm)+':</b> '+(monthRanges(code,'d')||'it varies')+'.</p><p>'+esc(c.note||'')+'</p>'+(monthRanges(code,'t')?'<p>🌀 Storms are possible in '+monthRanges(code,'t')+'.</p>':''),[planBtn(city)]);
+      if(/\b(how many days|how long|berapa hari|itinerary|itinerari|jadwal)\b/.test(q)) return a('<p><b>'+c.days.length+' days</b> covers '+esc(nm)+'\'s highlights:</p><ul>'+c.days.map(function(d,i){ return '<li>Day '+(i+1)+': '+esc(d.t)+'</li>'; }).join('')+'</ul><p>You can plan up to 30 days and add more cities.</p>',[planBtn(city)]);
+      if(/\b(eat|food|halal|restaurant|makan|kuliner|makanan|dish)\b/.test(q)) return a('<p><b>Eating in '+esc(nm)+':</b> '+esc(g.eat||'Try the local markets and street food; look for halal signs if you need them.')+'</p>',[planBtn(city)]);
+      if(/\b(stay|hotel|area|neighbourhood|neighborhood|menginap|nginap|penginapan)\b/.test(q)) return a('<p><b>Where to stay in '+esc(nm)+':</b> '+esc(g.stay||'Stay central, near public transport, to save time.')+'</p><p>Add your hotel and price in your plan\'s Overview to include it in your budget.</p>',[planBtn(city)]);
+      if(/\b(get there|getting there|fly|flight|airport|how to get|pesawat|bandara)\b/.test(q)) return a('<p><b>Getting to '+esc(nm)+':</b> '+esc(g.get||'Check flights to the nearest airport.')+'</p>',[planBtn(city)]);
+      if(/\b(ride|grab|taxi|uber|getting around|transport|transportasi|ojek)\b/.test(q)){ var rr=rides(c.country); return a('<p><b>Getting around '+esc(nm)+':</b></p><ul>'+rr.slice(0,4).map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ul>',[planBtn(city)]); }
+      if(/\b(book|ticket|reserve|pesan|tiket|booking)\b/.test(q)){ var bk=BOOK.filter(function(b){ return c.days.some(function(d){ return d.i.some(function(x){ return (x[1]+' '+x[2]).indexOf(b[0])>-1; }); }); }).map(function(b){ return b[2]; }).filter(function(v,i,arr){ return arr.indexOf(v)===i; });
+        return a(bk.length?'<p><b>Book ahead for '+esc(nm)+':</b></p><ul>'+bk.slice(0,6).map(function(x){ return '<li>'+esc(x)+'</li>'; }).join('')+'</ul>':'<p>Nothing in '+esc(nm)+'\'s plan must be booked far ahead; check opening hours the day before.</p>',[planBtn(city)]); }
+      if(/\b(budget|cost|price|expensive|cheap|how much|biaya|harga|mahal|murah|anggaran)\b/.test(q)) return budgetAns(c.country,city);
+      if(/\b(visa|passport|paspor|entry)\b/.test(q)) return visaAns(ctry[0]);
+      if(/\b(pack|packing|bring|wear|clothes|bawa|pakaian|baju)\b/.test(q)) return packAns(city);
+      var stops=[], seen={}; c.days.forEach(function(d){ d.i.forEach(function(x){ if(!seen[x[1]]&&!/airport|station|pier|^(Hanoi|Manila|Shinjuku|Malang)$/i.test(x[1])&&x[1]!==nm){ seen[x[1]]=1; stops.push(x[1]); } }); });
+      var t2=TAG[city];
+      var kAct=window.tbKlook?[['🎟️ Day trips on Klook','data-klook',window.tbKlook(nm+' day trip')]]:[]; return a((t2?'<p><b>'+esc(nm)+'</b>, “'+esc(t2[0])+'”: '+esc(t2[1])+'.</p>':'')+'<p><b>Top things to do:</b> '+esc(g.see||list(stops.slice(0,7)))+'</p>'+((window.TB_TRENDING||{})[city]?'<p><b>🔥 Trending now:</b> '+window.TB_TRENDING[city].map(function(t){ return esc(t[0]); }).join(', ')+'</p>':''),[planBtn(city),guideBtn(c.country)].concat(kAct)); }
+
+    // general travel questions with no specific place
+    if(/\b(visa|passport|paspor)\b/.test(q)) return visaAns(null);
+    if(/\b(pack|packing|bring|bawa|koper)\b/.test(q)) return packAns(null);
+    if(/\b(sim|esim|internet|wifi|data)\b/.test(q)) return a('<p>Most visitors buy a local SIM or an eSIM at the airport or online before flying; it\'s usually much cheaper than roaming. Have your passport ready to register a SIM.</p>');
+    if(/\b(safe|safety|scam|aman|penipuan)\b/.test(q)) return a('<p>General tips: keep valuables close in crowds, use official taxis or ride apps, agree prices before tuk-tuk or boat rides, and save your hotel address offline. Always check your government\'s travel advice for your destination.</p>');
+    if(/\b(budget|cost|cheap|biaya|murah)\b/.test(q)) return a('<p>Tell me where you\'re going (e.g. "budget for Bali") and I\'ll give a daily estimate. In your plan, the Overview tracks your budget (not counting hotels).</p>');
+    return a('<p>Hmm, I\'m not sure about that one, Bestie. I can help with destinations on Travel Bestie (best time to visit, things to do, food, where to stay, getting around, bookings, budget) and how to use the site. Try "best time to visit Bali" or "how do I share my plan?".</p>');
+  }
+  var CCODE={singapore:'SG',indonesia:'ID',vietnam:'VN',philippines:'PH',cambodia:'KH',china:'CN','hong-kong':'HK',japan:'JP','south-korea':'KR',australia:'AU'};
+  function iso(d){ return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+  function fmtD(s){ var d=new Date(s+'T00:00:00'); return d.getDate()+' '+cap(MON[d.getMonth()]).slice(0,3)+' '+d.getFullYear(); }
+  function eventsAns(city,country,month,q){
+    var now=new Date(), from=iso(now), to=iso(new Date(now.getTime()+183*864e5)), label='in the next 6 months';
+    if(month!=null){ var y=now.getFullYear()+(month<now.getMonth()?1:0); from=iso(new Date(y,month,1)); to=iso(new Date(y,month+1,0)); label='in '+cap(MON[month])+' '+y; }
+    var place=city||country, where=city?plain(IT[city].name):(country?COUNTRIES[country][0]:'');
+    var ev=place?window.tbEventsFor(place,from,to):(window.TB_EVENTS||[]).filter(function(e){ return e[1]>=from&&e[0]<=to; });
+    var kw=q.match(/\b(beach club|lebaran|ramadan|eid|nyepi|songkran|tet|seollal|chuseok|golden week|cherry blossom|sakura|new year|christmas|lunar)\b/);
+    if(kw){ var k=kw[1].replace('sakura','cherry blossom').replace('lebaran','eid').replace('tet','lunar').replace('seollal','lunar'); var all=(window.TB_EVENTS||[]).filter(function(e){ return e[1]>=iso(now)&&norm(e[3]+' '+e[4]).indexOf(k)>-1&&(!place||window.tbEventsFor(place,e[0],e[1]).indexOf(e)>-1); }); if(all.length){ ev=all; label='coming up'; } }
+    var seen={}; ev=ev.filter(function(e){ var key=e[3]; if(seen[key]) return false; seen[key]=1; return true; }).slice(0,8);
+    var html=ev.length?'<p><b>🎉 '+(where?esc(where)+' ':'')+label+':</b></p><ul>'+ev.map(function(e){ return '<li><b>'+esc(e[3])+'</b>, '+fmtD(e[0])+(e[1]!==e[0]?' to '+fmtD(e[1]):'')+(e[5]?' <i>(expected)</i>':'')+'. '+esc(e[4])+'</li>'; }).join('')+'</ul>'
+      :'<p>I don\'t have big festivals listed '+(where?'for '+esc(where)+' ':'')+label+'. That usually means quieter sights and normal prices 😊</p>';
+    html+='<p style="font-size:12px;opacity:.75">Dates marked “expected” depend on the moon or haven\'t been announced; check official sites closer to the time.</p>';
+    var acts=city?[planBtn(city)]:(country?[guideBtn(country)]:[]);
+    var cc=CCODE[country||(city&&IT[city].country)];
+    return {html:html,acts:acts,after:cc?function(el){ var years=[from.slice(0,4)]; if(to.slice(0,4)!==years[0]) years.push(to.slice(0,4));
+      Promise.all(years.map(function(y){ return fetch('https://date.nager.at/api/v3/PublicHolidays/'+y+'/'+cc).then(function(r){ return r.ok?r.json():[]; }).catch(function(){ return []; }); })).then(function(rs){
+        var hs=[].concat.apply([],rs).filter(function(h){ return h.date>=from&&h.date<=to&&(h.global!==false); }), names={};
+        hs=hs.filter(function(h){ if(names[h.name]) return false; names[h.name]=1; return !ev.some(function(e){ return h.date>=e[0]&&h.date<=e[1]; }); }).slice(0,8);
+        if(!hs.length) return; var p=document.createElement('div'); p.innerHTML='<p><b>📅 Public holidays '+label+'</b> (live):</p><ul>'+hs.map(function(h){ return '<li>'+fmtD(h.date)+': '+esc(h.name)+'</li>'; }).join('')+'</ul>'; el.insertBefore(p,el.querySelector('.acts')); }); }:null};
+  }
+  function budgetAns(country,city){ var cc=COUNTRIES[country]; if(!cc) return a('<p>I don\'t have budget numbers for that place yet.</p>'); var e=cc[5]||[20,8,20], usd=e[0]+e[1]+e[2], fx=cc[4]||1, r=function(v){ var x=v*fx; return cc[3]+' '+(x>=1000?Math.round(x/1000)*1000:Math.round(x)).toLocaleString(); };
+    return a('<p><b>Rough daily spend per person in '+esc(city?plain(IT[city].name):cc[0])+'</b> (not counting hotels):</p><ul><li>🍜 Food: about '+r(e[0])+'</li><li>🚇 Local transport: about '+r(e[1])+'</li><li>🎟️ Tickets and activities: about '+r(e[2])+'</li></ul><p>≈ <b>'+r(usd)+'</b> a day (US$'+usd+'). Your plan\'s Overview works it out day by day.</p>',city?[planBtn(city)]:[guideBtn(country)]); }
+  function visaAns(cn){ return a('<p>Visa rules depend on your passport and change often, so I can\'t confirm them'+(cn?' for '+esc(cn):'')+'. Check the official immigration or embassy website before you book, and make sure your passport is valid for at least 6 months.</p>'); }
+  function packAns(city){ var m=new Date().getMonth(), code=city?(SEASON[city]||'')[m]:null, x=[];
+    x.push('Passport, a copy of your bookings and some local cash'); x.push('Comfortable walking shoes'); x.push('Power bank and the right plug adapter');
+    if(code==='w'||code==='t') x.push('Umbrella or light rain jacket'); if(code==='h'||code==='d') x.push('Sunscreen, hat and a refillable water bottle'); if(code==='c') x.push('Warm layers and a jacket');
+    x.push('Modest clothes (shoulders and knees covered) for temples and mosques');
+    return a('<p><b>Packing list'+(city?' for '+esc(plain(IT[city].name))+' this month':'')+':</b></p><ul>'+x.map(function(s){ return '<li>'+s+'</li>'; }).join('')+'</ul>'); }
+  function refuse(){ return a(ID?'<p>Maaf Bestie, aku hanya bisa membantu soal <b>cara memakai situs ini</b> serta <b>tips dan pertanyaan seputar perjalanan</b> 💜 Coba tanya, misalnya, "kapan waktu terbaik ke Bali?"</p>':'<p>Sorry Bestie, I can only help with <b>using this website</b> and with <b>travel tips and questions</b> 💜 Try asking something like "best time to visit Bali?" or "how do I share my plan?"</p>'); }
+
+  // ---- the chat window ----
+  var fab=document.createElement('button'); fab.type='button'; fab.className='tb-hfab'; fab.setAttribute('aria-label','Ask Sarah, the Travel Bestie helper');
+  fab.innerHTML='<img src="'+AVATAR+'" alt="" onerror="this.onerror=null;this.src=\'/favicon.svg\'"><span class="dot"></span><span class="lbl">'+(ID?'Tanya Sarah':'Ask Sarah')+'</span>';
+  var box=document.createElement('div'); box.className='tb-help'; box.setAttribute('role','dialog'); box.setAttribute('aria-label','Chat with Sarah, the Travel Bestie helper');
+  box.innerHTML='<div class="tb-hhead"><img class="tb-hav" src="'+AVATAR+'" alt="Sarah, illustrated" onerror="this.onerror=null;this.src=\'/favicon.svg\'"><div><b>Sarah</b><small>'+(ID?'Asisten otomatis Sarah · bukan chat langsung':'Sarah\'s automated travel helper · not a live chat')+'</small></div><button type="button" class="tb-hx" aria-label="Close">&times;</button></div>'+
+    '<div class="tb-hmsgs" aria-live="polite"></div><div class="tb-hchips"></div><form class="tb-hform"><input type="text" maxlength="300" placeholder="'+(ID?'Tanya soal trip-mu…':'Ask about your trip…')+'" aria-label="Your question"><button type="submit" aria-label="Send">&#10148;</button></form>'+
+    '<div class="tb-hnote">'+(ID?'Jawaban dari panduan Travel Bestie. Hanya topik perjalanan.':'Answers come from Travel Bestie\'s guides. Travel topics only.')+'</div>';
+  document.body.appendChild(fab); document.body.appendChild(box);
+  var msgs=box.querySelector('.tb-hmsgs'), inp=box.querySelector('input'), chips=box.querySelector('.tb-hchips'), greeted=false;
+  var CHIPS=ID?['Kapan waktu terbaik ke Bali?','Ngapain di Tokyo?','Budget sehari di Thailand?','Cara bagikan rencanaku?','Rekomendasi bulan Desember']:['Best time to visit Bali?','Things to do in Tokyo?','Daily budget in Thailand?','How do I share my plan?','Where to go in December?'];
+  chips.innerHTML=CHIPS.map(function(c){ return '<button type="button">'+esc(c)+'</button>'; }).join('');
+  function add(html,me,acts){ var m=document.createElement('div'); m.className='tb-hm'+(me?' me':''); m.innerHTML=html; if(acts&&acts.length){ var ab=document.createElement('div'); ab.className='acts'; acts.forEach(function(x){ var b=document.createElement('button'); b.type='button'; b.textContent=x[0]; b.setAttribute(x[1],x[2]); ab.appendChild(b); }); m.appendChild(ab); } msgs.appendChild(m); msgs.scrollTop=msgs.scrollHeight; return m; }
+  function ask(text){ text=String(text||'').trim(); if(!text) return; add(esc(text),true); inp.value=''; var t=add('Sarah is typing…'); t.classList.add('typing');
+    setTimeout(function(){ t.remove(); var r; try{ r=answer(text); }catch(e){ r=a('<p>Oops, I got confused. Try asking another way?</p>'); } var el=add(r.html,false,r.acts); if(r.after) try{ r.after(el); }catch(e){} }, 450+Math.random()*350); }
+  function open(){ box.classList.add('open'); fab.setAttribute('aria-expanded','true'); if(!greeted){ greeted=true; add(ID?'<p>Hai Bestie! 💜 Aku <b>Sarah</b>, pendiri Travel Bestie. Ini asisten otomatisku, jadi jawabannya langsung dari panduan Travel Bestie. Tanyakan soal destinasi, waktu terbaik, makanan, transportasi, anggaran, atau cara memakai situs ini.</p>':'<p>Hi Bestie! 💜 I\'m <b>Sarah</b>, the founder of Travel Bestie. This is my automated helper, so you\'ll get instant answers from our travel guides. Ask me about destinations, the best time to go, food, getting around, budgets, or how to use the site.</p>'); } setTimeout(function(){ inp.focus(); },50); }
+  function close(){ box.classList.remove('open'); fab.setAttribute('aria-expanded','false'); }
+  fab.addEventListener('click',function(e){ e.stopPropagation(); box.classList.contains('open')?close():open(); });
+  box.querySelector('.tb-hx').addEventListener('click',close);
+  box.querySelector('form').addEventListener('submit',function(e){ e.preventDefault(); ask(inp.value); });
+  chips.addEventListener('click',function(e){ var b=e.target.closest('button'); if(b) ask(b.textContent); });
+  box.addEventListener('click',function(e){ if(e.target.closest('.acts button')) setTimeout(close,150); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&box.classList.contains('open')) close(); });
+  window.tbBestie={ask:ask,answer:answer,open:open};
+})();
+</script>
+<script>
+/* buttons in Ask Sarah answers that open Klook in a new tab */
+document.addEventListener('click',function(e){ var b=e.target.closest&&e.target.closest('.tb-hm .acts [data-klook]'); if(b){ e.preventDefault(); window.open(b.getAttribute('data-klook'),'_blank','noopener'); } });
+</script>

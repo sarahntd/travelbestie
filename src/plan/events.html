@@ -1,0 +1,91 @@
+<script>
+/* Festivals, holidays and big events that change a trip (crowds, closures, prices) or are worth planning around.
+   Researched 18 Nov 2026. tbc:true = date expected but not officially confirmed yet (moon sighting or not announced).
+   Each: [start, end, where (country or city keys), name, what to know, tbc?]. Used by "Ask Sarah" and the day pages. */
+window.TB_EVENTS=[
+ ["2026-11-24","2026-11-25",["thailand","chiang-mai","bangkok"],"Loy Krathong and Yi Peng","Floating krathong baskets on rivers and, in Chiang Mai, sky lanterns. Hotels in Chiang Mai fill up; book early."],
+ ["2026-12-01","2026-12-31",["hong-kong"],"Hong Kong WinterFest","Christmas lights and events around the harbour all month."],
+ ["2026-12-22","2026-12-22",["hong-kong"],"Winter Solstice (Dong Zhi)","A family festival; some shops close early."],
+ ["2026-12-25","2026-12-25",["singapore","philippines","hong-kong","australia","indonesia","malaysia","south-korea","vietnam"],"Christmas","Malls and city centres are decorated and busy; some shops close on the day in Australia."],
+ ["2026-12-31","2026-12-31",["sydney"],"New Year's Eve fireworks, Sydney Harbour","One of the world's biggest fireworks shows. Free vantage points fill by early afternoon; some areas need tickets."],
+ ["2026-12-31","2026-12-31",["singapore"],"New Year's Eve countdown, Marina Bay","Fireworks over Marina Bay; MRT stations nearby get very crowded."],
+ ["2026-12-31","2026-12-31",["hong-kong"],"New Year's Eve harbour fireworks","Fireworks and music over Victoria Harbour; get to Tsim Sha Tsui early."],
+ ["2026-12-31","2026-12-31",["bangkok","phuket","koh-samui","krabi"],"New Year's Eve parties","Beach clubs and rooftop bars hold big parties; book tables and transport ahead."],
+ ["2026-12-30","2026-12-31",["bali"],"New Year's Eve at FINNS Beach Club (Canggu)","A two-day beach club festival, 30 and 31 Dec: doors 2 PM, last entry midnight, ends 2 AM, 18+. Tickets only on FINNS' official site (no door sales) and they sell out early."],
+ ["2026-12-31","2026-12-31",["bali"],"New Year's Eve at Atlas Beach Club (Canggu)","Huge beach club party with an international headliner: gates 1 PM, 16+. Early-bird general admission was advertised from about Rp1.5 million."],
+ ["2026-12-31","2026-12-31",["bali"],"New Year's Eve at Savaya (Uluwatu)","Clifftop beach club party, strictly 21+. Premium, limited tickets on Savaya's official site."],
+ ["2026-12-31","2026-12-31",["bali"],"New Year's Eve at Potato Head Beach Club (Seminyak)","Beach club party from 4 PM, ticketed, with a separately ticketed after-party."],
+ ["2026-12-31","2026-12-31",["bali"],"New Year's Eve at White Rock Beach Club","Day-to-night beach club party; the budget pick, with early-bird standing tickets from about Rp150,000 on Megatix."],
+ ["2026-12-31","2027-01-03",["japan","tokyo","kyoto","osaka"],"Japanese New Year (Shogatsu)","Temple bells at midnight and first shrine visits. Many shops, restaurants and some museums close 1 to 3 January."],
+ ["2027-01-29","2027-02-07",["osaka"],"Kobe Luminarie","Light festival in Kobe, 30 minutes from Osaka."],
+ ["2027-02-04","2027-02-11",["sapporo"],"Sapporo Snow Festival","Giant snow and ice sculptures at Odori Park, Susukino and Tsu-Dome. Hotels sell out months ahead."],
+ ["2027-02-06","2027-02-13",["sapporo"],"Otaru Snow Light Path","Candle-lit snow lanterns along Otaru's canal."],
+ ["2027-02-06","2027-02-09",["china","hong-kong","taiwan","singapore","malaysia","south-korea","vietnam","indonesia","beijing","shanghai","xian","chengdu","kuala-lumpur","penang","saigon","hanoi","da-nang","hoi-an","seoul","busan","jeju","taipei","tainan"],"Lunar New Year (Chinese New Year, Tet, Seollal)","The biggest holiday of the year: 6 February 2027. Expect festive decorations and lion dances, but also closed shops for a few days, packed trains and flights, and higher prices. In Vietnam many places close around 4 to 10 February; in China the travel rush lasts weeks. Book everything early."],
+ ["2027-02-08","2027-03-09",["indonesia","malaysia","brunei","singapore"],"Ramadan","The fasting month is expected to start around 8 February. Eat discreetly in daytime in conservative areas; evening Ramadan bazaars are a highlight. Some restaurants close in the day.",true],
+ ["2027-02-20","2027-02-20",["taiwan","hong-kong","china","taipei","tainan"],"Lantern Festival","The last day of Lunar New Year, with lanterns and riddles."],
+ ["2027-02-20","2027-03-07",["taiwan","taipei","tainan"],"Taiwan Lantern Festival (Miaoli)","The national lantern festival is held in Miaoli County in 2027.",true],
+ ["2027-03-07","2027-03-07",["bali"],"Ogoh-ogoh parades (Nyepi eve)","Giant demon effigies paraded through villages the evening before Nyepi."],
+ ["2027-03-08","2027-03-08",["bali"],"Nyepi, Bali's Day of Silence","For 24 hours from 6 AM the whole island stops: no going out, the airport closes and hotels keep lights low. Don't plan travel in or out that day."],
+ ["2027-03-10","2027-03-12",["indonesia","malaysia","brunei","singapore","jakarta","bromo","java","sumatera","kuala-lumpur","penang","malacca","langkawi","kota-kinabalu","bandar-seri-begawan","lombok"],"Eid al-Fitr (Lebaran, Hari Raya)","Expected 10 March (possibly 9 to 11). Millions travel home: trains, buses and flights sell out and roads jam for about a week before and after. Many shops and warungs close for a few days.",true],
+ ["2027-03-24","2027-04-08",["japan","tokyo","kyoto","osaka"],"Cherry blossom season (Tokyo, Kyoto, Osaka)","Usually peaks from late March to early April; check the forecast from February. Parks are packed and hotels cost more.",true],
+ ["2027-03-28","2027-04-12",["south-korea","seoul","busan","jeju"],"Cherry blossom season in Korea","Jeju and Busan bloom first (late March), Seoul in early April.",true],
+ ["2027-04-13","2027-04-15",["thailand","bangkok","phuket","chiang-mai","krabi","koh-samui"],"Songkran (Thai New Year)","Nationwide water fights; expect to get soaked. Protect your phone in a waterproof pouch. Some businesses close; transport is busy."],
+ ["2027-04-14","2027-04-16",["cambodia","laos","siem-reap","phnom-penh","luang-prabang","vang-vieng"],"Khmer and Lao New Year","Water blessings and celebrations; many shops close and buses fill up."],
+ ["2027-04-13","2027-04-16",["myanmar","yangon","bagan"],"Thingyan water festival","Myanmar's New Year water festival; many places close.",true],
+ ["2027-04-29","2027-05-05",["japan","tokyo","kyoto","osaka","sapporo"],"Golden Week","Japan's busiest holiday week: trains, sights and hotels are packed and pricier."],
+ ["2027-05-01","2027-05-05",["china","beijing","shanghai","xian","chengdu"],"Labour Day holiday","A domestic travel peak; big sights are crowded.",true],
+ ["2027-05-17","2027-05-17",["indonesia","malaysia","brunei","singapore"],"Eid al-Adha","A public holiday; some businesses close.",true],
+ ["2027-05-20","2027-05-20",["java","indonesia","singapore","malaysia"],"Vesak","Buddhist holiday; candlelit procession to Borobudur in Java."],
+ ["2027-05-28","2027-06-19",["sydney"],"Vivid Sydney","Light shows on the Opera House and around the harbour every evening, plus music and talks."],
+ ["2027-07-01","2027-07-31",["kyoto"],"Gion Matsuri","Kyoto's month-long festival; the big float parades are on 17 and 24 July, and the streets fill on the evenings before."],
+ ["2027-08-09","2027-08-09",["singapore"],"National Day","Parade and fireworks over Marina Bay."],
+ ["2027-08-13","2027-08-16",["japan","tokyo","kyoto","osaka","sapporo"],"Obon","Family holiday with lantern festivals; trains and flights are busy."],
+ ["2027-08-17","2027-08-17",["indonesia","bali","jakarta","java","lombok"],"Indonesian Independence Day","Flags, parades and village games everywhere."],
+ ["2027-08-31","2027-08-31",["malaysia","kuala-lumpur"],"Merdeka (Independence Day)","Celebrations at Merdeka Square in KL."],
+ ["2027-09-02","2027-09-02",["vietnam","hanoi","saigon"],"Vietnam National Day","Flags and fireworks; a public holiday."],
+ ["2027-09-14","2027-09-16",["south-korea","seoul","busan","jeju"],"Chuseok","Korea's harvest holiday: many shops and restaurants close, and transport is very busy. Palaces are often free.",true],
+ ["2027-09-15","2027-09-15",["hong-kong","singapore","vietnam","china","taiwan","malaysia","hoi-an","penang"],"Mid-Autumn Festival","Lanterns and mooncakes; lovely in Hong Kong, Singapore's Chinatown and Hoi An.",true],
+ ["2027-10-01","2027-10-07",["china","beijing","shanghai","xian","chengdu","hong-kong"],"China National Day Golden Week","China's biggest travel week: sights, trains and hotels are packed. Avoid if you can."],
+ ["2027-10-28","2027-10-28",["singapore","malaysia","kuala-lumpur","penang"],"Deepavali","Festival of lights; Little India in Singapore glows for weeks.",true],
+ ["2027-11-13","2027-11-14",["thailand","chiang-mai","bangkok"],"Loy Krathong and Yi Peng (expected)","Lantern and floating-basket festival; the 2027 lunar date isn't confirmed yet.",true]
+];
+
+/* events at a place (city key, or the city's country) between two ISO dates */
+window.tbEventsFor=function(cityOrCountry,from,to){ var IT=window.TB_ITIN||{}, c=IT[cityOrCountry], keys=[cityOrCountry]; if(c) keys.push(c.country);
+  return (window.TB_EVENTS||[]).filter(function(e){ return e[1]>=from&&e[0]<=to&&e[2].some(function(k){ return keys.indexOf(k)>-1; }); }); };
+</script>
+<script>
+/* Which events change what you can do (closures, bans, sold-out transport): shown as warnings on the planner and Overview */
+(function(){ var ALERT=/Nyepi|Lunar New Year|Eid al-Fitr|Ramadan|Golden Week|Shogatsu|Chuseok|Songkran|Khmer and Lao New Year|Thingyan|Labour Day holiday|Alcohol sales ban|Obon/;
+  (window.TB_EVENTS||[]).forEach(function(e){ if(ALERT.test(e[3])) e[6]='alert'; }); })();
+/* Thailand bans alcohol sales on major Buddhist holidays (lunar dates, expected) */
+window.TB_EVENTS.push(
+ ["2027-02-20","2027-02-20",["thailand","bangkok","phuket","chiang-mai","krabi","koh-samui"],"Alcohol sales ban (Makha Bucha)","Buddhist holiday: shops, bars and most restaurants can't sell alcohol all day; temples hold candle processions.",true,"alert"],
+ ["2027-05-20","2027-05-20",["thailand","bangkok","phuket","chiang-mai","krabi","koh-samui"],"Alcohol sales ban (Visakha Bucha)","Buddhist holiday: no alcohol sales all day.",true,"alert"],
+ ["2027-07-18","2027-07-19",["thailand","bangkok","phuket","chiang-mai","krabi","koh-samui"],"Alcohol sales ban (Asahna Bucha and Khao Phansa)","Two Buddhist holidays in a row: no alcohol sales.",true,"alert"]
+);
+/* Standing local rules worth knowing before you go (not tied to dates) */
+window.TB_RULES_ALWAYS={
+ "bali":["Bali tourist levy: Rp150,000 per foreign visitor, paid online before you arrive (lovebali.baliprov.go.id) or at the airport.","Dress modestly at temples (sarong and sash); don't climb shrines or sacred trees."],
+ "kyoto":["Gion's private lanes are off-limits to tourists, and photographing geiko without permission can lead to fines."],
+ "japan":["Many onsen refuse guests with tattoos; look for tattoo-friendly baths or cover them.","Eating while walking is frowned on in many areas; carry your rubbish home (there are few bins)."],
+ "singapore":["Fines for littering, jaywalking and eating or drinking on the MRT; chewing gum isn't sold.","Vaping is illegal, including for tourists."],
+ "thailand":["Vaping and e-cigarettes are illegal; they can be confiscated, with heavy fines.","Never criticise the monarchy; it's a serious crime."],
+ "philippines":["Fill in the eTravel form online within 72 hours before you arrive (etravel.gov.ph)."],
+ "china":["Google, WhatsApp and Instagram are blocked; set up Alipay or WeChat Pay and an eSIM with roaming before you go.","Carry your passport: hotels, trains and many sights check it."],
+ "brunei":["No alcohol is sold; non-Muslim visitors may bring a small allowance and must declare it.","Many places close for Friday prayers, about 12 to 2 PM."],
+ "malaysia":["Dress modestly at mosques; robes are usually provided."],
+ "indonesia":["Dress modestly at mosques and temples; carry a sarong."],
+ "australia":["Strict biosecurity: declare all food, plants and animal products when you land, or face big fines."],
+ "south-korea":["Many visitors need a K-ETA before flying; check the official site for your passport."],
+ "vietnam":["Check whether you need an e-visa (evisa.gov.vn) before you fly."],
+ "cambodia":["Buy your Angkor Pass only at the official ticket centre or angkorenterprise.gov.kh; cover shoulders and knees at temples."]
+};
+window.tbRulesFor=function(city){ var IT=window.TB_ITIN||{}, c=IT[city], R=window.TB_RULES_ALWAYS||{}; return (R[city]||[]).concat(c?(R[c.country]||[]):[]); };
+/* everything a trip crosses: alerts first */
+window.tbTripHeadsUp=function(legs,from){ var out=[], di=0, seen={};
+  (legs||[]).forEach(function(l){ var a=new Date(from+'T00:00:00'); a.setDate(a.getDate()+di); var b=new Date(a); b.setDate(b.getDate()+Math.max(1,l.days)-1); di+=l.days;
+    function iso(d){ return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+    window.tbEventsFor(l.city,iso(a),iso(b)).forEach(function(e){ var k=e[3]+'|'+e[0]; if(seen[k]) return; seen[k]=1; out.push({city:l.city,e:e}); }); });
+  return out.sort(function(x,y){ return (y.e[6]==='alert')-(x.e[6]==='alert')||(x.e[0]<y.e[0]?-1:1); }); };
+</script>
