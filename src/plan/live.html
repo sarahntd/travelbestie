@@ -4,7 +4,7 @@
    These values are public by design; access is controlled by firebase/firestore.rules. */
 window.TB_FIREBASE = {apiKey:"AIzaSyDmot_XP53zEpYxfiDwFwERXI8b98k7W4o",authDomain:"travel-bestie.firebaseapp.com",projectId:"travel-bestie",storageBucket:"travel-bestie.firebasestorage.app",messagingSenderId:"617557527123",appId:"1:617557527123:web:81310927e84b2b293894a6"};
 /* Feedback form: the Google Apps Script web app URL (ends with /exec). See scripts/feedback-apps-script.gs */
-window.TB_FEEDBACK_URL = null;
+window.TB_FEEDBACK_URL = "https://script.google.com/macros/s/AKfycbwA4g-bEgn517QdqGY9OONdiKJZ0GlseSvSkVH3dM0179qcU3lS40DdorpGEAcZf77K/exec";
 
 (function(){
   var V='10.14.1', BASE='https://www.gstatic.com/firebasejs/'+V+'/';
@@ -41,6 +41,8 @@ window.TB_FEEDBACK_URL = null;
       return Promise.all(photos.slice(0,10).map(function(d,i){ return ref.collection('ph').doc(String(i)).set({d:d}); })); }).then(function(){ return ref.id; }); }); },
     removeReview:function(rid){ return ready().then(function(){ var ref=db.collection('reviews').doc(rid); return ref.collection('ph').get().then(function(q){ return Promise.all(q.docs.map(function(x){ return x.ref.delete(); })); }).then(function(){ return ref.delete(); }); }); },
     reviews:function(place,city){ return ready().then(function(){ return db.collection('reviews').where('place','==',place).where('city','==',city).limit(6).get(); }).then(function(q){ return q.docs.map(function(x){ var d=x.data(); d.id=x.id; return d; }); }); },
+    /* feedback from the Feedback page: anyone can send, only Sarah reads it in the Firebase console (Firestore > Data > feedback) */
+    sendFeedback:function(d){ function s(v,n){ return String(v==null?'':v).slice(0,n); } return ready().then(function(){ return db.collection('feedback').add({type:s(d.type,60),rating:Math.max(0,Math.min(5,parseInt(d.rating,10)||0)),message:s(d.message,3000),name:s(d.name,100),email:s(d.email,200),page:s(d.page,120),lang:s(d.lang,5),device:s(d.device,200),at:firebase.firestore.FieldValue.serverTimestamp()}); }); },
     /* group chats: one room per city and date window; members are anonymous (random names) */
     fs:function(P,MIN,overlap){ function R(id){ return db.collection(P).doc(id); }
       return {
