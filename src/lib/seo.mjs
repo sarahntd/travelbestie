@@ -35,6 +35,7 @@ export const COUNTRIES = [
   { slug: 'taiwan', name: 'Taiwan', flag: '🇹🇼', tag: 'Night markets, hot springs, mountain views and friendly, easy travel.' },
   { slug: 'japan', name: 'Japan', flag: '🇯🇵', tag: 'Neon cities, quiet temples, bullet trains and some of the best food on earth.' },
   { slug: 'south-korea', name: 'South Korea', flag: '🇰🇷', tag: 'K-culture, palaces, mountain temples, beaches and late-night street food.' },
+  { slug: 'sri-lanka', name: 'Sri Lanka', flag: '🇱🇰', tag: 'Ancient rock fortresses, tea hills, scenic trains, wild elephants and golden beaches.' },
   { slug: 'australia', name: 'Australia', flag: '🇦🇺', tag: 'Harbour cities, beaches, wildlife and the Great Barrier Reef.' },
 ];
 

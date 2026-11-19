@@ -99,8 +99,8 @@ html[data-theme="dark"] .tb-langmenu button.on,html[data-theme="dark"] .tb-langm
    "Download a backup to keep them on another device too.":"Unduh cadangan agar bisa dibuka di perangkat lain.","On iPhone, tap Share → Add to Home Screen so Safari keeps them, or download a backup.":"Di iPhone, ketuk Bagikan → Tambah ke Layar Utama agar Safari menyimpannya, atau unduh cadangan.",
    "Destination guide":"Panduan destinasi","Must see":"Wajib dikunjungi","Eat":"Kuliner","Where to stay":"Tempat menginap","Getting there from Singapore":"Cara ke sana dari Singapura","Getting there":"Cara ke sana","Getting around":"Transportasi","Good to know":"Perlu diketahui","Good to know before you go":"Perlu diketahui sebelum berangkat","What's on":"Acara terkini","Food to try":"Kuliner wajib coba","Beaches":"Pantai","Cafes":"Kafe","Restaurants":"Restoran","Activities":"Aktivitas","Paying":"Pembayaran","Internet and apps":"Internet dan aplikasi","Visa and passport":"Visa dan paspor","Halal food":"Makanan halal",
    "Plan your trip":"Rencanakan perjalanan","Edit your trip":"Ubah perjalanan","Set your dates and style, and we'll build your days.":"Atur tanggal dan gayamu, kami susun hari-harimu.",
-   "Where to":"Tujuan","Your trip goals (optional)":"Tujuan perjalananmu (opsional)","Dates":"Tanggal","From":"Dari","End trip":"Selesai","Travellers":"Wisatawan","person, just me":"orang, hanya aku","people":"orang",
-   "Public transport":"Transportasi umum","Ride apps":"Aplikasi transportasi online","Car":"Mobil","Scooter":"Motor","Walking":"Jalan kaki",
+   "Where to":"Tujuan","Your trip goals (optional)":"Tujuan perjalananmu (opsional)","Describe your trip goal (optional)":"Ceritakan tujuan perjalananmu (opsional)","Dates":"Tanggal","From":"Dari","End trip":"Selesai","Travellers":"Wisatawan","person, just me":"orang, hanya aku","people":"orang",
+   "Public transport":"Transportasi umum","Ride apps":"Aplikasi transportasi online","Car":"Mobil","Scooter":"Motor","Walking":"Jalan kaki","Main goal of your trip":"Tujuan utama perjalananmu","Culinary":"Kuliner","Nature":"Alam","Culture":"Budaya","History":"Sejarah","Relaxing":"Santai","Shopping":"Belanja","Nightlife":"Hiburan malam","We use this to choose the places, food stops and evening ideas in your days.":"Kami pakai ini untuk memilih tempat, kuliner dan ide malam di setiap harimu.",
    "Budget per person (optional)":"Anggaran per orang (opsional)","no limit":"tanpa batas","Create my plan":"Buat rencanaku","Save changes":"Simpan perubahan","Done":"Selesai","Somewhere else…":"Tempat lain…","Pick your first day":"Pilih hari pertama",
    "Please choose your From and End trip dates.":"Pilih tanggal mulai dan selesai.","Type the city or place you are going to.":"Ketik kota atau tempat tujuanmu.",
    "Edit plan":"Ubah rencana","Overview":"Ringkasan","My plans":"Rencanaku","Customise with Claude":"Sesuaikan dengan Claude","Getting around:":"Transportasi:","Your day":"Harimu",
@@ -129,13 +129,71 @@ html[data-theme="dark"] .tb-langmenu button.on,html[data-theme="dark"] .tb-langm
    "Search the plan":"Cari di rencana","Estimated budget":"Perkiraan anggaran","tickets and transport":"tiket dan transportasi","for":"untuk","food":"makan","tickets":"tiket","transport":"transportasi","note":"catatan","Rough estimates from straight-line distances and typical prices":"Perkiraan kasar dari jarak garis lurus dan harga umum","stop could not be placed on the map":"tempat tidak bisa ditemukan di peta","stops could not be placed on the map":"tempat tidak bisa ditemukan di peta","Light":"Terang","Dark":"Gelap"
   };
   // phrases that appear inside longer text
-  var SUB=[["Plan your trip to","Rencanakan perjalanan ke"],["Cheapest ride apps in","Aplikasi transportasi termurah di"],["Route for the day","Rute hari ini"],["Video reviews","Ulasan video"],["Book ahead for today:","Pesan dulu untuk hari ini:"],["Special transport today:","Transportasi khusus hari ini:"],["Balanced pace","tempo seimbang"],["Relaxed pace","tempo santai"],["Packed pace","tempo padat"],[" skipped"," dilewati"],[" added"," ditambah"],["walking, ~","jalan kaki, ~"],["Adjust Day","Atur Hari"],["Stop ","Tempat "],[" traveller"," wisatawan"],[" travellers"," wisatawan"],["visited","dikunjungi"],["Your day in","Harimu di"],["Free day: your pick","Hari bebas: pilihanmu"]];
+  var SUB=[["Plan your trip to","Rencanakan perjalanan ke"],["Cheapest ride apps in","Aplikasi transportasi termurah di"],["Route for the day","Rute hari ini"],["Video reviews","Ulasan video"],["Book ahead for today:","Pesan dulu untuk hari ini:"],["Special transport today:","Transportasi khusus hari ini:"],["Balanced pace","tempo seimbang"],["Relaxed pace","tempo santai"],["Packed pace","tempo padat"],[" skipped"," dilewati"],["walking, ~","jalan kaki, ~"],["Adjust Day","Atur Hari"],["Stop ","Tempat "],[" travellers"," wisatawan"],[" traveller"," wisatawan"],["Trending:","Lagi tren:"],[" days ·"," hari ·"],[" day ·"," hari ·"],["Your days adjust to the season.","Hari-harimu menyesuaikan musim."],["visited","dikunjungi"],["Your day in","Harimu di"],["Free day: your pick","Hari bebas: pilihanmu"]];
+  // newer parts of the site (Nov 2026 updates)
+  Object.assign(ID,{
+   "Your next adventure":"Petualangan berikutnya","to see your days, map and budget. Each plan can be up to 30 days, with several cities or countries.":"untuk melihat hari-harimu, peta dan anggaran. Tiap rencana bisa sampai 30 hari, dengan beberapa kota atau negara.",
+   "Share":"Bagikan","Share with friends":"Bagikan ke teman","Your plans are saved on this device. Download a backup to keep them on another device too.":"Rencanamu tersimpan di perangkat ini. Unduh cadangan agar bisa dibuka di perangkat lain juga.",
+   "Top 6 trending: what travellers are reading most this month":"6 teratas yang lagi tren: paling banyak dibaca traveler bulan ini","Show fewer countries":"Tampilkan lebih sedikit negara","& day trips":"& trip sehari",
+   "Skip the queues and lock in the best activities before you go. Book on Klook, then add it straight into your plan.":"Lewati antrean dan amankan aktivitas terbaik sebelum berangkat. Pesan di Klook, lalu tambahkan langsung ke rencanamu.",
+   "Free cancellation on many":"Banyak yang bisa batal gratis","Ticket on your phone":"Tiket langsung di HP","Add my Klook booking to my trip":"Tambahkan pesanan Klook ke trip-ku","For your trip and trending today":"Untuk trip-mu dan yang lagi tren hari ini",
+   "Your trip":"Trip-mu","See on Klook →":"Lihat di Klook →","Day trips and tickets":"Trip sehari dan tiket","Book on Klook":"Pesan di Klook","Book transport on Klook":"Pesan transportasi di Klook",
+   "Travel Bestie may earn a small commission when you book through these links, at no extra cost to you.":"Travel Bestie bisa mendapat komisi kecil jika kamu memesan lewat link ini, tanpa biaya tambahan untukmu.",
+   "Tap to set your travel dates":"Ketuk untuk mengatur tanggal perjalanan","Move your plans to another phone or browser":"Pindahkan rencanamu ke HP atau browser lain",
+   "Places, food and transport tips are from general knowledge and have not been checked against live listings. Check opening times, prices, weather and entry rules before you go.":"Info tempat, makanan dan transportasi berasal dari pengetahuan umum dan belum dicek dengan data langsung. Cek jam buka, harga, cuaca dan aturan masuk sebelum berangkat.",
+   "Where to":"Mau ke mana","Dates":"Tanggal","Travellers":"Jumlah traveler","Where you're staying (your start point)":"Tempat menginap (titik awalmu)",
+   "Each day starts here, and we show how far it is to your first stop. Going to more cities? Add the hotel for each one below.":"Setiap hari dimulai dari sini, dan kami tunjukkan jarak ke tempat pertamamu. Ke beberapa kota? Tambahkan hotel untuk tiap kota di bawah.",
+   "Happening during your trip":"Ada apa selama trip-mu","Make it a multi-city trip":"Buat jadi trip multi-kota","Several cities or countries in one plan (up to 30 days); travel days are added for you.":"Beberapa kota atau negara dalam satu rencana (sampai 30 hari); hari perjalanan ditambahkan otomatis.",
+   "from":"dari","until":"sampai","Add another city or country":"Tambah kota atau negara lain","(pick one or more)":"(pilih satu atau lebih)",
+   "Mixing works best: we suggest walking for short hops and your other choice for longer ones. Love walking? Say so in your trip goals and we'll walk more.":"Paling enak dicampur: kami sarankan jalan kaki untuk jarak dekat dan pilihan lainmu untuk jarak jauh. Suka jalan kaki? Tulis di tujuan trip-mu, nanti kami tambah jalan kakinya.",
+   "Budget per person (optional, not counting hotels)":"Anggaran per orang (opsional, belum termasuk hotel)","Public transport":"Transportasi umum","Ride apps":"Aplikasi ride","Car":"Mobil","Scooter":"Motor",
+   "Hotel name or area, e.g. Alila Seminyak":"Nama hotel atau area, mis. Alila Seminyak","Drag to change the order":"Seret untuk mengubah urutan","Hotel or start point in this city *":"Hotel atau titik awal di kota ini *",
+   "Getting there (optional): flight or train, e.g. SQ 938 at 10:30":"Cara ke sana (opsional): pesawat atau kereta, mis. SQ 938 jam 10:30","First day in this city":"Hari pertama di kota ini","Last day in this city":"Hari terakhir di kota ini",
+   "e.g. Honeymoon, love sunsets and seafood, halal food only, not too many early mornings, want one spa day.":"mis. Bulan madu, suka sunset dan seafood, hanya makanan halal, jangan terlalu banyak pagi buta, mau satu hari spa.",
+   "Pick at least one main goal for your trip (Culinary, Nature, Culture...), so we can plan the right places for you.":"Pilih minimal satu tujuan utama trip-mu (Kuliner, Alam, Budaya...), supaya kami bisa memilih tempat yang pas untukmu.",
+   "Add where you're staying (a hotel name or area). It's your start point for each day.":"Isi tempat menginapmu (nama hotel atau area). Ini titik awal setiap harimu.",
+   "On":"Nyala","Off":"Mati","Your goals:":"Tujuanmu:","Getting around today:":"Cara berkeliling hari ini:","Start from:":"Mulai dari:","Add your hotel or start point":"Tambahkan hotel atau titik awalmu",
+   "Add":"Tambah","Change":"Ubah","Remove":"Hapus","Cancel":"Batal","End the day at (optional):":"Akhiri hari di (opsional):","Not set":"Belum diisi",
+   "Hotel or place you start from":"Hotel atau tempat awalmu","Where you finish, e.g. your hotel or a restaurant":"Tempat selesai, mis. hotelmu atau restoran",
+   "We couldn't find this on the map. Try adding the area, e.g. \"Hotel name, Seminyak\".":"Kami tidak menemukannya di peta. Coba tambahkan area, mis. \"Nama hotel, Seminyak\".",
+   "Add one to this day, or book it on Klook (opens Klook in a new tab).":"Tambahkan ke hari ini, atau pesan di Klook (Klook terbuka di tab baru).",
+   "Sound on (tap to mute)":"Suara nyala (ketuk untuk matikan)","Sound off (tap to turn on)":"Suara mati (ketuk untuk menyalakan)","Map of today's route":"Peta rute hari ini",
+   "day-by-day spend estimate (food, tickets, transport)":"perkiraan pengeluaran harian (makan, tiket, transportasi)","travelling between stops":"perjalanan antar tempat","Your route":"Rutemu",
+   "Change how many days you spend in each city, or add another stop. Your days update automatically and keep your changes.":"Ubah berapa hari di tiap kota, atau tambah kota lain. Hari-harimu diperbarui otomatis dan perubahanmu tetap tersimpan.",
+   "Tours, tickets, shows, tables and transport to sort out before you go. Tick them off as you book.":"Tur, tiket, pertunjukan, reservasi meja dan transportasi yang perlu diurus sebelum berangkat. Centang saat sudah dipesan.",
+   "Your Klook bookings":"Pesanan Klook-mu","Booked a tour, ticket or day trip on Klook? Add it here and it goes straight onto the right day of your plan.":"Sudah pesan tur, tiket atau trip sehari di Klook? Tambahkan di sini dan langsung masuk ke hari yang tepat di rencanamu.",
+   "Add my Klook booking":"Tambah pesanan Klook-ku","Find things to book":"Cari yang bisa dipesan","Close to your budget limit.":"Mendekati batas anggaranmu.","Adjust your trip based on budget":"Sesuaikan trip dengan anggaran",
+   "Add where you are staying yourself. We don't book hotels, so copy the price from your booking.":"Tambahkan sendiri tempat menginapmu. Kami tidak memesankan hotel, jadi salin harganya dari pesananmu.",
+   "by public transport":"dengan transportasi umum","Watch the tutorial video":"Tonton video tutorial","Describe your trip goal (optional)":"Ceritakan tujuan perjalananmu (opsional)",
+   "pick one or more)":"pilih satu atau lebih)","Terms and conditions":"Syarat dan ketentuan","Privacy, safety and rules":"Privasi, keamanan dan aturan","Start":"Mulai","End":"Selesai",
+   "Nothing to pre-book; bumboats leave when full, carry cash":"Tidak perlu pesan dulu; bumboat berangkat saat penuh, bawa uang tunai"
+  });
+  // patterns with numbers or names inside
+  var RX=[[/^Show all (\d+) countries$/,'Tampilkan semua $1 negara'],[/^My trips · (\d+) plans?$/,'Trip-ku · $1 rencana'],[/^Local rules to know \((\d+)\)$/,'Aturan lokal yang perlu diketahui ($1)'],
+   [/^Route: (.*)$/,function(m,a){ return 'Rute: '+a.replace(/(\d+) days?\b/g,'$1 hari').replace(' in total',' total'); }],[/^(\d+) hops? by public transport$/,'$1 perpindahan dengan transportasi umum'],
+   [/^Use for every day in (.+)$/,'Pakai untuk semua hari di $1'],[/^Check out here, then travel to (.+)\.$/,'Check out di sini, lalu berangkat ke $1.'],
+   [/^≈ (.+?), about (.+?) (to|from) (.+)$/,function(m,a,b,c,d){ return '≈ '+a+', sekitar '+b.replace('public transport','transportasi umum').replace('ride apps','aplikasi ride').replace('walking','jalan kaki').replace('car','mobil').replace('scooter','motor')+' '+(c==='to'?'ke':'dari')+' '+d; }],
+   [/^Far from (.+); check the name\.$/,'Jauh dari $1; cek lagi namanya.'],[/^Day trips and tickets from (.+)$/,'Trip sehari dan tiket dari $1'],[/^Add to Day (\d+)$/,'Tambah ke Hari $1'],
+   [/^See all (.+) day trips on Klook$/,'Lihat semua trip sehari $1 di Klook'],[/^I booked on Klook, add it to Day (\d+)$/,'Sudah pesan di Klook, tambahkan ke Hari $1'],
+   [/^Based on (\d+) of (\d+) days; open the other days to include them\. Hotels and flights are in the budget below\.$/,'Berdasarkan $1 dari $2 hari; buka hari lainnya untuk menghitungnya. Hotel dan tiket pesawat ada di anggaran di bawah.'],
+   [/^(.*) · (\d+) stops$/,'$1 · $2 tempat'],[/^Day (\d+) · (.*)$/,'Hari $1 · $2'],[/^(\d+)% of (.*)$/,'$1% dari $2'],[/^about (.*) per person a day$/,'sekitar $1 per orang per hari'],
+   [/^For (\d+) travellers?, (\d+) days, in ([A-Z]{3})\. Food, transport and activities start from typical amounts; change any number to match your trip\.$/,'Untuk $1 traveler, $2 hari, dalam $3. Makan, transportasi dan aktivitas dimulai dari jumlah umum; ubah angka mana pun sesuai trip-mu.'],
+   [/^Typical amounts are rough mid-range guesses for (.+) and use approximate exchange rates\. Everything is saved on this device only\.$/,'Jumlah umum ini perkiraan kasar kelas menengah untuk $1 dengan kurs perkiraan. Semua tersimpan di perangkat ini saja.'],
+   [/^Add your hotel or start point in (.+)\.$/,'Tambahkan hotel atau titik awalmu di $1.'],[/^(\d+) days?, (.*) to (.*)$/,'$1 hari, $2 sampai $3'],[/^(\d+) (added|skipped)$/,function(m,a,b){ return a+(b==='added'?' ditambah':' dilewati'); }],
+   [/^(\d+) days?$/,'$1 hari'],[/(\d+) hops? by (.+)$/,function(m,a,b){ return a+' perpindahan dengan '+(ID[b.charAt(0).toUpperCase()+b.slice(1)]||b).toLowerCase(); }],[/(\d+) short hops? on foot$/,'$1 perpindahan pendek jalan kaki'],
+   [/^(Great time to go|Shoulder season|Rainy season|Hot season|Storm season|Cool season|Winter|Monsoon season|Windy season) in (January|February|March|April|May|June|July|August|September|October|November|December):$/,function(m,a,b){ var MI={January:'Januari',February:'Februari',March:'Maret',April:'April',May:'Mei',June:'Juni',July:'Juli',August:'Agustus',September:'September',October:'Oktober',November:'November',December:'Desember'}; return (ID[a]||a)+' di bulan '+MI[b]+':'; }],
+   [/^(Great time to go|Shoulder season|Rainy season|Hot season|Storm season|Cool season|Winter|Monsoon season|Windy season): (.*)$/,function(m,a,b){ return (ID[a]||a)+': '+(ID[b]||b); }],
+   [/^(.+) in$/,'$1 dalam'],[/^(.+), a local favourite$/,'$1, favorit lokal'],[/^Watch the tutorial \(30 seconds\)$/,'Tonton tutorial (30 detik)']];
   function tr(s){ if(LANG!=='id'||!s) return s; if(ID[s]) return ID[s]; return s; }
   window.tbT=function(s){ return tr(s); };
   function trText(t){
     var m=t.match(/^(\s*[^A-Za-z]*?)([A-Za-z][\s\S]*?)(\s*)$/); if(!m) return t;
     var core=m[2], k=core.replace(/\s+$/,'');
     if(ID[k]) return m[1]+ID[k]+m[3];
+    for(var ri=0;ri<RX.length;ri++){ if(RX[ri][0].test(k)) return m[1]+k.replace(RX[ri][0],RX[ri][1])+m[3]; }
+    var tt=t.trim(); for(var rj=0;rj<RX.length;rj++){ if(RX[rj][0].test(tt)) return t.replace(tt,tt.replace(RX[rj][0],RX[rj][1])); }
+    // sentence by sentence, for text built from several known sentences
+    if(/[.;!?] [A-Z]/.test(k)){ var parts=k.split(/(?<=[.;!?]) (?=[A-Z])/), hit=0; parts=parts.map(function(p){ var q=p.replace(/^[^A-Za-z]*/,''), pre=p.slice(0,p.length-q.length); if(ID[q]){ hit++; return pre+ID[q]; } return p; }); if(hit){ var o2=parts.join(' '); SUB.forEach(function(p){ if(o2.indexOf(p[0])>-1) o2=o2.split(p[0]).join(p[1]); }); return m[1]+o2+m[3]; } }
     var d; if((d=k.match(/^Day (\d+)$/))) return m[1]+'Hari '+d[1]+m[3];
     if((d=k.match(/^Day (\d+): (.*)$/))) return m[1]+'Hari '+d[1]+': '+d[2]+m[3];
     if((d=k.match(/^(\d+) days?$/))) return m[1]+d[1]+' hari'+m[3];
@@ -143,10 +201,12 @@ html[data-theme="dark"] .tb-langmenu button.on,html[data-theme="dark"] .tb-langm
   }
   function walk(root){
     if(LANG!=='id'||!root) return;
-    if(root.nodeType===3){ var v=root.nodeValue; if(/[A-Za-z]/.test(v)){ var nv=trText(v); if(nv!==v) root.nodeValue=nv; } return; }
-    if(root.nodeType!==1||/^(SCRIPT|STYLE|TEMPLATE|TEXTAREA)$/.test(root.nodeName)) return;
+    if(root.nodeType===3){ if(root.parentNode&&root.parentNode.classList&&root.parentNode.classList.contains('tb-goalsum')) return; var v=root.nodeValue; if(/[A-Za-z]/.test(v)){ var nv=trText(v); if(nv!==v) root.nodeValue=nv; } return; }
+    if(root.nodeType!==1||/^(SCRIPT|STYLE|TEMPLATE)$/.test(root.nodeName)) return;
+    if(root.nodeName==='TEXTAREA'||root.nodeName==='INPUT'){ var ph0=root.getAttribute('placeholder'); if(ph0&&ID[ph0]) root.setAttribute('placeholder',ID[ph0]); }
     ['placeholder','aria-label','title'].forEach(function(a){ var v=root.getAttribute&&root.getAttribute(a); if(v&&ID[v]) root.setAttribute(a,ID[v]); });
     if(root.nodeName==='OPTGROUP'&&root.label==='Not on the list?') root.label='Tidak ada di daftar?';
+    if(root.nodeName==='TEXTAREA') return;
     for(var c=root.firstChild;c;c=c.nextSibling) walk(c);
   }
   var WEL_ID=(window.tbQuoteHtml?window.tbQuoteHtml('id'):'')+'<p class="wl-p">Travel Bestie membantumu merencanakan perjalanan ke mana saja, hari demi hari.<br>Pilih kota, atur tanggal, dan rencanamu siap dalam hitungan detik.</p>'+(window.tbHowHtml?window.tbHowHtml('id'):'');
@@ -175,7 +235,7 @@ html[data-theme="dark"] .tb-langmenu button.on,html[data-theme="dark"] .tb-langm
   function fixContrast(){ clearTimeout(fixTimer); fixTimer=setTimeout(function(){
     document.querySelectorAll('[data-tbfix]').forEach(function(el){ el.style.removeProperty('color'); el.removeAttribute('data-tbfix'); });
     var all=document.querySelectorAll('.sg-wrap *, .tb-pop *, .sg-hmenu *, .tb-langmenu *, .tb-seo *, .tb-pdfwrap *, .tb-mod *');
-    for(var i=0;i<all.length;i++){ var el=all[i]; if(el.closest('.tb-kban,.tb-kpc,.tb-mth')) continue; if(el.offsetParent===null&&getComputedStyle(el).position!=='fixed') continue; if(/^(svg|path|g|text|circle|rect|line|img|input|select|textarea|option|script|style|iframe|canvas)$/i.test(el.nodeName)) continue;
+    for(var i=0;i<all.length;i++){ var el=all[i]; if(el.closest('.tb-kban,.tb-kpc,.tb-mth,.tb-se')) continue; if(el.offsetParent===null&&getComputedStyle(el).position!=='fixed') continue; if(/^(svg|path|g|text|circle|rect|line|img|input|select|textarea|option|script|style|iframe|canvas)$/i.test(el.nodeName)) continue;
       var cs=getComputedStyle(el); if(cs.backgroundImage&&cs.backgroundImage!=='none') continue; var lb=lumOf(cs.backgroundColor); if(lb==null) continue;
       var lt=lumOf(cs.color); if(lt==null) continue; var want=null;
       if(lb>0.62&&lt>0.55) want='#2A1B4F'; else if(lb<0.3&&lt<0.4) want='#FFFFFF';
@@ -256,7 +316,13 @@ html[data-theme="dark"] .sg-wrap .sg-tabs .tb-swipe{background:#2A2148;border-co
   background:linear-gradient(120deg,#5B21D9,#8B4FF0 45%,#F06BB5)!important;background-size:200% 100%!important;
   box-shadow:0 10px 30px rgba(123,79,214,.45),0 0 0 0 rgba(240,107,181,.55)!important;
   animation:tbCtaPulse 2.4s ease-out infinite,tbCtaShift 6s ease-in-out infinite;transition:transform .18s ease,box-shadow .18s ease}
-.sg-wrap .sg-adj-main small{font-size:13px!important;opacity:.95}
+.sg-wrap .sg-adj-main small{font-size:13px!important;opacity:.95;white-space:normal}
+/* the button grows with longer languages (e.g. Bahasa) so the title stays on one line; on small phones it shrinks a little */
+.sg-wrap .sg-adj-main{width:auto!important;max-width:94vw;white-space:nowrap}
+@media (max-width:480px){.sg-wrap .sg-adj-main{white-space:normal;text-wrap:balance;font-size:17px!important;padding:14px 20px!important}}
+html[lang="id"] .sg-wrap .sg-adj-main{font-size:18px!important}
+html[lang="id"] .sg-wrap .sg-adj-main::after{content:"Mulai di sini \2192"}
+@media (max-width:480px){html[lang="id"] .sg-wrap .sg-adj-main{font-size:16px!important}}
 .sg-wrap .sg-adj-main::after{content:"Start here \2192";position:absolute;top:-12px;right:-8px;z-index:2;font-size:11.5px;font-weight:800;letter-spacing:.04em;color:#4A1FA0;background:#FFE36E;border-radius:999px;padding:4px 10px;box-shadow:0 4px 12px rgba(0,0,0,.18);animation:tbCtaBadge 1.6s ease-in-out infinite}
 .sg-wrap .sg-adj-main::before{content:"";position:absolute;inset:0;border-radius:inherit;z-index:-1;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.35) 50%,transparent 65%);background-size:250% 100%;animation:tbCtaShine 3.2s ease-in-out infinite}
 .sg-wrap .sg-adj-main:hover,.sg-wrap .sg-adj-main:focus-visible{transform:translateY(-2px) scale(1.03);box-shadow:0 16px 36px rgba(123,79,214,.55)!important}

@@ -1,0 +1,4 @@
+{
+  "note": "Weekly trend refresh: which cities were researched online and when (YYYY-MM-DD). The routine picks the cities with the oldest (or no) date first.",
+  "researched": {}
+}

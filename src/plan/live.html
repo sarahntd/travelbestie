@@ -2,7 +2,7 @@
 /* Travel Bestie live features (Firebase): shared trip plans that update for everyone, and traveller reviews.
    Paste the web config from Firebase console > Project settings > Your apps > Web app.
    These values are public by design; access is controlled by firebase/firestore.rules. */
-window.TB_FIREBASE = null; /* e.g. {apiKey:"...",authDomain:"...",projectId:"...",storageBucket:"...",messagingSenderId:"...",appId:"..."} */
+window.TB_FIREBASE = {apiKey:"AIzaSyDmot_XP53zEpYxfiDwFwERXI8b98k7W4o",authDomain:"travel-bestie.firebaseapp.com",projectId:"travel-bestie",storageBucket:"travel-bestie.firebasestorage.app",messagingSenderId:"617557527123",appId:"1:617557527123:web:81310927e84b2b293894a6"};
 /* Feedback form: the Google Apps Script web app URL (ends with /exec). See scripts/feedback-apps-script.gs */
 window.TB_FEEDBACK_URL = null;
 
@@ -41,7 +41,216 @@ window.TB_FEEDBACK_URL = null;
       return Promise.all(photos.slice(0,10).map(function(d,i){ return ref.collection('ph').doc(String(i)).set({d:d}); })); }).then(function(){ return ref.id; }); }); },
     removeReview:function(rid){ return ready().then(function(){ var ref=db.collection('reviews').doc(rid); return ref.collection('ph').get().then(function(q){ return Promise.all(q.docs.map(function(x){ return x.ref.delete(); })); }).then(function(){ return ref.delete(); }); }); },
     reviews:function(place,city){ return ready().then(function(){ return db.collection('reviews').where('place','==',place).where('city','==',city).limit(6).get(); }).then(function(q){ return q.docs.map(function(x){ var d=x.data(); d.id=x.id; return d; }); }); },
+    /* group chats: one room per city and date window; members are anonymous (random names) */
+    fs:function(P,MIN,overlap){ function R(id){ return db.collection(P).doc(id); }
+      return {
+        uid:function(){ return ready().then(function(){ return uid; }); },
+        find:function(city,from,to){ return ready().then(function(){ return db.collection(P).where('city','==',city).limit(300).get(); }).then(function(q){ var best=null;
+          q.docs.forEach(function(d){ var r=d.data(); var o=overlap(from,to,r.from,r.to); if(o>=MIN&&(!best||o>best.o)) best={id:d.id,o:o}; });
+          if(best) return best.id; var id=rnd(16); return R(id).set({city:city,from:from,to:to,at:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){ return id; }); }); },
+        join:function(room,nick){ return ready().then(function(){ return R(room).collection('mem').doc(uid).set({nick:nick,at:firebase.firestore.FieldValue.serverTimestamp()}); }); },
+        leave:function(room){ return ready().then(function(){ return R(room).collection('mem').doc(uid).delete(); }); },
+        count:function(room){ return ready().then(function(){ return R(room).collection('mem').get(); }).then(function(q){ return q.size; }).catch(function(){ return 0; }); },
+        send:function(room,m){ return ready().then(function(){ return R(room).collection('msgs').add({uid:uid,nick:m.nick,t:m.t||'',img:m.img||'',rep:[],at:firebase.firestore.FieldValue.serverTimestamp()}); }); },
+        report:function(room,id){ return ready().then(function(){ return R(room).collection('msgs').doc(id).update({rep:firebase.firestore.FieldValue.arrayUnion(uid)}); }); },
+        del:function(room,id){ return ready().then(function(){ return R(room).collection('msgs').doc(id).delete(); }); },
+        watch:function(room,fn){ var stop=null, dead=false; ready().then(function(){ if(dead) return; stop=R(room).collection('msgs').orderBy('at').limitToLast(150).onSnapshot(function(q){
+            fn(q.docs.map(function(d){ var x=d.data(); x.id=d.id; x.at=x.at&&x.at.toMillis?x.at.toMillis():Date.now(); if(x.uid===uid) x.uid=window.TBGroupsMe||x.uid; return x; })); },function(){}); });
+          return function(){ dead=true; if(stop) stop(); }; } }; },
     photos:function(rid){ return ready().then(function(){ return db.collection('reviews').doc(rid).collection('ph').get(); }).then(function(q){ return q.docs.map(function(x){ return x.data().d; }); }); }
   };
+})();
+</script>
+<script>
+/* ---- Travel Bestie group chats ----
+   Travellers whose plans put them in the same city for at least 3 overlapping days can join an anonymous
+   group chat for that city and those dates. The chat button appears only next to their own plans.
+   Deleting the plan (or changing its dates so it no longer overlaps) removes them from the chat.
+   Text and photos only (no video). Messages are checked against the rules before sending, and anyone can
+   report a message (hidden after 3 reports). Live chats need the Firebase config in live.html. */
+(function(){
+  var MIN_DAYS=3, ROOM_PREFIX='gchats';
+  function ls(k,v){ try{ if(v===undefined) return localStorage.getItem(k); if(v===null) localStorage.removeItem(k); else localStorage.setItem(k,v); }catch(e){ return null; } }
+  function J(k,d){ try{ return JSON.parse(ls(k)||'null')||d; }catch(e){ return d; } }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function T(s){ return window.tbT?window.tbT(s):s; }
+  function iso(d){ return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+  function addD(s,n){ var d=new Date(s+'T00:00:00'); d.setDate(d.getDate()+n); return iso(d); }
+  function diff(a,b){ return Math.round((new Date(b+'T00:00:00')-new Date(a+'T00:00:00'))/864e5); }
+  function sd(s){ var d=new Date(s+'T00:00:00'); return d.getDate()+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]; }
+  function overlap(a1,b1,a2,b2){ var a=a1>a2?a1:a2, b=b1<b2?b1:b2; return a>b?0:diff(a,b)+1; }
+  function rnd(n){ var a=new Uint8Array(n), s='', abc='abcdefghijkmnpqrstuvwxyz23456789'; crypto.getRandomValues(a); for(var i=0;i<n;i++) s+=abc[a[i]%abc.length]; return s; }
+  var ANIMALS=['🦊','🐼','🐨','🦉','🐢','🐬','🦋','🐧','🦜','🐯','🐙','🦒','🐳','🦥','🐝'];
+  function newNick(){ var a=new Uint8Array(2); crypto.getRandomValues(a); return ANIMALS[a[0]%ANIMALS.length]+' Bestie '+(100+(a[1]*7)%900); }
+
+  // ---- which cities of a plan qualify: 3 or more days in a row in the same city ----
+  function cityKey(p,ck){ var it=(window.TB_ITIN||{})[ck]; if(it&&it.custom) return 'x-'+String(it.name||ck).toLowerCase().replace(/[^a-z0-9]+/g,'-'); return ck; }
+  function cityName(ck){ var it=(window.TB_ITIN||{})[ck]; return it?String(it.name).replace(/ \(.*\)$/,''):ck.replace(/^x-/,'').replace(/-/g,' '); }
+  function stays(p){ if(!p||p.example||!p.days||!p.from) return []; var out=[], cur=null;
+    p.days.forEach(function(d,i){ var ck=d.city||p.city, date=addD(p.from,i);
+      if(cur&&cur.ck===ck) cur.to=date; else { if(cur) out.push(cur); cur={ck:ck,from:date,to:date}; } });
+    if(cur) out.push(cur);
+    return out.filter(function(s){ return diff(s.from,s.to)+1>=MIN_DAYS; }).map(function(s){ return {plan:p.id,city:cityKey(p,s.ck),ck:s.ck,name:cityName(s.ck),from:s.from,to:s.to}; }); }
+  function plans(){ return J('tbPlans',[]).filter(function(p){ return p&&!p.example&&p.id; }); }
+
+  // ---- backend: Firebase when configured; a local stand-in for testing (?mockchat=1); otherwise off ----
+  var MOCK=/[?&]mockchat=1/.test(location.search)||ls('tbChatMock')==='1'; if(/[?&]mockchat=1/.test(location.search)) ls('tbChatMock','1');
+  function mockDB(){ return J('tbGcMockDB',{rooms:{}}); }
+  function mockSave(db){ ls('tbGcMockDB',JSON.stringify(db)); window.dispatchEvent(new Event('tbgc-mock')); }
+  var ME=ls('tbGcUid')||('u'+rnd(14)); ls('tbGcUid',ME);
+  var B=null;
+  if(MOCK) B={
+    uid:function(){ return Promise.resolve(ME); },
+    find:function(city,from,to){ var db=mockDB(), best=null; Object.keys(db.rooms).forEach(function(id){ var r=db.rooms[id]; if(r.city===city&&overlap(from,to,r.from,r.to)>=MIN_DAYS&&(!best||overlap(from,to,r.from,r.to)>overlap(from,to,best.from,best.to))) best=r; });
+      if(best) return Promise.resolve(best.id); var id='r'+rnd(10); db.rooms[id]={id:id,city:city,from:from,to:to,mem:{},msgs:[]}; mockSave(db); return Promise.resolve(id); },
+    join:function(room,nick){ var db=mockDB(); if(db.rooms[room]){ db.rooms[room].mem[ME]={nick:nick,at:Date.now()}; mockSave(db); } return Promise.resolve(); },
+    leave:function(room){ var db=mockDB(); if(db.rooms[room]){ delete db.rooms[room].mem[ME]; mockSave(db); } return Promise.resolve(); },
+    count:function(room){ var r=mockDB().rooms[room]; return Promise.resolve(r?Object.keys(r.mem).length:0); },
+    send:function(room,m){ var db=mockDB(), r=db.rooms[room]; if(!r||!r.mem[ME]) return Promise.reject(new Error('not-member')); r.msgs.push({id:'m'+rnd(8),uid:ME,nick:r.mem[ME].nick,t:m.t||'',img:m.img||'',at:Date.now(),rep:[]}); mockSave(db); return Promise.resolve(); },
+    report:function(room,id){ var db=mockDB(), r=db.rooms[room]; (r&&r.msgs||[]).forEach(function(x){ if(x.id===id&&x.rep.indexOf(ME)<0) x.rep.push(ME); }); mockSave(db); return Promise.resolve(); },
+    del:function(room,id){ var db=mockDB(), r=db.rooms[room]; if(r) r.msgs=r.msgs.filter(function(x){ return !(x.id===id&&x.uid===ME); }); mockSave(db); return Promise.resolve(); },
+    watch:function(room,fn){ function go(){ var r=mockDB().rooms[room]; fn(r?r.msgs.slice(-150):[]); } go(); var h=function(){ go(); }; window.addEventListener('tbgc-mock',h); window.addEventListener('storage',h); return function(){ window.removeEventListener('tbgc-mock',h); window.removeEventListener('storage',h); }; }
+  };
+  else if(window.TB_FIREBASE&&window.TBLive&&window.TBLive.fs){ B=window.TBLive.fs(ROOM_PREFIX,MIN_DAYS,overlap); window.TBGroupsMe=ME; }
+  window.TBGroups={on:function(){ return !!B; }};
+  if(!B) return;
+
+  // ---- rules and the safety check ----
+  var BAD=[
+    [/\b(kill|murder|stab|shoot|bomb|beat (you|him|her) up|hurt you|terror\w*|bunuh|tembak|bom)\b/i,'violence or threats'],
+    [/\b(sex|sexy|nude|nudes|naked|porn\w*|escort|hooker|prostitut\w*|one night stand|onlyfans|happy ending|massage plus|bugil|telanjang|ngewe|bokep|pelacur|psk)\b/i,'sexual content'],
+    [/\b(drugs?|weed|ganja|marijuana|cannabis|cocaine|coke|heroin|meth|ice|shabu|sabu|ecstasy|mdma|molly|ketamine|lsd|mushrooms|shrooms|magic mushroom|narkoba|pil koplo|dealer)\b/i,'drugs'],
+    [/\b(traffick\w*|smuggl\w*|human trade|sell (a )?(girl|boy|child|kid)|child (labor|labour)|underage|perdagangan orang|penyelundupan)\b/i,'trafficking or smuggling'],
+    [/\b(guns?|firearms?|weapons?|knife for sale|ammo|senjata|pistol)\b/i,'weapons'],
+    [/\b(scam\w*|wire me|western union|crypto investment|send money|transfer (me|uang)|bitcoin|judi|gambling|casino|slot online)\b/i,'scams, money requests or gambling'],
+    [/\b(n[i1]gg\w*|f[a@]gg\w*|kafir|cina babi|monyet lu)\b/i,'hate or harassment']
+  ];
+  function check(t){ for(var i=0;i<BAD.length;i++){ if(BAD[i][0].test(t)) return BAD[i][1]; } if(/\b\d{12,19}\b/.test(t.replace(/[\s-]/g,''))) return 'card or bank numbers'; return null; }
+  function rulesHtml(ck){ var cn=((window.TB_ITIN||{})[ck]||{}).country, local=[]; try{ local=(window.tbRulesFor?window.tbRulesFor(ck):[])||[]; }catch(e){}
+    if(!local.length&&cn&&window.TB_RULES_ALWAYS&&window.TB_RULES_ALWAYS[cn]) local=window.TB_RULES_ALWAYS[cn];
+    var DRUG={singapore:1,indonesia:1,malaysia:1,vietnam:1,china:1,thailand:1,philippines:1,brunei:1,'sri-lanka':1,japan:1,'south-korea':1,taiwan:1,'hong-kong':1};
+    return '<ol class="gc-rules">'+
+      '<li><b>Be a good travel bestie.</b> This chat is for planning, sharing tips and meeting people going to the same place at the same time. Be kind and helpful.</li>'+
+      '<li><b>You\'re anonymous.</b> You get a random name. Share your social media handle only if you want to meet up. Never share passwords, ID, card or bank details.</li>'+
+      '<li><b>Not allowed:</b> violence or threats, sexual content or offers, drugs, trafficking or smuggling, weapons, hate or harassment, scams, selling or asking for money, and anything illegal where you\'re going.</li>'+
+      (cn&&DRUG[cn]?'<li><b>Local law:</b> drug offences in this country carry very heavy penalties (in some places, the death penalty). Don\'t joke about them.</li>':'')+
+      (local.length?'<li><b>Local rules to respect:</b> '+local.slice(0,3).map(esc).join(' ')+'</li>':'')+
+      '<li><b>Photos only</b> (no videos). No nudity, and don\'t post other people\'s faces without asking.</li>'+
+      '<li><b>Meeting up?</b> Meet in busy public places, tell a friend your plans and trust your gut. Travel Bestie doesn\'t check who people are. 18+ only.</li>'+
+      '<li>Messages that break the rules are blocked or hidden after reports.</li></ol>'; }
+
+  // ---- membership: kept in sync with your plans ----
+  function mems(){ return J('tbGcMem',[]); }
+  function setMems(m){ ls('tbGcMem',JSON.stringify(m)); }
+  function memFor(s){ return mems().filter(function(m){ return m.plan===s.plan&&m.city===s.city; })[0]||null; }
+  function sync(){ var all=[]; plans().forEach(function(p){ all=all.concat(stays(p)); }); var keep=[];
+    mems().forEach(function(m){ var s=all.filter(function(x){ return x.plan===m.plan&&x.city===m.city; })[0];
+      if(s&&overlap(s.from,s.to,m.rfrom||m.from,m.rto||m.to)>=MIN_DAYS){ keep.push(m); } else { B.leave(m.room).catch(function(){}); } });
+    if(keep.length!==mems().length) setMems(keep); return all; }
+
+  // ---- UI ----
+  var css=document.createElement('style'); css.textContent=
+    '.gc-btn{background:linear-gradient(120deg,#0B7A6E,#2BB7A3)!important;color:#FFFFFF!important;border:0!important}'+
+    '.gc-pop{position:fixed;inset:0;z-index:10050;background:rgba(20,10,40,.55);display:none;align-items:flex-end;justify-content:center}.gc-pop.open{display:flex}'+
+    '@media (min-width:640px){.gc-pop{align-items:center}}'+
+    '.gc-box{width:min(560px,100%);max-height:min(92vh,760px);display:flex;flex-direction:column;background:#FFFFFF;color:#2A1A55;border-radius:22px 22px 0 0;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.35)}@media (min-width:640px){.gc-box{border-radius:22px}}'+
+    '.gc-head{display:flex;align-items:center;gap:10px;padding:12px 14px;background:linear-gradient(120deg,#0B7A6E,#13A08F 60%,#2BB7A3);color:#FFFFFF}.gc-head *{color:#FFFFFF}'+
+    '.gc-head b{display:block;font-size:16px}.gc-head small{font-size:12px;opacity:.9}.gc-head .gc-sp{flex:1}'+
+    '.gc-hb{font-family:inherit;font-size:12px;font-weight:700;border:0;border-radius:999px;padding:6px 11px;background:rgba(255,255,255,.2);color:#FFFFFF!important;cursor:pointer}'+
+    '.gc-x{width:32px;height:32px;border-radius:50%;border:0;background:rgba(255,255,255,.2);color:#FFFFFF!important;font-size:20px;cursor:pointer}'+
+    '.gc-body{flex:1;overflow:auto;padding:14px;font-size:14px;line-height:1.45}'+
+    '.gc-rules{margin:8px 0 12px;padding-left:20px}.gc-rules li{margin:6px 0}'+
+    '.gc-chk{display:flex;gap:8px;align-items:flex-start;margin:8px 0;font-size:14px}'+
+    '.gc-go{font-family:inherit;font-size:15px;font-weight:800;border:0;border-radius:999px;padding:11px 18px;cursor:pointer;background:linear-gradient(120deg,#0B7A6E,#2BB7A3);color:#FFFFFF!important;width:100%}.gc-go[disabled]{opacity:.5;cursor:not-allowed}'+
+    '.gc-m{max-width:82%;margin:6px 0;padding:8px 11px;border-radius:16px;background:#F1ECFF;word-wrap:break-word}.gc-m.me{margin-left:auto;background:#D9F5EF}'+
+    '.gc-m .gc-n{display:block;font-size:11.5px;font-weight:800;opacity:.75;margin-bottom:2px}.gc-m img{display:block;max-width:100%;border-radius:12px;margin-top:4px}'+
+    '.gc-m .gc-mt{display:flex;gap:10px;font-size:11px;opacity:.65;margin-top:3px}.gc-m .gc-mt button{font:inherit;border:0;background:none;padding:0;cursor:pointer;text-decoration:underline;color:inherit}'+
+    '.gc-m.hid{opacity:.6;font-style:italic}.gc-sys{text-align:center;font-size:12px;opacity:.7;margin:8px 0}'+
+    '.gc-form{display:flex;gap:8px;align-items:center;padding:10px;border-top:1px solid #EDE5FF}.gc-form input[type=text]{flex:1;min-width:0;font:inherit;font-size:14px;border:1.5px solid #E4D9FF;border-radius:999px;padding:9px 14px;background:#F7F3FF;color:#2A1A55}'+
+    '.gc-form label,.gc-form button{flex:0 0 auto;width:40px;height:40px;border-radius:50%;border:0;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;background:#F1ECFF}.gc-form button{background:linear-gradient(120deg,#0B7A6E,#2BB7A3);color:#FFFFFF!important}'+
+    '.gc-err{color:#C0263A;font-size:12.5px;padding:0 14px 8px}'+
+    'html[data-theme="dark"] .gc-box{background:#1C1535;color:#ECE6FF}html[data-theme="dark"] .gc-m{background:#2A2148}html[data-theme="dark"] .gc-m.me{background:#124A44}'+
+    'html[data-theme="dark"] .gc-form input[type=text]{background:#2A2148;border-color:#45386F;color:#ECE6FF}html[data-theme="dark"] .gc-form label{background:#2A2148}html[data-theme="dark"] .gc-form{border-color:#3A2F60}html[data-theme="dark"] .gc-err{color:#FF8A98}';
+  document.head.appendChild(css);
+  var pop=document.createElement('div'); pop.className='gc-pop'; pop.innerHTML='<div class="gc-box" role="dialog" aria-modal="true" aria-label="Group chat"></div>'; document.body.appendChild(pop);
+  var box=pop.querySelector('.gc-box'), stop=null;
+  function close(){ pop.classList.remove('open'); if(stop){ stop(); stop=null; } }
+  pop.addEventListener('click',function(e){ if(e.target===pop) close(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&pop.classList.contains('open')) close(); });
+  function head(s,sub,extra){ return '<div class="gc-head"><span style="font-size:24px">💬</span><div><b>'+esc(s.name)+' travellers</b><small>'+esc(sub)+'</small></div><span class="gc-sp"></span>'+(extra||'')+'<button type="button" class="gc-x" aria-label="Close">&times;</button></div>'; }
+
+  // join screen (rules), shown before entering a chat for the first time
+  function joinScreen(s,intro){ pop.classList.add('open');
+    box.innerHTML=head(s,sd(s.from)+' – '+sd(s.to)+' · anonymous group')+'<div class="gc-body">'+
+      (intro?'<p style="font-size:15px">'+intro+'</p>':'')+
+      '<p>Chat with other Travel Bestie travellers who are in <b>'+esc(s.name)+'</b> for at least 3 of the same days as you. Swap tips, share photos, find a buddy for a day trip or a dinner.</p>'+
+      '<p style="margin-top:10px"><b>Group rules</b></p>'+rulesHtml(s.ck)+
+      '<label class="gc-chk"><input type="checkbox" class="gc-a1"> I\'m 18 or older.</label><label class="gc-chk"><input type="checkbox" class="gc-a2"> I agree to the group rules and the <a href="#" class="gc-terms">Terms and conditions</a>.</label>'+
+      '<button type="button" class="gc-go" disabled>Join the group chat</button><p class="gc-sys" style="margin-top:10px">Leaving is easy: delete the plan, or tap Leave in the chat.</p></div>';
+    box.querySelector('.gc-x').onclick=close;
+    var go=box.querySelector('.gc-go'), a1=box.querySelector('.gc-a1'), a2=box.querySelector('.gc-a2');
+    a1.onchange=a2.onchange=function(){ go.disabled=!(a1.checked&&a2.checked); };
+    box.querySelector('.gc-terms').onclick=function(e){ e.preventDefault(); close(); var t=document.createElement('button'); t.setAttribute('data-dest-go','terms'); t.hidden=true; (document.querySelector('.sg-wrap')||document.body).appendChild(t); t.click(); t.remove(); };
+    go.onclick=function(){ go.disabled=true; go.textContent='Joining…';
+      B.find(s.city,s.from,s.to).then(function(room){ var nick=newNick(); return B.join(room,nick).then(function(){ var m=mems().filter(function(x){ return !(x.plan===s.plan&&x.city===s.city); }); m.push({plan:s.plan,city:s.city,room:room,nick:nick,from:s.from,to:s.to}); setMems(m); chat(s); decorate(); }); })
+        .catch(function(){ go.disabled=false; go.textContent='Join the group chat'; alert('Could not join right now. Please try again.'); }); }; }
+
+  // the chat itself
+  function chat(s){ var m=memFor(s); if(!m) return joinScreen(s); pop.classList.add('open');
+    box.innerHTML=head(s,sd(s.from)+' – '+sd(s.to)+' · you are '+m.nick,'<button type="button" class="gc-hb gc-rl">Rules</button><button type="button" class="gc-hb gc-lv">Leave</button>')+
+      '<div class="gc-body"><p class="gc-sys">🔒 Anonymous chat for '+esc(s.name)+' travellers. Be kind, stay safe, meet in public places. <span class="gc-cnt"></span></p><div class="gc-list"></div></div>'+
+      '<div class="gc-err" aria-live="polite"></div><form class="gc-form"><label title="Send a photo" aria-label="Send a photo">📷<input type="file" accept="image/jpeg,image/png,image/webp,image/heic" hidden></label><input type="text" maxlength="500" placeholder="Say hi, share a tip, plan a meetup…" aria-label="Message"><button type="submit" aria-label="Send">&#10148;</button></form>';
+    box.querySelector('.gc-x').onclick=close;
+    box.querySelector('.gc-rl').onclick=function(){ var l=box.querySelector('.gc-list'); var d=document.createElement('div'); d.className='gc-sys'; d.style.textAlign='left'; d.innerHTML='<b>Group rules</b>'+rulesHtml(s.ck); l.appendChild(d); l.parentNode.scrollTop=1e9; };
+    box.querySelector('.gc-lv').onclick=function(){ if(!confirm('Leave the '+s.name+' group chat? You can join again from your plan.')) return; B.leave(m.room).catch(function(){}); setMems(mems().filter(function(x){ return x!==m&&!(x.room===m.room&&x.plan===m.plan); })); close(); decorate(); };
+    var list=box.querySelector('.gc-list'), err=box.querySelector('.gc-err'), inp=box.querySelector('.gc-form input[type=text]'), file=box.querySelector('input[type=file]');
+    B.count(m.room).then(function(n){ var c=box.querySelector('.gc-cnt'); if(c) c.textContent=n+' traveller'+(n===1?'':'s')+' in this group.'; });
+    if(stop) stop();
+    stop=B.watch(m.room,function(ms){ var me=ME, near=list.parentNode.scrollHeight-list.parentNode.scrollTop-list.parentNode.clientHeight<80;
+      list.innerHTML=ms.length?ms.map(function(x){ var rep=(x.rep||[]).length, hid=rep>=3||(x.rep||[]).indexOf(me)>-1, bad=x.t&&check(x.t);
+        if(hid||bad) return '<div class="gc-m hid'+(x.uid===me?' me':'')+'">Message hidden after reports.</div>';
+        return '<div class="gc-m'+(x.uid===me?' me':'')+'" data-id="'+esc(x.id)+'"><span class="gc-n">'+esc(x.uid===me?'You':x.nick)+'</span>'+(x.t?esc(x.t).replace(/(@[\w.]{2,30})/g,'<b>$1</b>'):'')+(x.img&&/^data:image\/(jpeg|png|webp);base64,/.test(x.img)?'<img src="'+x.img+'" alt="Photo from '+esc(x.nick)+'" loading="lazy">':'')+
+          '<span class="gc-mt"><span>'+new Date(x.at||Date.now()).toLocaleString([], {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+'</span>'+(x.uid===me?'<button type="button" data-gdel="'+esc(x.id)+'">Delete</button>':'<button type="button" data-grep="'+esc(x.id)+'">Report</button>')+'</span></div>'; }).join('')
+        :'<p class="gc-sys">No messages yet. Say hi 👋 and share when you arrive!</p>';
+      if(near) list.parentNode.scrollTop=1e9; });
+    list.onclick=function(e){ var r=e.target.closest('[data-grep]'), d=e.target.closest('[data-gdel]');
+      if(r&&confirm('Report this message? It will be hidden for you, and for everyone after 3 reports.')) B.report(m.room,r.getAttribute('data-grep'));
+      if(d&&confirm('Delete your message?')) B.del(m.room,d.getAttribute('data-gdel')); };
+    function fail(t){ err.textContent=t; setTimeout(function(){ if(err.textContent===t) err.textContent=''; },6000); }
+    box.querySelector('.gc-form').onsubmit=function(e){ e.preventDefault(); var t=inp.value.trim(); if(!t) return; var why=check(t);
+      if(why){ fail('Not sent: this looks like it breaks the group rules ('+why+'). Keep it friendly and travel-related 💜'); return; }
+      inp.value=''; B.send(m.room,{t:t,nick:m.nick}).catch(function(){ inp.value=t; fail('Could not send. Check your connection and try again.'); }); };
+    file.onchange=function(){ var f=file.files&&file.files[0]; file.value=''; if(!f) return;
+      if(!/^image\/(jpeg|png|webp|heic|heif)$/i.test(f.type)){ fail('Only photos can be sent (JPG, PNG or WebP). Videos and GIFs aren\'t allowed.'); return; }
+      if(f.size>15e6){ fail('That photo is too big (max 15 MB).'); return; }
+      var img=new Image(), url=URL.createObjectURL(f); img.onload=function(){ var s=Math.min(1,1080/Math.max(img.width,img.height)), c=document.createElement('canvas'); c.width=Math.round(img.width*s); c.height=Math.round(img.height*s); c.getContext('2d').drawImage(img,0,0,c.width,c.height); URL.revokeObjectURL(url);
+        var q=0.8, d=c.toDataURL('image/jpeg',q); while(d.length>650000&&q>0.4){ q-=0.1; d=c.toDataURL('image/jpeg',q); }
+        if(d.length>700000){ fail('That photo is too big to send.'); return; } B.send(m.room,{img:d,nick:m.nick}).catch(function(){ fail('Could not send the photo. Try again.'); }); };
+      img.onerror=function(){ fail('That file could not be read as a photo.'); }; img.src=url; }; }
+
+  // ---- buttons next to your plans (Home list, and the bar on your trip pages) ----
+  function btnHtml(s){ var m=memFor(s); return '<button type="button" class="tb-cta gc-btn" data-gc="'+esc(s.plan+'|'+s.city)+'">💬 '+(m?'Group chat':'Join group chat')+' · '+esc(s.name)+'</button>'; }
+  function byKey(k){ var p=k.split('|'); var all=[]; plans().forEach(function(pl){ all=all.concat(stays(pl)); }); return all.filter(function(s){ return s.plan===p[0]&&s.city===p.slice(1).join('|'); })[0]; }
+  function decorate(){ var all=sync();
+    document.querySelectorAll('.tb-prow').forEach(function(row){ var ob=row.querySelector('[data-tb-open]'); if(!ob) return; var id=ob.getAttribute('data-tb-open'), bt=row.querySelector('.tb-btns'); if(!bt) return;
+      put(bt,all.filter(function(s){ return s.plan===id; })); });
+    var cur=ls('tbCur'); document.querySelectorAll('.tb-sum .tb-btns').forEach(function(bt){ if(!bt.offsetParent) return; put(bt,all.filter(function(s){ return s.plan===cur; })); }); }
+  // only touch the page when the buttons actually change (keeps the page calm)
+  function put(bt,list){ var want=list.map(btnHtml).join(''), have=[].map.call(bt.querySelectorAll('.gc-btn'),function(x){ return x.outerHTML; }).join('');
+    var tmp=document.createElement('div'); tmp.innerHTML=want; want=[].map.call(tmp.children,function(x){ return x.outerHTML; }).join('');
+    if(want===have) return; bt.querySelectorAll('.gc-btn').forEach(function(x){ x.remove(); }); bt.insertAdjacentHTML('beforeend',want); }
+  document.addEventListener('click',function(e){ var b=e.target.closest&&e.target.closest('[data-gc]'); if(!b) return; e.preventDefault(); e.stopPropagation(); var s=byKey(b.getAttribute('data-gc')); if(s) chat(s); },true);
+
+  // ---- invite once, right after a plan is created (only for cities with 3+ days) ----
+  function invite(){ var seen=J('tbGcSeen',null), all=[]; plans().forEach(function(p){ all=all.concat(stays(p)); });
+    if(seen===null){ ls('tbGcSeen',JSON.stringify(all.map(function(s){ return s.plan+'|'+s.city; }))); return; }
+    var fresh=all.filter(function(s){ return seen.indexOf(s.plan+'|'+s.city)<0&&!memFor(s); });
+    if(!fresh.length) return; ls('tbGcSeen',JSON.stringify(seen.concat(fresh.map(function(s){ return s.plan+'|'+s.city; }))));
+    if(pop.classList.contains('open')) return; var s=fresh[0];
+    setTimeout(function(){ joinScreen(s,'🎉 <b>Your '+esc(s.name)+' plan is ready!</b> Want to meet other travellers who\'ll be there at the same time?'); },1200); }
+
+  var last=''; function tick(){ var now=ls('tbPlans')||''; if(now!==last){ last=now; invite(); } decorate(); }
+  var mo=new MutationObserver(function(){ clearTimeout(mo.t); mo.t=setTimeout(tick,150); }); mo.observe(document.querySelector('.sg-wrap')||document.body,{childList:true,subtree:true});
+  setInterval(tick,4000); setTimeout(tick,800);
 })();
 </script>
