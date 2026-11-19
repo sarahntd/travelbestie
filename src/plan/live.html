@@ -256,3 +256,54 @@ window.TB_FEEDBACK_URL = "https://script.google.com/macros/s/AKfycbwA4g-bEgn517Q
   setInterval(tick,4000); setTimeout(tick,800);
 })();
 </script>
+<script>
+/* ---- Google Analytics (GA4), only after the visitor taps Accept ----
+   Counts visits (pages, country, device, where people came from) and a few Travel Bestie actions:
+   plan_created, klook_click, ask_sarah, share_plan, group_chat_join, feedback_sent.
+   No ads, no data selling. Visitors can change their choice from the Terms page or the footer link. */
+window.TB_GA_ID='G-6DSFZX54KJ';
+(function(){
+  var ID=window.TB_GA_ID, K='tbConsent', loaded=false, LANG=(function(){ try{ return localStorage.getItem('tbLang')==='id'?'id':'en'; }catch(e){ return 'en'; } })();
+  function get(){ try{ return localStorage.getItem(K); }catch(e){ return null; } }
+  function set(v){ try{ localStorage.setItem(K,v); }catch(e){} }
+  window.dataLayer=window.dataLayer||[]; window.gtag=window.gtag||function(){ window.dataLayer.push(arguments); };
+  function page(){ if(!loaded) return; gtag('event','page_view',{page_location:location.href,page_path:location.pathname+location.hash,page_title:document.title}); }
+  function load(){ if(loaded||!ID) return; loaded=true;
+    gtag('js',new Date()); gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'granted'});
+    gtag('config',ID,{send_page_view:false,allow_google_signals:false,allow_ad_personalization_signals:false});
+    var s=document.createElement('script'); s.async=true; s.src='https://www.googletagmanager.com/gtag/js?id='+ID; document.head.appendChild(s); page(); }
+  window.tbTrack=function(name,params){ if(loaded) try{ gtag('event',name,params||{}); }catch(e){} };
+  window.addEventListener('hashchange',function(){ clearTimeout(page.t); page.t=setTimeout(page,300); });
+
+  // ---- the banner ----
+  var T=LANG==='id'?{t:'🍪 Boleh kami menghitung kunjungan dengan Google Analytics? Ini membantu Sarah memperbaiki Travel Bestie. Tanpa iklan, data tidak dijual.',y:'Boleh',n:'Tidak',more:'Ketentuan'}
+    :{t:'🍪 Can we count visits with Google Analytics? It helps Sarah make Travel Bestie better. No ads, and we never sell data.',y:'Accept',n:'Decline',more:'Terms'};
+  var css=document.createElement('style'); css.textContent='.tb-ck{position:fixed;left:12px;right:12px;bottom:12px;z-index:9900;max-width:560px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;padding:12px 14px;border-radius:18px;background:#FFFFFF;color:#2A1A55;box-shadow:0 12px 36px rgba(40,20,90,.28);font-size:13.5px;line-height:1.45}'+
+    '.tb-ck p{margin:0;flex:1 1 260px}.tb-ck .b{display:flex;gap:8px;align-items:center}.tb-ck button{font-family:inherit;font-size:13.5px;font-weight:800;border:0;border-radius:999px;padding:8px 16px;cursor:pointer}'+
+    '.tb-ck .y{background:linear-gradient(120deg,#5B21D9,#8B4FF0 55%,#F06BB5);color:#FFFFFF!important}.tb-ck .n{background:#F1ECFF;color:#4A1FA0!important}.tb-ck .m{background:none;color:#7B4FD6!important;text-decoration:underline;padding:8px 4px}'+
+    'html[data-theme="dark"] .tb-ck{background:#221A3D;color:#ECE6FF}html[data-theme="dark"] .tb-ck .n{background:#2E2552;color:#ECE6FF!important}html[data-theme="dark"] .tb-ck .m{color:#C9B6FF!important}';
+  document.head.appendChild(css);
+  function banner(){ if(document.querySelector('.tb-ck')) return; var b=document.createElement('div'); b.className='tb-ck'; b.setAttribute('role','dialog'); b.setAttribute('aria-label','Cookie choice');
+    b.innerHTML='<p>'+T.t+'</p><span class="b"><button type="button" class="n">'+T.n+'</button><button type="button" class="y">'+T.y+'</button><button type="button" class="m">'+T.more+'</button></span>'; document.body.appendChild(b);
+    b.querySelector('.y').onclick=function(){ set('yes'); b.remove(); load(); };
+    b.querySelector('.n').onclick=function(){ set('no'); b.remove(); };
+    b.querySelector('.m').onclick=function(){ var t=document.createElement('button'); t.setAttribute('data-dest-go','terms'); t.hidden=true; (document.querySelector('.sg-wrap')||document.body).appendChild(t); t.click(); t.remove(); }; }
+  // "Cookie settings" buttons anywhere on the site re-open the choice
+  document.addEventListener('click',function(e){ var c=e.target.closest&&e.target.closest('[data-cookie-settings]'); if(!c) return; e.preventDefault();
+    if(get()==='yes'&&loaded){ set('no'); try{ document.cookie.split(';').forEach(function(x){ var n=x.split('=')[0].trim(); if(/^_ga/.test(n)) document.cookie=n+'=; Max-Age=0; path=/; domain=.'+location.hostname.replace(/^www\./,''); }); }catch(_){} }
+    try{ localStorage.removeItem(K); }catch(_){} banner(); });
+  function start(){ var c=get(); if(c==='yes') load(); else if(c!=='no') setTimeout(banner,1500); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',start); else start();
+
+  // ---- Travel Bestie actions ----
+  document.addEventListener('click',function(e){ var t=e.target.closest&&e.target.closest('a,button'); if(!t) return;
+    var href=t.getAttribute('href')||t.getAttribute('data-klook')||'';
+    if(/klook\.com/.test(href)) window.tbTrack('klook_click',{link_text:(t.textContent||'').trim().slice(0,80),page_path:location.hash});
+    else if(t.matches('[data-tripshare],[data-tripshare-id]')) window.tbTrack('share_plan',{});
+    else if(t.matches('.gc-go')) window.tbTrack('group_chat_join',{});
+    else if(t.closest('.tb-hchips')||t.matches('[data-ask]')) window.tbTrack('ask_sarah',{via:'button'}); },true);
+  document.addEventListener('submit',function(e){ var f=e.target; if(f.matches&&f.matches('.tb-hform')) window.tbTrack('ask_sarah',{via:'typed'}); else if(f.matches&&f.matches('.tb-fbf')) window.tbTrack('feedback_sent',{}); },true);
+  var seen=null; setInterval(function(){ var ids=[]; try{ ids=JSON.parse(localStorage.getItem('tbPlans')||'[]').filter(function(p){ return p&&!p.example; }).map(function(p){ return p.id+'|'+(p.city||''); }); }catch(_){}
+    if(seen===null){ seen=ids; return; } ids.forEach(function(x){ if(seen.indexOf(x)<0) window.tbTrack('plan_created',{city:x.split('|')[1]}); }); seen=ids; },4000);
+})();
+</script>
